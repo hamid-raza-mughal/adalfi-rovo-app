@@ -9,7 +9,8 @@
     "dev:local": "next dev",
     "build": "next build",
     "start": "next start",
-    "test": "node --import ./test/setup.mjs --test test/*.test.mjs"
+    "test": "node --import ./test/setup.mjs --test test/*.test.mjs",
+    "performance:analyze": "node scripts/analyze-performance.mjs"
   },
   "dependencies": {
     "better-sqlite3": "^11.8.1",
