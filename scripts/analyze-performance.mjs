@@ -76,6 +76,10 @@ async function parseLogFile(filePath) {
     lineNum++;
     const trimmed = raw.trim();
     if (!trimmed) continue;
+    // Lines that don't start with '{' are plainly non-JSON (Next.js build output,
+    // cloudflared startup messages, etc.). Skip them silently — they are expected
+    // when capturing from `npm run dev` and are not parse errors.
+    if (!trimmed.startsWith('{')) continue;
     try {
       const entry = JSON.parse(trimmed);
       if (!entry || typeof entry !== 'object' || typeof entry.event !== 'string' || !entry.timestamp) {

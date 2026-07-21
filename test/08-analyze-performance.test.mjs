@@ -76,17 +76,19 @@ test('parseLogFile reads a valid JSONL file and returns all events', async () =>
   assert.strictEqual(parseErrors.length, 0);
 });
 
-test('parseLogFile skips lines with invalid JSON and records parse errors', async () => {
+test('parseLogFile silently skips non-JSON lines (server startup output) and records errors only for {-prefixed failures', async () => {
   const lines = [
     makeEvent('server_prompt_received', { clientRequestId: 'c-1' }),
-    'this is not json {{{',
+    'this is plaintext server log output',   // silently skipped (no { prefix)
+    '{ broken json {{{',                     // starts with {, fails to parse → parse error
     makeEvent('run_created', { correlationId: 'corr-1', clientRequestId: 'c-1' }),
-    '   ',  // blank line — must be silently ignored, not counted as an error
+    '   ',  // blank line — silently ignored
+    '▲ Next.js 16.2.11 (Turbopack)',         // silently skipped
   ];
   const path = writeTempLog(lines);
   const { events, parseErrors } = await parseLogFile(path);
-  assert.strictEqual(events.length, 2);
-  assert.strictEqual(parseErrors.length, 1);
+  assert.strictEqual(events.length, 2, 'must parse both valid JSON events');
+  assert.strictEqual(parseErrors.length, 1, 'only the {-prefixed broken JSON is a parse error');
   assert.ok(parseErrors[0].reason.includes('JSON'));
 });
 

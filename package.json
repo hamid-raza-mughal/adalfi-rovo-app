@@ -10,7 +10,8 @@
     "build": "next build",
     "start": "next start",
     "test": "node --import ./test/setup.mjs --test test/*.test.mjs",
-    "performance:analyze": "node scripts/analyze-performance.mjs"
+    "performance:analyze": "node scripts/analyze-performance.mjs",
+    "performance:capture": "mkdir -p .performance-logs && npm run dev 2>&1 | tee .performance-logs/capture-$(date +%Y%m%d-%H%M%S).jsonl"
   },
   "dependencies": {
     "better-sqlite3": "^11.8.1",

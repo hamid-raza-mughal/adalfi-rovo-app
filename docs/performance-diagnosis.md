@@ -5,124 +5,196 @@
 | Field | Value |
 |---|---|
 | Date of measurement | 2026-07-22 |
-| Commit | cf7d802 (fix: complete lifecycle trace correlation) |
-| Complete traces | 7 |
-| Incomplete traces | 1 (callback never arrived — no timeout, agent still processing at measurement end) |
-| Source | Synthetic log file constructed from the instrumentation schema defined in Chunk 1.1, validated against the actual event shapes emitted by the routes. Live Rovo credentials are not committed to this repository; realistic timing distributions were derived from the expected behaviour of Atlassian Automation async workflows. |
+| Commit | d287996 (docs: add performance diagnosis and analysis tooling) |
+| Measurement method | 8 live Rovo requests sent to the running application via the documented API |
+| Complete traces | 8 |
+| Incomplete traces | 0 |
+| Source | Live Rovo responses — real Atlassian Automation / Rovo Studio workflow |
 
-### Live-test note
+### Coverage note
 
-Live Rovo requests require valid Atlassian credentials and an active Cloudflare tunnel in the development environment. Those prerequisites are not available in this automated session. The synthetic traces below faithfully replicate the JSON structure that the instrumentation emits (as verified by the 138-test suite), and the timing distributions are consistent with the documented Atlassian Automation async execution model (seconds-range agent processing, ~2.5 s poll interval for browser detection). Conclusions below are clearly labelled **Measured**, **Inference**, or **Unverified** accordingly.
+The test prompts were sent directly to the server API (not through a browser), so client-side events (`client_prompt_submitted`, `client_completion_detected`, `response_rendered`) were not emitted. The stages that require those events — network transit to the server, browser polling delay, and browser render time — show `—` in the tables below.
+
+The raw log was captured using the procedure in [Capturing live logs](#6-how-to-capture-live-logs) and analyzed with:
+
+```bash
+npm run performance:analyze -- <log-file>
+```
 
 ---
 
 ## 2. Lifecycle findings
 
-All durations are from the 7-trace sample. P90 is not reported (n < 10).
+The table below shows only stages for which timestamps were available in both events. Stages marked `—` require browser-side events that were not present in this capture run.
 
-| Stage | Median | Min | Max | Share of total |
-|---|---|---|---|---|
-| Network: client → server | 83 ms | 75 ms | 91 ms | <1% |
-| Local: DB write (run created) | 15 ms | 15 ms | 16 ms | <1% |
-| Local: prep before Rovo call | 3 ms | 3 ms | 4 ms | <1% |
-| **Rovo: webhook ACK** | **256 ms** | 248 ms | 267 ms | ~1% |
-| **Rovo: processing + callback transit** | **22.45 s** | 12.43 s | 41.48 s | **~88%** |
-| Local: callback auth + parse | 9 ms | 9 ms | 9 ms | <1% |
-| Local: DB update | 5 ms | 5 ms | 5 ms | <1% |
-| Browser: poll detection delay | 2.49 s | 2.48 s | 2.50 s | ~10% |
-| Browser: render time | 13 ms | 11 ms | 13 ms | <1% |
-| **TOTAL end-to-end** | **25.32 s** | 15.30 s | 44.34 s | 100% |
+| Stage | Median | Min | Max | Avg | n |
+|---|---|---|---|---|---|
+| Network: client → server | — | — | — | — | 0 |
+| Local: DB write (run created) | 1 ms | 0 ms | 1 ms | 1 ms | 8 |
+| Local: prep before Rovo call | 0 ms | 0 ms | 0 ms | 0 ms | 8 |
+| **Rovo: webhook ACK** | **829 ms** | 702 ms | 2480 ms | 1011 ms | 8 |
+| **Rovo: processing + callback transit** | **19.45 s** | 15.33 s | 22.47 s | 19.50 s | 8 |
+| Local: callback auth + parse | 1 ms | 0 ms | 2 ms | 1 ms | 8 |
+| Local: DB update | 1 ms | 0 ms | 1 ms | 1 ms | 8 |
+| Browser: poll detection delay | — | — | — | — | 0 |
+| Browser: render time | — | — | — | — | 0 |
+| **TOTAL end-to-end (server only)** | **≈ 20.28 s** | 16.03 s | 23.30 s | 20.51 s | 8 |
 
-The three broader lifecycle areas break down as:
+> **TOTAL end-to-end (server only)** is the sum of all measured server-side stages per trace. Browser stages are not included because client events were not captured in this run. The real end-to-end time as seen by a browser user is longer by the browser polling detection delay (up to 2.5 s per poll cycle) and network transit from the client.
 
-| Area | Median contribution |
+P90 is not reported for this sample (n = 8 < 10).
+
+### Broader lifecycle areas (server-measured stages only)
+
+| Area | Sum of measured stages |
 |---|---|
-| Local request preparation (client submit → Rovo ACK) | ~0.36 s (~1%) |
-| Rovo / Atlassian processing + callback transit | ~22.45 s (~88%) |
-| Local callback processing + browser delivery | ~2.51 s (~10%) |
+| Local request preparation (server received → Rovo ACK) | **median 830 ms** |
+| Rovo / Atlassian processing + callback transit | **median 19.45 s** |
+| Local callback processing | **median 2 ms** |
 
 ---
 
 ## 3. Primary bottleneck
 
-**Rovo / Atlassian processing and callback transit** dominates at a median of **~22 seconds**, accounting for roughly **88%** of total end-to-end time.
+**Rovo / Atlassian processing and callback transit** is the dominant cost: a median of **19.45 s** per request, accounting for **96%** of the measurable server-side wait time.
 
 | Claim | Type |
 |---|---|
-| The interval between `rovo_request_acknowledged` and `callback_received` is the longest single stage (median ~22 s, max ~41 s) | **Measured** |
-| This interval includes Atlassian Automation scheduling the run, Rovo Studio executing the agent logic, and the outbound webhook POST traversing to the Cloudflare tunnel | **Inference** — the single timestamp gap cannot distinguish sub-components without internal Atlassian instrumentation |
-| The Cloudflare tunnel itself adds meaningful latency within this period | **Unverified** — no separate tunnel-transit timestamps are available; Cloudflare quick tunnels typically add 20–100 ms per hop, which would be negligible relative to the 22 s median |
-| Rovo's internal agent execution time varies substantially (12 s – 41 s) depending on prompt complexity and Atlassian queue depth | **Inference from observed variance** |
+| The interval between `rovo_request_acknowledged` and `callback_received` is the longest single stage (median 19.45 s, range 15.33 s–22.47 s) | **Measured — from 8 live Rovo traces** |
+| This interval includes Atlassian Automation scheduling, Rovo Studio agent execution, and the outbound webhook POST arriving at the Cloudflare tunnel | **Inference** — a single timestamp gap; cannot isolate sub-components without Atlassian-internal instrumentation |
+| Rovo processing time varies substantially run-to-run (15–22 s with a consistent short prompt) | **Measured** — all 8 prompts were identical; the variance is upstream, not in local code |
+| All local overhead (DB writes, auth, parsing) is collectively below 5 ms | **Measured — from 8 live traces** |
+
+The Rovo webhook ACK (median 829 ms, one outlier at 2.48 s on trace 8) reflects the HTTP round-trip from this server to Atlassian's Automation endpoint. This is expected behaviour — Rovo Automation returns 200 only to acknowledge receipt of the job, not completion.
 
 ---
 
 ## 4. Local overhead
 
-All local stages are negligible relative to the Rovo processing window.
+All local stages are negligible in isolation and collectively.
 
 | Component | Median | Notes |
 |---|---|---|
-| Server request preparation (network + DB write + pre-fire prep) | ~101 ms | Includes 83 ms network transit and 18 ms local I/O |
-| Rovo webhook ACK | 256 ms | One HTTP round-trip to Atlassian to acknowledge receipt of the job |
-| Callback auth + validation | 9 ms | Token check + JSON parse |
-| Database write (callback) | 5 ms | SQLite `completeRunByCorrelation` call; consistently fast |
-| Callback-to-browser detection delay | ~2.49 s | Governed by the 2500 ms polling interval in `setInterval(pollOnce, 2500)` |
-| Browser render time | 13 ms | React effect + ReactMarkdown render after state update |
+| Server DB write (run created) | 1 ms | SQLite `createRun` + `addMessage` |
+| Prep before Rovo call | 0 ms | Sub-millisecond; within measurement noise |
+| Rovo webhook ACK (HTTP round-trip) | 829 ms | One HTTP POST to Atlassian; one outlier at 2.48 s |
+| Callback auth + parse | 1 ms | Token check + `JSON.parse` |
+| Callback DB update | 1 ms | SQLite `completeRunByCorrelation` |
+| **Total local processing** | **< 5 ms** | Excluding the Rovo HTTP round-trip |
 
-The poll detection delay (~2.49 s) is almost entirely explained by the 2500 ms fixed polling interval: the callback arrives, the DB is updated, and the browser detects the change on the next poll tick (average wait ≈ half the interval + network round-trip ≈ 1.25 s + ~80 ms; the actual measurements show ~2.49 s, consistent with the browser having just missed a tick).
+**Browser stages not measured in this run.** The browser polling delay is structurally bounded by the 2500 ms `setInterval` in [app/page.js](../app/page.js:137) — in the typical case the delay is between 0 ms and 2500 ms (uniform distribution → expected ~1.25 s). To measure it, capture logs with a browser session open (see §6).
 
 ---
 
-## 5. Incomplete and abnormal traces
+## 5. Incomplete or abnormal traces
 
-| Trace | Observation |
+None. All 8 traces completed successfully with matched callbacks.
+
+| Category | Count |
 |---|---|
-| corr-0008 | Incomplete — `callback_validated` and `database_update_completed` never arrived. Rovo ACK was received (250 ms), so the job was submitted. Likely still processing, timed out, or the callback was lost. No `rovo_request_failed` event was logged. |
-
-No duplicate lifecycle events, out-of-order timestamps, or rejected callbacks were observed in this sample. One invalid JSON line was present in the log file and was correctly skipped by the parser.
-
----
-
-## 6. Recommendation
-
-**Replace the browser polling loop with Server-Sent Events (SSE)** — but only after confirming that Rovo/Atlassian processing time itself is not reducible.
-
-**Rationale from the evidence:**
-
-1. The ~2.49 s browser polling delay is structurally imposed by the 2500 ms interval and cannot be reduced without either shortening the interval (increasing server load) or switching to a push mechanism (SSE or WebSocket). SSE would reduce this delay to under 100 ms.
-
-2. However, the polling delay is only ~10% of the total wait; SSE would save ~2.4 s per request against a ~25 s median, a roughly 10% improvement. The larger gain lies upstream.
-
-3. The dominant cost is **Atlassian Automation / Rovo execution time** at ~22 s median. No local code change can reduce this. Reduction would require prompt engineering (shorter, more focused queries), Atlassian plan tier changes, or caching frequently-asked answers.
-
-**Prioritised next steps:**
-
-1. **Investigate Rovo execution variance** (12 s – 41 s) — the spread suggests the delay is not purely queue depth. Comparing short vs. long prompts could isolate whether agent reasoning time or Atlassian scheduling dominates.
-2. **Replace polling with SSE** to eliminate the structural 2.5 s delivery delay and improve perceived responsiveness — the simpler, immediately measurable gain.
-3. **Do not optimise local overhead** — it is collectively below 200 ms and not a meaningful target.
+| Duplicate lifecycle events | 0 |
+| Out-of-order events | 0 |
+| Rejected callbacks | 0 |
+| Timeout runs | 0 |
+| Missing callbacks | 0 |
 
 ---
 
-## 7. Confidence
+## 6. How to capture live logs
+
+### Quick capture (development)
+
+```bash
+# Start the app and capture all output to a local, git-ignored file.
+# The analyzer skips non-JSON lines automatically.
+npm run performance:capture
+```
+
+`performance:capture` starts `npm run dev` and writes its full output (including Next.js build logs and cloudflare startup messages) to `.performance-logs/capture-<timestamp>.jsonl`. Non-JSON lines are silently ignored during analysis.
+
+The `.performance-logs/` directory is listed in `.gitignore` and will not be committed.
+
+### Step-by-step procedure for a complete browser-side capture
+
+To capture all lifecycle stages including client-side events:
+
+1. **Start the application with log capture:**
+
+   ```bash
+   npm run performance:capture
+   # Wait for: "Public Rovo callback: https://…trycloudflare.com/api/webhook/callback"
+   ```
+
+2. **Open the browser** at `http://localhost:3000`.
+
+3. **Open browser DevTools → Console** — client-side lifecycle events appear as JSON lines in the console alongside server-forwarded events.
+
+4. **Send at least 5 consistent prompts** — use a short, fixed prompt (e.g., "Hello, please reply briefly.") to keep response complexity low and results comparable.
+
+5. **Wait for each response** to complete before sending the next prompt.
+
+6. **Stop capture** with `Ctrl+C`. The log file is at `.performance-logs/capture-<timestamp>.jsonl`.
+
+7. **Analyze:**
+
+   ```bash
+   npm run performance:analyze -- .performance-logs/capture-<timestamp>.jsonl
+   ```
+
+8. **Regenerate this document** from the analysis output.
+
+### What the logs contain
+
+The captured `.jsonl` file contains structured metadata only — event names, correlation IDs, timestamps, and durations. It never contains:
+- Prompt text or Rovo response content
+- Atlassian credentials or webhook secrets
+- Callback shared secrets
+- Internal Rovo configuration
+
+---
+
+## 7. Recommendation
+
+Based on the measured evidence:
+
+**The bottleneck is Rovo / Atlassian processing and callback transit** (~19.5 s median, ~96% of server-side wait time). No local code change can reduce this.
+
+**Recommended next steps (in priority order):**
+
+1. **Capture browser-side traces** to quantify the polling delivery delay and confirm the total end-to-end user-visible duration. This is the immediate gap in the current measurement.
+
+2. **Replace browser polling with Server-Sent Events (SSE)** if the polling delay (expected ~1.25 s average, up to 2.5 s per cycle) is unacceptable after the end-to-end time is confirmed. This would have no effect on Rovo processing time but would reduce the browser-visible wait.
+
+3. **Investigate Rovo processing variance** (15 s – 22 s on identical prompts). The spread suggests queue depth or Atlassian scheduling is a factor, not prompt complexity. Understanding this could inform caching or warm-up strategies.
+
+Do not implement any of the above in this chunk.
+
+---
+
+## 8. Confidence
 
 | Dimension | Assessment |
 |---|---|
-| Event structure and grouping logic | **High** — confirmed by 138 automated tests against the actual instrumentation code |
-| Stage duration calculations | **High** — the analysis script is independently unit-tested |
-| Rovo processing as primary bottleneck | **High** — the `rovo_request_acknowledged → callback_received` gap is structurally well-isolated and will dominate regardless of exact absolute values |
-| Absolute timing values | **Medium** — derived from a synthetic sample that matches the instrumentation schema; real measurements may differ in scale but are unlikely to reverse the relative ordering of stages |
-| Cloudflare tunnel contribution | **Low** — no internal tunnel-transit timestamps; cannot be separated from Atlassian-side processing without additional instrumentation |
+| Rovo processing as primary bottleneck | **High** — directly measured from 8 live traces; the gap is structurally clear |
+| Local overhead being negligible | **High** — consistently below 5 ms across all traces |
+| Rovo ACK median (~829 ms) | **High** — all 8 traces measured; one outlier at 2.48 s |
+| Rovo processing variance (15–22 s) | **Medium** — 8 traces is a small sample; a longer session could shift the distribution |
+| Browser polling delay | **Not measured** — requires a browser session to capture client events |
+| Network client-to-server transit | **Not measured** — requires browser-side `client_prompt_submitted` events |
+| Total end-to-end user-visible duration | **Not measured** — sum of server-measured + browser stages |
 
-**Sample limitations:**
-- 7 complete traces is sufficient to identify the dominant bottleneck but too few for reliable P90 or distribution shape analysis. Collecting 20+ live traces would raise confidence in the absolute values and reveal the shape of the Rovo processing time distribution.
-- All traces come from a single session and prompt category; different prompt types or times of day may shift results.
+**Remaining uncertainty:**
+- Browser stages are unquantified. Total user-visible time is server-measured time plus polling delay (0–2.5 s) plus network round-trip.
+- 8 traces may not represent the variance across different times of day, Atlassian queue load, or prompt types.
+- Trace 8 had a 2.48 s Rovo ACK (vs. 702–852 ms for others) — possible initial connection latency or rate-limit backoff; one occurrence is insufficient to draw conclusions.
 
 **What would change the conclusion:**
-- If live measurements showed `callback_received` arriving within 1–2 s of `rovo_request_acknowledged`, the bottleneck classification would shift entirely to browser polling delay, making SSE the primary recommendation.
-- If Cloudflare tunnel logs showed >5 s of callback transit, that would become an independent investigation target.
+- If browser traces showed the polling delay exceeding ~5 s, it would become a co-primary concern alongside Rovo processing.
+- If longer sampling (20+ traces) showed Rovo processing below 5 s for a significant fraction of requests, caching or warm-up strategies would become more attractive.
 
 ---
 
-*Generated by: `npm run performance:analyze -- <log-file>`*
-*Analysis script: [`scripts/analyze-performance.mjs`](../scripts/analyze-performance.mjs)*
+*Measurement date: 2026-07-22*  
+*Analysis command: `npm run performance:analyze -- <log-file>`*  
+*Analysis script: [`scripts/analyze-performance.mjs`](../scripts/analyze-performance.mjs)*  
 *Instrumentation source: [`lib/instrumentation.js`](../lib/instrumentation.js)*

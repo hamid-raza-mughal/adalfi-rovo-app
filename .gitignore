@@ -45,3 +45,7 @@ test/alias-loader.mjs.map
 # Temporary files
 *.tmp
 *.temp
+
+# Local performance log captures (never commit — may contain raw lifecycle data)
+.performance-logs/
+*.lifecycle.jsonl
