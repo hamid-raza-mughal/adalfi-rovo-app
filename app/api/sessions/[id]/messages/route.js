@@ -39,13 +39,8 @@ export async function POST(request, { params }) {
   const content = (body?.content || "").trim();
   if (!content) return Response.json({ error: "content required" }, { status: 400 });
 
-  // 1) save the user message (done) and a pending assistant placeholder
-  const userMessage = addMessage({ sessionId: id, role: "user", content, status: "completed" });
-  const assistantMessage = addMessage({ sessionId: id, role: "assistant", content: "", status: "pending" });
-
-  // 2) correlation id = the pending assistant message id (what the callback matches on)
-  const correlationId = assistantMessage.id;
-  // Resolve the public callback URL (env override → runtime file → request headers).
+  // Resolve the public callback URL before writing anything to the database.
+  // env override → runtime file → request headers.
   const baseUrl = getPublicBaseUrl(request);
   if (baseUrl === TUNNEL_NOT_READY) {
     return Response.json(
@@ -60,6 +55,13 @@ export async function POST(request, { params }) {
     );
   }
   const callbackUrl = `${baseUrl}/api/webhook/callback`;
+
+  // 1) save the user message (done) and a pending assistant placeholder
+  const userMessage = addMessage({ sessionId: id, role: "user", content, status: "completed" });
+  const assistantMessage = addMessage({ sessionId: id, role: "assistant", content: "", status: "pending" });
+
+  // 2) correlation id = the pending assistant message id (what the callback matches on)
+  const correlationId = assistantMessage.id;
   const payload = { sessionId: id, correlationId, prompt: content, callbackUrl };
 
   createRun({

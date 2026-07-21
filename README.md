@@ -104,6 +104,35 @@ adalfi-rovo-app/
 
 ---
 
+## Testing
+
+```bash
+npm test
+```
+
+The suite uses Node.js's built-in test runner (`node:test`) and built-in assertions — no extra testing framework is installed.
+
+### What is covered
+
+| Area | Tests |
+|---|---|
+| Public callback URL resolution | `PUBLIC_BASE_URL` priority, runtime file, request-host fallback, trailing-slash stripping, missing/malformed file, localhost → `TUNNEL_NOT_READY` |
+| Rovo outgoing payload | Correct fields (sessionId, correlationId, prompt, callbackUrl), auth header, missing env vars throw, non-200 throws |
+| Callback authentication | Valid/missing/wrong token, known/unknown/duplicate correlationId, error responses contain no secrets or stack traces |
+| Database run transitions | `pending → completed`, `pending → failed`, `pending → timed out`, cascade deletes, duplicate idempotency |
+| Session CRUD | Create, list, get, rename, empty-title rejection, 404 for missing, delete, cascade to messages and runs |
+| Tunnel-not-ready guard | Returns 503, creates zero messages/runs, makes no Rovo call |
+
+### Isolation guarantees
+
+- Each test file runs in its own child process with a fresh temporary SQLite database.
+- Temporary databases and directories are cleaned up after every run.
+- No live Rovo webhook or Cloudflare tunnel is required.
+- No real secrets are used; test-only values are set per-process.
+- The production `data/app.db` database is never read or written by tests.
+
+---
+
 ## Security
 
 The following must **never** be committed:
