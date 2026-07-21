@@ -122,6 +122,7 @@ The suite uses Node.js's built-in test runner (`node:test`) and built-in asserti
 | Database run transitions | `pending → completed`, `pending → failed`, `pending → timed out`, cascade deletes, duplicate idempotency |
 | Session CRUD | Create, list, get, rename, empty-title rejection, 404 for missing, delete, cascade to messages and runs |
 | Tunnel-not-ready guard | Returns 503, creates zero messages/runs, makes no Rovo call |
+| Lifecycle instrumentation | Event shape (name, timestamp, correlationId), sensitive-field stripping (URL, secret, prompt, content, stack), logging failures do not throw, message and callback routes emit correct events, duration and matched fields are accurate |
 
 ### Isolation guarantees
 

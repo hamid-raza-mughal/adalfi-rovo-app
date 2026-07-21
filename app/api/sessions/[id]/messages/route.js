@@ -13,6 +13,7 @@ import {
 import { fireRovo } from "@/lib/rovo";
 import { getPublicBaseUrl, isLocalHost, TUNNEL_NOT_READY } from "@/lib/publicUrl";
 import { decodeAgentText } from "@/lib/textDecode.v2";
+import { logEvent } from "@/lib/instrumentation";
 
 export const runtime = "nodejs";
 
@@ -31,7 +32,11 @@ export async function GET(request, { params }) {
 }
 
 export async function POST(request, { params }) {
+  const serverReceivedAt = Date.now();
   const { id } = await params;
+
+  logEvent('server_prompt_received', { sessionId: id });
+
   const session = getSession(id);
   if (!session) return Response.json({ error: "not found" }, { status: 404 });
 
@@ -64,7 +69,7 @@ export async function POST(request, { params }) {
   const correlationId = assistantMessage.id;
   const payload = { sessionId: id, correlationId, prompt: content, callbackUrl };
 
-  createRun({
+  const runId = createRun({
     sessionId: id,
     userMessageId: userMessage.id,
     assistantMessageId: assistantMessage.id,
@@ -74,10 +79,41 @@ export async function POST(request, { params }) {
   });
   touchSession(id);
 
+  logEvent('run_created', {
+    correlationId,
+    sessionId: id,
+    runId,
+    durationMs: Date.now() - serverReceivedAt,
+    status: 'success',
+    promptLength: content.length,
+  });
+
   // 3) fire the webhook. A 200 is only an ACK - do NOT wait for the answer here.
+  const rovoStartedAt = Date.now();
+  logEvent('rovo_request_started', {
+    correlationId,
+    sessionId: id,
+    runId,
+    durationMs: rovoStartedAt - serverReceivedAt,
+  });
+
   try {
     await fireRovo(payload);
+    logEvent('rovo_request_acknowledged', {
+      correlationId,
+      sessionId: id,
+      runId,
+      durationMs: Date.now() - rovoStartedAt,
+      status: 'success',
+    });
   } catch (err) {
+    logEvent('rovo_request_failed', {
+      correlationId,
+      sessionId: id,
+      runId,
+      durationMs: Date.now() - rovoStartedAt,
+      status: 'failed',
+    });
     // Could not even reach Rovo -> fail this turn now so the UI shows an error instead of spinning.
     completeRunByCorrelation({
       correlationId,

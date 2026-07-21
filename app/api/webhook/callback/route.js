@@ -22,13 +22,21 @@
 // jsonEncode path, where none of those signatures appear.
 import { completeRunByCorrelation } from "@/lib/db";
 import { decodeAgentText } from "@/lib/textDecode.v2";
+import { logEvent } from "@/lib/instrumentation";
 
 export const runtime = "nodejs";
 
 export async function POST(request) {
+  const callbackReceivedAt = Date.now();
+
   // 1) authenticate the caller with the shared secret (this endpoint is internet-facing)
   const token = request.headers.get("x-callback-token");
   if (!token || token !== process.env.CALLBACK_SHARED_SECRET) {
+    logEvent('callback_rejected', {
+      durationMs: Date.now() - callbackReceivedAt,
+      status: 'failed',
+      httpStatus: 401,
+    });
     return Response.json({ error: "unauthorized" }, { status: 401 });
   }
 
@@ -37,6 +45,21 @@ export async function POST(request) {
   if (!body?.correlationId) {
     return Response.json({ error: "correlationId required" }, { status: 400 });
   }
+
+  logEvent('callback_received', {
+    correlationId: body.correlationId,
+    durationMs: Date.now() - callbackReceivedAt,
+    status: 'success',
+    contentPresent: typeof body.content === 'string' && body.content.length > 0,
+    contentLength: typeof body.content === 'string' ? body.content.length : 0,
+  });
+
+  const validatedAt = Date.now();
+  logEvent('callback_validated', {
+    correlationId: body.correlationId,
+    durationMs: validatedAt - callbackReceivedAt,
+    status: 'success',
+  });
 
   // 3) the answer. jsonEncode on the Rovo side means this is normally already plain,
   // readable text - JSON.parse() above has already unescaped the quotes/newlines jsonEncode
@@ -51,6 +74,13 @@ export async function POST(request) {
     ok,
     content,
     rawPayload: JSON.stringify(body).slice(0, 5000),
+  });
+
+  logEvent('database_update_completed', {
+    correlationId: body.correlationId,
+    durationMs: Date.now() - validatedAt,
+    status: 'success',
+    matched,
   });
 
   return Response.json({ ok: true, matched });

@@ -77,6 +77,74 @@ The UI polls `GET /api/sessions/:id/messages` every 2.5 seconds. Each poll also 
 
 ---
 
+## Lifecycle instrumentation (Phase 1, Chunk 1.1)
+
+`lib/instrumentation.js` emits one structured JSON line per lifecycle stage. The same correlation ID (the pending assistant message's UUID) links every stage from server receipt through client render.
+
+### Event names and timing
+
+| Event | Where | Duration measured |
+|---|---|---|
+| `client_prompt_submitted` | Browser — `send()` | — |
+| `server_prompt_received` | Messages POST handler | — |
+| `run_created` | After DB writes succeed | server receipt → run created |
+| `rovo_request_started` | Before outgoing fetch | server receipt → request start |
+| `rovo_request_acknowledged` | After Rovo returns 200 ACK | request start → acknowledgement |
+| `rovo_request_failed` | Rovo fetch threw or non-200 | request start → failure |
+| `callback_received` | Callback POST, after auth + parse | callback receipt → now |
+| `callback_validated` | Auth and payload checks pass | callback receipt → validated |
+| `database_update_completed` | After `completeRunByCorrelation` | validated → DB write done |
+| `callback_rejected` | Auth check fails | callback receipt → rejection |
+| `client_completion_detected` | Browser poll sees no pending message | `client_prompt_submitted` → now |
+| `response_rendered` | React effect, after completed message renders | `client_prompt_submitted` → now |
+| `client_poll_failed` | Browser fetch inside poll throws | — |
+
+### How correlation IDs connect the trace
+
+`correlationId` = `assistantMessage.id` (a UUID created at message submission time). It is written to `webhook_runs.correlation_id`, sent to Rovo as part of the request payload, and returned to the browser in the POST response. Every log entry that has this ID at the time it fires includes it:
+
+```
+server_prompt_received  (no ID yet — assigned moments later)
+run_created             correlationId=<uuid>
+rovo_request_started    correlationId=<uuid>
+rovo_request_acknowledged correlationId=<uuid>
+callback_received       correlationId=<uuid>   ← Rovo sends it back
+callback_validated      correlationId=<uuid>
+database_update_completed correlationId=<uuid>
+client_completion_detected correlationId=<uuid>
+response_rendered       correlationId=<uuid>
+```
+
+### What is deliberately excluded from logs
+
+- Rovo webhook URLs and outgoing callback URLs
+- `X-Automation-Webhook-Token` and `X-Callback-Token` values
+- `ROVO_WEBHOOK_URL`, `ROVO_WEBHOOK_SECRET`, `CALLBACK_SHARED_SECRET` env values
+- Full user prompt text (only `promptLength` character count)
+- Full Rovo response content (only `contentLength` and `contentPresent` flag)
+- Stack traces, database file paths, raw request/response payloads
+- Any Confluence or Jira content from the agent's reply
+
+The `logEvent` function enforces this via a whitelist of allowed field names; any field not in the whitelist is silently dropped before serialization.
+
+### Capturing logs during manual testing
+
+Both server-side and browser-side events end up on the Next.js process's stdout. Run:
+
+```bash
+npm run dev 2>&1 | grep '{"event"'
+```
+
+Or pipe the full output and filter on the shell. Browser events are forwarded to `POST /api/log` (fire-and-forget) so they also appear on the server stdout in addition to the browser console.
+
+To trace one complete request, copy the `correlationId` from any event and grep:
+
+```bash
+npm run dev 2>&1 | grep <correlationId>
+```
+
+---
+
 ## Current limitations (documented — not immediate tasks)
 
 | Limitation | Detail |
