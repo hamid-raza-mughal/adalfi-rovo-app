@@ -1,0 +1,27 @@
+{
+  "name": "adalfi-orchestrator",
+  "version": "0.1.0",
+  "private": true,
+  "description": "AdalFi KB orchestration chat shell (V1, file v2 architecture): chat UI -> Rovo Studio webhook -> agent -> push-back callback.",
+  "scripts": {
+    "dev": "node scripts/dev.mjs",
+    "dev:next": "next dev",
+    "dev:local": "next dev",
+    "build": "next build",
+    "start": "next start"
+  },
+  "dependencies": {
+    "better-sqlite3": "^11.8.1",
+    "next": "14.2.35",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "react-markdown": "^10.1.0",
+    "remark-gfm": "^4.0.1"
+  },
+  "engines": {
+    "node": ">=18.17.0"
+  },
+  "allowScripts": {
+    "better-sqlite3@11.10.0": true
+  }
+}

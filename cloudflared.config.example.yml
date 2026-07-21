@@ -1,0 +1,16 @@
+# Named Cloudflare Tunnel config.
+# Copy this to ~/.cloudflared/config.yml, then fill in the two placeholders from the setup steps.
+#
+# One-time setup (see README "Custom, permanent URL"):
+#   cloudflared login
+#   cloudflared tunnel create adalfi-ux-kb          # prints the TUNNEL-UUID + credentials .json path
+#   cloudflared tunnel route dns adalfi-ux-kb adalfi-ux-kb.YOURDOMAIN.com
+
+tunnel: adalfi-ux-kb
+credentials-file: /Users/YOU/.cloudflared/TUNNEL-UUID.json
+
+ingress:
+  - hostname: adalfi-ux-kb.YOURDOMAIN.com
+    service: http://localhost:3000
+  # catch-all (required): anything else returns 404
+  - service: http_status:404

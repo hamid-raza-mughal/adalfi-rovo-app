@@ -1,0 +1,32 @@
+# dependencies
+node_modules/
+
+# Next.js build output
+.next/
+out/
+
+# Cloudflare tunnel runtime state
+.runtime/
+
+# Local SQLite database (created at runtime — never commit)
+data/*.db
+data/*.db-wal
+data/*.db-shm
+
+# Secrets and local environment overrides (never commit)
+.env
+.env.*
+!.env.local.example
+
+# Logs
+*.log
+npm-debug.log*
+
+# OS / editor artefacts
+.DS_Store
+.DS_Store?
+._*
+Thumbs.db
+
+# Test / coverage output
+coverage/
