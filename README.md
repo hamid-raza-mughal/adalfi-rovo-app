@@ -8,7 +8,7 @@ A local Next.js interface that sends requests to Atlassian Rovo and receives res
 
 ## Stack
 
-- **Next.js 14** (App Router)
+- **Next.js 16** (App Router)
 - **React 18**
 - **SQLite** via `better-sqlite3`
 - **`react-markdown`** + **`remark-gfm`** for Markdown rendering
@@ -19,7 +19,29 @@ A local Next.js interface that sends requests to Atlassian Rovo and receives res
 
 ## Prerequisites
 
-- **Node.js 18.17 or later** — check with `node -v`; install from <https://nodejs.org> or `brew install node`.
+- **Node.js 24.18.0 and npm 12.0.1** — the repository's standardized development environment.
+  `package.json` declares `"engines": ">=24.15.0 <25"` and `"packageManager": "npm@12.0.1"`.
+  npm 12 requires Node `^22.22.2 || ^24.15.0 || >=26.0.0`; Node 24 is the tested overlap.
+  Next.js 16 itself only requires Node ≥ 20.9, but that lower bound is not sufficient here.
+
+  Select Node 24.18.0 with **nvm**:
+  ```bash
+  nvm install 24.18.0
+  nvm use            # reads .nvmrc automatically
+  node -v            # v24.18.0
+  npm --version      # 12.0.1  (npm 12 ships with Node 24)
+  ```
+
+  Or with **fnm**:
+  ```bash
+  fnm install 24.18.0
+  fnm use
+  node -v && npm --version
+  ```
+
+  The `packageManager` field documents the required npm version. It does not switch your
+  active npm automatically — installing Node 24.18.0 is what puts npm 12 on your PATH.
+
 - **cloudflared** on your PATH — `brew install cloudflared` or download the macOS binary from Cloudflare. `npm run dev` starts the tunnel automatically.
 - A **Rovo Studio automation flow** with an Incoming webhook trigger and a Send web request action (see `docs/architecture-state.md` for the request flow).
 

@@ -22,8 +22,9 @@
     "remark-gfm": "^4.0.1"
   },
   "engines": {
-    "node": ">=18.17.0"
+    "node": ">=24.15.0 <25"
   },
+  "packageManager": "npm@12.0.1",
   "allowScripts": {
     "better-sqlite3@11.10.0": true
   }
