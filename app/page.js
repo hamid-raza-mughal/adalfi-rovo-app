@@ -12,10 +12,12 @@ import remarkGfm from "remark-gfm";
 function logClientEvent(event, meta = {}) {
   try {
     const entry = { event, timestamp: new Date().toISOString(), source: 'browser' };
+    if (meta.clientRequestId !== undefined) entry.clientRequestId = meta.clientRequestId;
     if (meta.correlationId !== undefined) entry.correlationId = meta.correlationId;
     if (meta.sessionId !== undefined) entry.sessionId = meta.sessionId;
     if (meta.messageId !== undefined) entry.messageId = meta.messageId;
     if (meta.durationMs !== undefined) entry.durationMs = meta.durationMs;
+    if (meta.durationFrom !== undefined) entry.durationFrom = meta.durationFrom;
     if (meta.status !== undefined) entry.status = meta.status;
     if (meta.promptLength !== undefined) entry.promptLength = meta.promptLength;
 
@@ -52,7 +54,8 @@ export default function Home() {
 
   // Instrumentation refs — tracking state across renders and interval callbacks.
   const promptSubmittedAtRef = useRef(null);   // Date.now() when the user hit Send
-  const lastCorrelationIdRef = useRef(null);   // assistantMessage.id for the in-flight request
+  const clientRequestIdRef = useRef(null);     // UUID generated in the browser before each submission
+  const lastCorrelationIdRef = useRef(null);   // assistantMessage.id returned by the server
   const pendingDetectedRef = useRef(false);    // true while we're polling for a response
   const renderedMessageIds = useRef(new Set()); // guards against duplicate response_rendered events
 
@@ -81,7 +84,8 @@ export default function Home() {
   }, [messages]);
 
   // Emit response_rendered once when the in-flight assistant message transitions to completed.
-  // The renderedMessageIds Set prevents duplicate events from normal React re-renders.
+  // renderedMessageIds guards against duplicate events from normal React re-renders: once the
+  // correlationId is in the Set, no further fires occur even if the component re-renders.
   useEffect(() => {
     const cid = lastCorrelationIdRef.current;
     if (!cid) return;
@@ -90,10 +94,12 @@ export default function Home() {
     if (!msg) return;
     renderedMessageIds.current.add(cid);
     logClientEvent('response_rendered', {
+      clientRequestId: clientRequestIdRef.current,
       correlationId: cid,
       sessionId: activeId,
       messageId: cid,
       durationMs: promptSubmittedAtRef.current != null ? Date.now() - promptSubmittedAtRef.current : undefined,
+      durationFrom: 'client_prompt_submitted',
       status: 'success',
     });
   }, [messages, activeId]);
@@ -151,9 +157,11 @@ export default function Home() {
         if (pendingDetectedRef.current) {
           pendingDetectedRef.current = false;
           logClientEvent('client_completion_detected', {
+            clientRequestId: clientRequestIdRef.current,
             correlationId: lastCorrelationIdRef.current,
             sessionId: id,
             durationMs: promptSubmittedAtRef.current != null ? Date.now() - promptSubmittedAtRef.current : undefined,
+            durationFrom: 'client_prompt_submitted',
             status: 'success',
           });
         }
@@ -161,6 +169,7 @@ export default function Home() {
       }
     } catch {
       logClientEvent('client_poll_failed', {
+        clientRequestId: clientRequestIdRef.current,
         sessionId: id,
         status: 'failed',
       });
@@ -177,8 +186,14 @@ export default function Home() {
     const text = input.trim();
     if (!text || !activeId || busy || hasPending(messages)) return;
 
+    // Generate a browser-side request ID before anything else so that client_prompt_submitted
+    // and server_prompt_received can be linked even before the server creates a correlationId.
+    const clientRequestId = crypto.randomUUID();
+    clientRequestIdRef.current = clientRequestId;
     promptSubmittedAtRef.current = Date.now();
+
     logClientEvent('client_prompt_submitted', {
+      clientRequestId,
       sessionId: activeId,
       promptLength: text.length,
       status: 'success',
@@ -190,7 +205,9 @@ export default function Home() {
       const res = await fetch(`/api/sessions/${activeId}/messages`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ content: text }),
+        // clientRequestId is forwarded to the server for trace linking; it is safe metadata
+        // and is never passed to Rovo or stored in the database.
+        body: JSON.stringify({ content: text, clientRequestId }),
       });
       const data = await res.json();
 

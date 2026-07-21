@@ -35,14 +35,20 @@ export async function POST(request, { params }) {
   const serverReceivedAt = Date.now();
   const { id } = await params;
 
-  logEvent('server_prompt_received', { sessionId: id });
-
   const session = getSession(id);
   if (!session) return Response.json({ error: "not found" }, { status: 404 });
 
   const body = await request.json().catch(() => ({}));
   const content = (body?.content || "").trim();
   if (!content) return Response.json({ error: "content required" }, { status: 400 });
+
+  // clientRequestId is generated in the browser before submission and echoed here so that
+  // server_prompt_received is linkable to the client events even before any DB record exists.
+  // It is safe, optional, and not forwarded to Rovo.
+  const clientRequestId = typeof body.clientRequestId === 'string' ? body.clientRequestId : undefined;
+
+  // Log as soon as we have a validated, actionable request — before any DB writes.
+  logEvent('server_prompt_received', { clientRequestId, sessionId: id });
 
   // Resolve the public callback URL before writing anything to the database.
   // env override → runtime file → request headers.
@@ -67,6 +73,7 @@ export async function POST(request, { params }) {
 
   // 2) correlation id = the pending assistant message id (what the callback matches on)
   const correlationId = assistantMessage.id;
+  const messageId = assistantMessage.id; // same value; named separately for log clarity
   const payload = { sessionId: id, correlationId, prompt: content, callbackUrl };
 
   const runId = createRun({
@@ -80,10 +87,13 @@ export async function POST(request, { params }) {
   touchSession(id);
 
   logEvent('run_created', {
+    clientRequestId,
     correlationId,
     sessionId: id,
     runId,
+    messageId,
     durationMs: Date.now() - serverReceivedAt,
+    durationFrom: 'server_prompt_received',
     status: 'success',
     promptLength: content.length,
   });
@@ -91,27 +101,36 @@ export async function POST(request, { params }) {
   // 3) fire the webhook. A 200 is only an ACK - do NOT wait for the answer here.
   const rovoStartedAt = Date.now();
   logEvent('rovo_request_started', {
+    clientRequestId,
     correlationId,
     sessionId: id,
     runId,
+    messageId,
     durationMs: rovoStartedAt - serverReceivedAt,
+    durationFrom: 'server_prompt_received',
   });
 
   try {
     await fireRovo(payload);
     logEvent('rovo_request_acknowledged', {
+      clientRequestId,
       correlationId,
       sessionId: id,
       runId,
+      messageId,
       durationMs: Date.now() - rovoStartedAt,
+      durationFrom: 'rovo_request_started',
       status: 'success',
     });
   } catch (err) {
     logEvent('rovo_request_failed', {
+      clientRequestId,
       correlationId,
       sessionId: id,
       runId,
+      messageId,
       durationMs: Date.now() - rovoStartedAt,
+      durationFrom: 'rovo_request_started',
       status: 'failed',
     });
     // Could not even reach Rovo -> fail this turn now so the UI shows an error instead of spinning.

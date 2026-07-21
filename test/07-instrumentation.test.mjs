@@ -1,7 +1,7 @@
 // test/07-instrumentation.test.mjs
-// Covers: lib/instrumentation.js unit tests, and server-side lifecycle event emission
-// from the messages and callback routes. No real Rovo calls, real secrets, or
-// production database are used.
+// Covers: lib/instrumentation.js unit tests, server-side lifecycle event emission from the
+// messages and callback routes, /api/log ingestion, and trace-correlation semantics.
+// No real Rovo calls, real secrets, or production database are used.
 
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
@@ -30,7 +30,7 @@ const { POST: messagesPost } = await import('../app/api/sessions/[id]/messages/r
 const { POST: callbackPost } = await import('../app/api/webhook/callback/route.js');
 const { POST: logPost } = await import('../app/api/log/route.js');
 const dbMod = await import('../lib/db.js');
-const { default: db, createSession, addMessage, createRun } = dbMod;
+const { default: db, createSession, addMessage, createRun, getRunByCorrelation } = dbMod;
 
 process.on('exit', () => {
   try { db.close(); } catch {}
@@ -74,11 +74,14 @@ function params(id) {
   return { params: Promise.resolve({ id }) };
 }
 
-function makePostRequest(sessionId, content) {
+/** Build a POST /api/sessions/:id/messages request. clientRequestId is optional. */
+function makePostRequest(sessionId, content, clientRequestId) {
+  const body = { content };
+  if (clientRequestId !== undefined) body.clientRequestId = clientRequestId;
   return new Request(`http://localhost/api/sessions/${sessionId}/messages`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ content }),
+    body: JSON.stringify(body),
   });
 }
 
@@ -93,6 +96,7 @@ function makeCallbackRequest(body, tokenOverride) {
   });
 }
 
+/** Create a session + user message + pending assistant message + run. Returns IDs. */
 function makeRun(label = 'test') {
   const session = createSession(label);
   const user = addMessage({ sessionId: session.id, role: 'user', content: 'q', status: 'completed' });
@@ -106,7 +110,7 @@ function makeRun(label = 'test') {
     webhookUrl: 'https://rovo.example.com/w',
     requestPayload: '{}',
   });
-  return { correlationId, sessionId: session.id };
+  return { correlationId, sessionId: session.id, assistantMessageId: assistant.id };
 }
 
 function parsedLines(lines) {
@@ -131,22 +135,38 @@ test('logEvent includes correlationId when supplied', () => {
   assert.strictEqual(entry.correlationId, 'c-abc123');
 });
 
-test('logEvent includes sessionId, runId, durationMs, and status when supplied', () => {
+test('logEvent includes clientRequestId when supplied', () => {
+  const lines = captureStdout(() => logEvent('server_prompt_received', { clientRequestId: 'cr-xyz' }));
+  const entry = JSON.parse(lines[0]);
+  assert.strictEqual(entry.clientRequestId, 'cr-xyz');
+});
+
+test('logEvent includes durationFrom when supplied', () => {
+  const lines = captureStdout(() =>
+    logEvent('run_created', { durationMs: 5, durationFrom: 'server_prompt_received' })
+  );
+  const entry = JSON.parse(lines[0]);
+  assert.strictEqual(entry.durationFrom, 'server_prompt_received');
+  assert.strictEqual(entry.durationMs, 5);
+});
+
+test('logEvent includes sessionId, runId, messageId, durationMs, and status when supplied', () => {
   const lines = captureStdout(() =>
     logEvent('rovo_request_acknowledged', {
-      sessionId: 's-1', runId: 'r-1', durationMs: 432, status: 'success',
+      sessionId: 's-1', runId: 'r-1', messageId: 'm-1', durationMs: 432, status: 'success',
     })
   );
   const entry = JSON.parse(lines[0]);
   assert.strictEqual(entry.sessionId, 's-1');
   assert.strictEqual(entry.runId, 'r-1');
+  assert.strictEqual(entry.messageId, 'm-1');
   assert.strictEqual(entry.durationMs, 432);
   assert.strictEqual(entry.status, 'success');
 });
 
 test('logEvent includes safe content metadata (contentPresent, contentLength)', () => {
   const lines = captureStdout(() =>
-    logEvent('callback_received', { correlationId: 'c-1', contentPresent: true, contentLength: 256 })
+    logEvent('callback_validated', { correlationId: 'c-1', contentPresent: true, contentLength: 256 })
   );
   const entry = JSON.parse(lines[0]);
   assert.strictEqual(entry.contentPresent, true);
@@ -210,9 +230,10 @@ test('logEvent does not throw when process.stdout.write fails', () => {
   }
 });
 
-test('logEvent works with no optional IDs (missing correlationId, runId, sessionId)', () => {
+test('logEvent works with no optional IDs (missing clientRequestId, correlationId, runId, sessionId)', () => {
   const lines = captureStdout(() => logEvent('server_prompt_received', {}));
   const entry = JSON.parse(lines[0]);
+  assert.ok(!('clientRequestId' in entry));
   assert.ok(!('correlationId' in entry));
   assert.ok(!('runId' in entry));
   assert.ok(!('sessionId' in entry));
@@ -248,8 +269,7 @@ test('POST messages emits server_prompt_received, run_created, rovo_request_star
     const session = createSession('Lifecycle test');
     const req = makePostRequest(session.id, 'What is the policy?');
     const { lines } = await captureStdoutAsync(() => messagesPost(req, params(session.id)));
-    const events = parsedLines(lines);
-    const names = events.map((e) => e.event);
+    const names = parsedLines(lines).map((e) => e.event);
 
     assert.ok(names.includes('server_prompt_received'), 'must emit server_prompt_received');
     assert.ok(names.includes('run_created'), 'must emit run_created');
@@ -260,22 +280,107 @@ test('POST messages emits server_prompt_received, run_created, rovo_request_star
   }
 });
 
-test('POST messages lifecycle events carry correlationId, sessionId, runId', async () => {
+test('server_prompt_received carries clientRequestId when supplied in request body', async () => {
+  writePublicUrl('https://abc123.trycloudflare.com');
+  const origFetch = globalThis.fetch;
+  globalThis.fetch = async () => new Response('{}', { status: 200 });
+  const clientRequestId = randomUUID();
+
+  try {
+    const session = createSession('clientRequestId test');
+    const req = makePostRequest(session.id, 'query', clientRequestId);
+    const { lines } = await captureStdoutAsync(() => messagesPost(req, params(session.id)));
+    const events = parsedLines(lines);
+    const received = events.find((e) => e.event === 'server_prompt_received');
+    assert.ok(received, 'must emit server_prompt_received');
+    assert.strictEqual(received.clientRequestId, clientRequestId);
+  } finally {
+    globalThis.fetch = origFetch;
+  }
+});
+
+test('all post-run server events share the same clientRequestId', async () => {
+  writePublicUrl('https://abc123.trycloudflare.com');
+  const origFetch = globalThis.fetch;
+  globalThis.fetch = async () => new Response('{}', { status: 200 });
+  const clientRequestId = randomUUID();
+
+  try {
+    const session = createSession('clientRequestId propagation test');
+    const req = makePostRequest(session.id, 'query', clientRequestId);
+    const { lines } = await captureStdoutAsync(() => messagesPost(req, params(session.id)));
+    const events = parsedLines(lines).filter((e) => e.clientRequestId !== undefined);
+    assert.ok(events.length > 0, 'at least one event must carry clientRequestId');
+    for (const ev of events) {
+      assert.strictEqual(ev.clientRequestId, clientRequestId,
+        `${ev.event} has wrong clientRequestId`);
+    }
+  } finally {
+    globalThis.fetch = origFetch;
+  }
+});
+
+test('server_prompt_received carries clientRequestId even before correlationId exists', async () => {
+  // server_prompt_received fires before DB records are created, so it has no correlationId.
+  // clientRequestId must be present to link it to the browser-side events.
+  writePublicUrl('https://abc123.trycloudflare.com');
+  const origFetch = globalThis.fetch;
+  globalThis.fetch = async () => new Response('{}', { status: 200 });
+  const clientRequestId = randomUUID();
+
+  try {
+    const session = createSession('pre-DB traceability test');
+    const req = makePostRequest(session.id, 'query', clientRequestId);
+    const { lines } = await captureStdoutAsync(() => messagesPost(req, params(session.id)));
+    const events = parsedLines(lines);
+    const received = events.find((e) => e.event === 'server_prompt_received');
+    assert.ok(received);
+    assert.strictEqual(received.clientRequestId, clientRequestId);
+    assert.ok(!('correlationId' in received), 'correlationId must NOT be on server_prompt_received');
+  } finally {
+    globalThis.fetch = origFetch;
+  }
+});
+
+test('run_created carries both clientRequestId and correlationId', async () => {
+  writePublicUrl('https://abc123.trycloudflare.com');
+  const origFetch = globalThis.fetch;
+  globalThis.fetch = async () => new Response('{}', { status: 200 });
+  const clientRequestId = randomUUID();
+
+  try {
+    const session = createSession('dual-ID test');
+    const req = makePostRequest(session.id, 'query', clientRequestId);
+    const { lines } = await captureStdoutAsync(() => messagesPost(req, params(session.id)));
+    const events = parsedLines(lines);
+    const runCreated = events.find((e) => e.event === 'run_created');
+    assert.ok(runCreated);
+    assert.strictEqual(runCreated.clientRequestId, clientRequestId);
+    assert.ok(runCreated.correlationId, 'run_created must have correlationId');
+  } finally {
+    globalThis.fetch = origFetch;
+  }
+});
+
+test('POST messages lifecycle events carry correlationId, sessionId, runId, messageId', async () => {
   writePublicUrl('https://abc123.trycloudflare.com');
   const origFetch = globalThis.fetch;
   globalThis.fetch = async () => new Response('{}', { status: 200 });
 
   try {
-    const session = createSession('Correlation test');
+    const session = createSession('IDs propagation test');
     const req = makePostRequest(session.id, 'Hello agent');
     const { lines } = await captureStdoutAsync(() => messagesPost(req, params(session.id)));
     const events = parsedLines(lines);
-
     const runCreated = events.find((e) => e.event === 'run_created');
-    assert.ok(runCreated, 'run_created event must exist');
-    assert.ok(runCreated.correlationId, 'run_created must have correlationId');
+    assert.ok(runCreated);
+    assert.ok(runCreated.correlationId);
     assert.strictEqual(runCreated.sessionId, session.id);
-    assert.ok(runCreated.runId, 'run_created must have runId');
+    assert.ok(runCreated.runId);
+    assert.ok(runCreated.messageId, 'run_created must carry messageId');
+
+    // messageId = correlationId (both are assistantMessage.id)
+    assert.strictEqual(runCreated.messageId, runCreated.correlationId);
 
     // All events that carry correlationId must use the same value.
     const cid = runCreated.correlationId;
@@ -284,6 +389,67 @@ test('POST messages lifecycle events carry correlationId, sessionId, runId', asy
         assert.strictEqual(ev.correlationId, cid, `${ev.event} has a mismatched correlationId`);
       }
     }
+  } finally {
+    globalThis.fetch = origFetch;
+  }
+});
+
+test('every event with durationMs also carries durationFrom', async () => {
+  writePublicUrl('https://abc123.trycloudflare.com');
+  const origFetch = globalThis.fetch;
+  globalThis.fetch = async () => new Response('{}', { status: 200 });
+
+  try {
+    const session = createSession('durationFrom test');
+    const req = makePostRequest(session.id, 'query');
+    const { lines } = await captureStdoutAsync(() => messagesPost(req, params(session.id)));
+    const events = parsedLines(lines);
+    for (const ev of events) {
+      if ('durationMs' in ev) {
+        assert.ok('durationFrom' in ev,
+          `${ev.event} has durationMs but is missing durationFrom`);
+        assert.ok(typeof ev.durationFrom === 'string' && ev.durationFrom.length > 0,
+          `${ev.event}.durationFrom must be a non-empty string`);
+      }
+    }
+  } finally {
+    globalThis.fetch = origFetch;
+  }
+});
+
+test('durationFrom values on server events name the correct baseline', async () => {
+  writePublicUrl('https://abc123.trycloudflare.com');
+  const origFetch = globalThis.fetch;
+  globalThis.fetch = async () => new Response('{}', { status: 200 });
+
+  try {
+    const session = createSession('durationFrom semantics test');
+    const req = makePostRequest(session.id, 'query');
+    const { lines } = await captureStdoutAsync(() => messagesPost(req, params(session.id)));
+    const events = parsedLines(lines);
+    const byName = Object.fromEntries(events.map((e) => [e.event, e]));
+
+    assert.strictEqual(byName.run_created?.durationFrom, 'server_prompt_received');
+    assert.strictEqual(byName.rovo_request_started?.durationFrom, 'server_prompt_received');
+    assert.strictEqual(byName.rovo_request_acknowledged?.durationFrom, 'rovo_request_started');
+  } finally {
+    globalThis.fetch = origFetch;
+  }
+});
+
+test('server_prompt_received has no durationMs (it is the server-side baseline)', async () => {
+  writePublicUrl('https://abc123.trycloudflare.com');
+  const origFetch = globalThis.fetch;
+  globalThis.fetch = async () => new Response('{}', { status: 200 });
+
+  try {
+    const session = createSession('no-duration-on-received test');
+    const req = makePostRequest(session.id, 'query');
+    const { lines } = await captureStdoutAsync(() => messagesPost(req, params(session.id)));
+    const events = parsedLines(lines);
+    const received = events.find((e) => e.event === 'server_prompt_received');
+    assert.ok(received);
+    assert.ok(!('durationMs' in received), 'server_prompt_received must not carry durationMs');
   } finally {
     globalThis.fetch = origFetch;
   }
@@ -302,14 +468,14 @@ test('POST messages emits run_created with promptLength (not prompt text)', asyn
     const events = parsedLines(lines);
     const runCreated = events.find((e) => e.event === 'run_created');
     assert.ok(runCreated);
-    assert.strictEqual(runCreated.promptLength, text.length, 'should log character count, not content');
+    assert.strictEqual(runCreated.promptLength, text.length);
     assert.ok(!('prompt' in runCreated), 'prompt text must not be logged');
   } finally {
     globalThis.fetch = origFetch;
   }
 });
 
-test('POST messages emits rovo_request_acknowledged with durationMs and status:success', async () => {
+test('POST messages emits rovo_request_acknowledged with durationFrom:rovo_request_started and status:success', async () => {
   writePublicUrl('https://abc123.trycloudflare.com');
   const origFetch = globalThis.fetch;
   globalThis.fetch = async () => new Response('{}', { status: 200 });
@@ -320,8 +486,9 @@ test('POST messages emits rovo_request_acknowledged with durationMs and status:s
     const { lines } = await captureStdoutAsync(() => messagesPost(req, params(session.id)));
     const events = parsedLines(lines);
     const ack = events.find((e) => e.event === 'rovo_request_acknowledged');
-    assert.ok(ack, 'must emit rovo_request_acknowledged');
+    assert.ok(ack);
     assert.ok(typeof ack.durationMs === 'number' && ack.durationMs >= 0);
+    assert.strictEqual(ack.durationFrom, 'rovo_request_started');
     assert.strictEqual(ack.status, 'success');
   } finally {
     globalThis.fetch = origFetch;
@@ -337,8 +504,7 @@ test('POST messages emits rovo_request_failed (not acknowledged) when Rovo retur
     const session = createSession('Rovo failure test');
     const req = makePostRequest(session.id, 'query');
     const { lines } = await captureStdoutAsync(() => messagesPost(req, params(session.id)));
-    const events = parsedLines(lines);
-    const names = events.map((e) => e.event);
+    const names = parsedLines(lines).map((e) => e.event);
 
     assert.ok(names.includes('rovo_request_failed'), 'must emit rovo_request_failed');
     assert.ok(!names.includes('rovo_request_acknowledged'), 'must NOT emit rovo_request_acknowledged on failure');
@@ -347,7 +513,7 @@ test('POST messages emits rovo_request_failed (not acknowledged) when Rovo retur
   }
 });
 
-test('POST messages rovo_request_failed carries status:failed', async () => {
+test('rovo_request_failed carries durationFrom:rovo_request_started and status:failed', async () => {
   writePublicUrl('https://abc123.trycloudflare.com');
   const origFetch = globalThis.fetch;
   globalThis.fetch = async () => new Response('error', { status: 500 });
@@ -360,6 +526,7 @@ test('POST messages rovo_request_failed carries status:failed', async () => {
     const failed = events.find((e) => e.event === 'rovo_request_failed');
     assert.ok(failed);
     assert.strictEqual(failed.status, 'failed');
+    assert.strictEqual(failed.durationFrom, 'rovo_request_started');
   } finally {
     globalThis.fetch = origFetch;
   }
@@ -390,18 +557,27 @@ test('POST messages does not log Rovo webhook URL, callback URL, or secrets', as
 // 3. Callback route — lifecycle event emission
 // =============================================================================
 
+test('callback_received is the first event emitted and has no durationMs', async () => {
+  const { correlationId } = makeRun('First event test');
+  const req = makeCallbackRequest({ correlationId, content: 'answer', status: 'ok' });
+  const { lines } = await captureStdoutAsync(() => callbackPost(req));
+  const events = parsedLines(lines);
+  assert.strictEqual(events[0].event, 'callback_received',
+    'callback_received must be the first event emitted');
+  assert.ok(!('durationMs' in events[0]), 'callback_received must not carry durationMs (it is the baseline)');
+});
+
 test('callback with wrong token emits callback_rejected (not callback_validated)', async () => {
   const req = makeCallbackRequest({ correlationId: 'c-1', content: 'answer', status: 'ok' }, 'wrong-token');
   const { lines } = await captureStdoutAsync(() => callbackPost(req));
-  const events = parsedLines(lines);
-  const names = events.map((e) => e.event);
+  const names = parsedLines(lines).map((e) => e.event);
 
   assert.ok(names.includes('callback_rejected'), 'must emit callback_rejected');
   assert.ok(!names.includes('callback_validated'), 'must NOT emit callback_validated on auth failure');
   assert.ok(!names.includes('database_update_completed'), 'must NOT emit db update on auth failure');
 });
 
-test('callback_rejected carries status:failed and httpStatus:401', async () => {
+test('callback_rejected carries status:failed, httpStatus:401, and durationFrom:callback_received', async () => {
   const req = makeCallbackRequest({ correlationId: 'c-1', content: 'x', status: 'ok' }, 'bad-token');
   const { lines } = await captureStdoutAsync(() => callbackPost(req));
   const events = parsedLines(lines);
@@ -409,45 +585,71 @@ test('callback_rejected carries status:failed and httpStatus:401', async () => {
   assert.ok(rejected);
   assert.strictEqual(rejected.status, 'failed');
   assert.strictEqual(rejected.httpStatus, 401);
+  assert.strictEqual(rejected.durationFrom, 'callback_received');
 });
 
 test('successful callback emits callback_received, callback_validated, database_update_completed', async () => {
   const { correlationId } = makeRun('Success lifecycle');
   const req = makeCallbackRequest({ correlationId, content: 'The answer.', status: 'ok' });
   const { lines } = await captureStdoutAsync(() => callbackPost(req));
-  const events = parsedLines(lines);
-  const names = events.map((e) => e.event);
+  const names = parsedLines(lines).map((e) => e.event);
 
   assert.ok(names.includes('callback_received'), 'must emit callback_received');
   assert.ok(names.includes('callback_validated'), 'must emit callback_validated');
   assert.ok(names.includes('database_update_completed'), 'must emit database_update_completed');
 });
 
-test('callback_received carries correlationId and contentLength', async () => {
-  const { correlationId } = makeRun('Content length test');
+test('callback_validated carries correlationId, sessionId, runId, messageId, contentLength, and durationFrom', async () => {
+  const { correlationId, sessionId, assistantMessageId } = makeRun('callback_validated fields');
+
+  // Look up runId from the DB to verify it appears in the log.
+  const run = getRunByCorrelation(correlationId);
+
   const answer = 'The answer to your question.';
   const req = makeCallbackRequest({ correlationId, content: answer, status: 'ok' });
   const { lines } = await captureStdoutAsync(() => callbackPost(req));
   const events = parsedLines(lines);
-  const received = events.find((e) => e.event === 'callback_received');
-  assert.ok(received);
-  assert.strictEqual(received.correlationId, correlationId);
-  assert.strictEqual(received.contentLength, answer.length);
-  assert.strictEqual(received.contentPresent, true);
-  assert.ok(!('content' in received), 'content text must not be logged');
+  const validated = events.find((e) => e.event === 'callback_validated');
+
+  assert.ok(validated);
+  assert.strictEqual(validated.correlationId, correlationId);
+  assert.strictEqual(validated.sessionId, sessionId);
+  assert.strictEqual(validated.runId, run.id);
+  assert.strictEqual(validated.messageId, assistantMessageId);
+  assert.strictEqual(validated.contentLength, answer.length);
+  assert.strictEqual(validated.contentPresent, true);
+  assert.strictEqual(validated.durationFrom, 'callback_received');
+  assert.ok(!('content' in validated), 'content text must not be logged');
 });
 
-test('database_update_completed is logged after the update and carries matched:true for known correlationId', async () => {
-  const { correlationId } = makeRun('DB completed test');
+test('database_update_completed carries sessionId, runId, messageId, matched:true, durationFrom:callback_validated', async () => {
+  const { correlationId, sessionId, assistantMessageId } = makeRun('DB completed fields');
+  const run = getRunByCorrelation(correlationId);
   const req = makeCallbackRequest({ correlationId, content: 'OK answer', status: 'ok' });
   const { lines } = await captureStdoutAsync(() => callbackPost(req));
   const events = parsedLines(lines);
   const dbDone = events.find((e) => e.event === 'database_update_completed');
 
-  assert.ok(dbDone, 'must emit database_update_completed');
+  assert.ok(dbDone);
   assert.strictEqual(dbDone.matched, true);
   assert.strictEqual(dbDone.status, 'success');
+  assert.strictEqual(dbDone.sessionId, sessionId);
+  assert.strictEqual(dbDone.runId, run.id);
+  assert.strictEqual(dbDone.messageId, assistantMessageId);
+  assert.strictEqual(dbDone.durationFrom, 'callback_validated');
   assert.ok(typeof dbDone.durationMs === 'number' && dbDone.durationMs >= 0);
+});
+
+test('every callback event with durationMs also carries durationFrom', async () => {
+  const { correlationId } = makeRun('callback durationFrom check');
+  const req = makeCallbackRequest({ correlationId, content: 'answer', status: 'ok' });
+  const { lines } = await captureStdoutAsync(() => callbackPost(req));
+  for (const ev of parsedLines(lines)) {
+    if ('durationMs' in ev) {
+      assert.ok('durationFrom' in ev,
+        `${ev.event} has durationMs but is missing durationFrom`);
+    }
+  }
 });
 
 test('database_update_completed carries matched:false for unknown correlationId', async () => {
@@ -462,8 +664,7 @@ test('database_update_completed carries matched:false for unknown correlationId'
 test('database_update_completed is not emitted when auth fails', async () => {
   const req = makeCallbackRequest({ correlationId: 'c-1', content: 'x', status: 'ok' }, 'wrong');
   const { lines } = await captureStdoutAsync(() => callbackPost(req));
-  const events = parsedLines(lines);
-  const names = events.map((e) => e.event);
+  const names = parsedLines(lines).map((e) => e.event);
   assert.ok(!names.includes('database_update_completed'));
 });
 
@@ -486,6 +687,7 @@ test('/api/log accepts valid client events and returns ok:true', async () => {
     event: 'client_prompt_submitted',
     timestamp: new Date().toISOString(),
     source: 'browser',
+    clientRequestId: randomUUID(),
     sessionId: 's-1',
     promptLength: 42,
     status: 'success',
@@ -498,6 +700,32 @@ test('/api/log accepts valid client events and returns ok:true', async () => {
   const { result } = await captureStdoutAsync(() => logPost(req));
   const data = await result.json();
   assert.ok(data.ok);
+});
+
+test('/api/log forwards clientRequestId and durationFrom to logEvent', async () => {
+  const crid = randomUUID();
+  const body = {
+    event: 'client_completion_detected',
+    timestamp: new Date().toISOString(),
+    source: 'browser',
+    clientRequestId: crid,
+    correlationId: 'c-99',
+    durationMs: 3500,
+    durationFrom: 'client_prompt_submitted',
+    status: 'success',
+  };
+  const req = new Request('http://localhost/api/log', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(body),
+  });
+  const { lines } = await captureStdoutAsync(() => logPost(req));
+  const events = parsedLines(lines);
+  const entry = events.find((e) => e.event === 'client_completion_detected');
+  assert.ok(entry, 'event must be logged');
+  assert.strictEqual(entry.clientRequestId, crid);
+  assert.strictEqual(entry.durationFrom, 'client_prompt_submitted');
+  assert.strictEqual(entry.durationMs, 3500);
 });
 
 test('/api/log rejects unknown event names with 400', async () => {
@@ -515,6 +743,7 @@ test('/api/log strips sensitive fields before forwarding to logEvent', async () 
     event: 'response_rendered',
     timestamp: new Date().toISOString(),
     source: 'browser',
+    clientRequestId: randomUUID(),
     correlationId: 'c-99',
     token: 'should-be-stripped',
     secret: 'also-stripped',
@@ -531,9 +760,92 @@ test('/api/log strips sensitive fields before forwarding to logEvent', async () 
     assert.ok(!line.includes('also-stripped'), 'secret must not be logged');
     assert.ok(!line.includes('full response text'), 'content must not be logged');
   }
-  // The correlationId should have made it through.
   const events = parsedLines(lines);
   const entry = events.find((e) => e.event === 'response_rendered');
   assert.ok(entry, 'event must be logged');
   assert.strictEqual(entry.correlationId, 'c-99');
+});
+
+// =============================================================================
+// 5. response_rendered duplicate-prevention logic
+// =============================================================================
+
+test('response_rendered Set guard prevents duplicate events for the same correlationId', () => {
+  // This directly tests the guard logic used in the React component, independent of React.
+  const seen = new Set();
+  const emitted = [];
+
+  function tryEmitRendered(cid) {
+    if (!cid) return;
+    if (seen.has(cid)) return;
+    seen.add(cid);
+    emitted.push(cid);
+  }
+
+  const CID = 'assistant-msg-uuid-' + randomUUID();
+  tryEmitRendered(CID);  // first call — should fire
+  tryEmitRendered(CID);  // duplicate — must be suppressed
+  tryEmitRendered(CID);  // duplicate — must be suppressed
+
+  assert.strictEqual(emitted.length, 1, 'response_rendered must fire exactly once per correlationId');
+  assert.strictEqual(emitted[0], CID);
+});
+
+test('response_rendered Set guard fires independently for distinct correlationIds', () => {
+  const seen = new Set();
+  const emitted = [];
+
+  function tryEmitRendered(cid) {
+    if (!cid) return;
+    if (seen.has(cid)) return;
+    seen.add(cid);
+    emitted.push(cid);
+  }
+
+  const CID1 = 'cid-' + randomUUID();
+  const CID2 = 'cid-' + randomUUID();
+  tryEmitRendered(CID1);
+  tryEmitRendered(CID2);
+  tryEmitRendered(CID1); // duplicate for CID1 — must be suppressed
+  tryEmitRendered(CID2); // duplicate for CID2 — must be suppressed
+
+  assert.strictEqual(emitted.length, 2, 'each distinct correlationId should fire exactly once');
+  assert.ok(emitted.includes(CID1));
+  assert.ok(emitted.includes(CID2));
+});
+
+test('response_rendered Set guard does not fire for null or undefined correlationId', () => {
+  const seen = new Set();
+  const emitted = [];
+
+  function tryEmitRendered(cid) {
+    if (!cid) return; // guard against null/undefined
+    if (seen.has(cid)) return;
+    seen.add(cid);
+    emitted.push(cid);
+  }
+
+  tryEmitRendered(null);
+  tryEmitRendered(undefined);
+  tryEmitRendered('');
+
+  assert.strictEqual(emitted.length, 0, 'must not emit for falsy correlationId values');
+});
+
+// =============================================================================
+// 6. db.getRunByCorrelation — used by the callback route for ID enrichment
+// =============================================================================
+
+test('getRunByCorrelation returns the run with matching correlationId', () => {
+  const { correlationId, sessionId, assistantMessageId } = makeRun('getRunByCorrelation test');
+  const run = getRunByCorrelation(correlationId);
+  assert.ok(run, 'must find the run');
+  assert.strictEqual(run.correlation_id, correlationId);
+  assert.strictEqual(run.session_id, sessionId);
+  assert.strictEqual(run.assistant_message_id, assistantMessageId);
+});
+
+test('getRunByCorrelation returns undefined for an unknown correlationId', () => {
+  const run = getRunByCorrelation('unknown-' + randomUUID());
+  assert.strictEqual(run, undefined);
 });

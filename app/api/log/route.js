@@ -20,10 +20,12 @@ export async function POST(request) {
       return Response.json({ ok: false }, { status: 400 });
     }
     logEvent(body.event, {
+      clientRequestId: body.clientRequestId,
       correlationId: body.correlationId,
       sessionId: body.sessionId,
       messageId: body.messageId,
       durationMs: typeof body.durationMs === 'number' ? body.durationMs : undefined,
+      durationFrom: typeof body.durationFrom === 'string' ? body.durationFrom : undefined,
       status: body.status,
       source: 'browser',
       promptLength: typeof body.promptLength === 'number' ? body.promptLength : undefined,

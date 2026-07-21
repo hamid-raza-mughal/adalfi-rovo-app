@@ -20,7 +20,7 @@
 // "&amp;"-style entities for htmlEncode/xmlEncode. decodeAgentText (lib/textDecode.v2.js)
 // inspects the content and picks whichever decoder matches; it's a no-op on the intended
 // jsonEncode path, where none of those signatures appear.
-import { completeRunByCorrelation } from "@/lib/db";
+import { completeRunByCorrelation, getRunByCorrelation } from "@/lib/db";
 import { decodeAgentText } from "@/lib/textDecode.v2";
 import { logEvent } from "@/lib/instrumentation";
 
@@ -29,11 +29,17 @@ export const runtime = "nodejs";
 export async function POST(request) {
   const callbackReceivedAt = Date.now();
 
+  // Emit callback_received immediately — this is the reference timestamp for all
+  // subsequent callback-side durations. No correlationId is available yet because
+  // the body has not been parsed.
+  logEvent('callback_received', {});
+
   // 1) authenticate the caller with the shared secret (this endpoint is internet-facing)
   const token = request.headers.get("x-callback-token");
   if (!token || token !== process.env.CALLBACK_SHARED_SECRET) {
     logEvent('callback_rejected', {
       durationMs: Date.now() - callbackReceivedAt,
+      durationFrom: 'callback_received',
       status: 'failed',
       httpStatus: 401,
     });
@@ -46,19 +52,25 @@ export async function POST(request) {
     return Response.json({ error: "correlationId required" }, { status: 400 });
   }
 
-  logEvent('callback_received', {
-    correlationId: body.correlationId,
-    durationMs: Date.now() - callbackReceivedAt,
-    status: 'success',
-    contentPresent: typeof body.content === 'string' && body.content.length > 0,
-    contentLength: typeof body.content === 'string' ? body.content.length : 0,
-  });
+  // Look up the run to surface sessionId, runId, and messageId in subsequent log entries.
+  // correlationId = assistantMessage.id, so messageId is the same value — named separately
+  // for log readability. The run may not exist for unknown/duplicate correlationIds.
+  const run = getRunByCorrelation(body.correlationId);
+  const sessionId = run?.session_id;
+  const runId = run?.id;
+  const messageId = run?.assistant_message_id;
 
   const validatedAt = Date.now();
   logEvent('callback_validated', {
     correlationId: body.correlationId,
+    sessionId,
+    runId,
+    messageId,
     durationMs: validatedAt - callbackReceivedAt,
+    durationFrom: 'callback_received',
     status: 'success',
+    contentPresent: typeof body.content === 'string' && body.content.length > 0,
+    contentLength: typeof body.content === 'string' ? body.content.length : 0,
   });
 
   // 3) the answer. jsonEncode on the Rovo side means this is normally already plain,
@@ -78,7 +90,11 @@ export async function POST(request) {
 
   logEvent('database_update_completed', {
     correlationId: body.correlationId,
+    sessionId,
+    runId,
+    messageId,
     durationMs: Date.now() - validatedAt,
+    durationFrom: 'callback_validated',
     status: 'success',
     matched,
   });
