@@ -19,18 +19,20 @@ export const runtime = "nodejs";
 const TIMEOUT = Number(process.env.PHASE_TIMEOUT_SECONDS || 180);
 
 export async function GET(request, { params }) {
+  const { id } = await params;
   failStaleRuns(TIMEOUT); // mark any pending run that never got a callback as failed
-  const session = getSession(params.id);
+  const session = getSession(id);
   if (!session) return Response.json({ error: "not found" }, { status: 404 });
   // The callback route already decodes on the way in; this decode (same dispatcher - handles
   // urlEncode and htmlEncode/xmlEncode) is what makes any row stored before that fix, or by
   // some other future path, render clean too - no migration needed.
-  const messages = getMessages(params.id).map((m) => ({ ...m, content: decodeAgentText(m.content) }));
+  const messages = getMessages(id).map((m) => ({ ...m, content: decodeAgentText(m.content) }));
   return Response.json({ messages });
 }
 
 export async function POST(request, { params }) {
-  const session = getSession(params.id);
+  const { id } = await params;
+  const session = getSession(id);
   if (!session) return Response.json({ error: "not found" }, { status: 404 });
 
   const body = await request.json().catch(() => ({}));
@@ -38,8 +40,8 @@ export async function POST(request, { params }) {
   if (!content) return Response.json({ error: "content required" }, { status: 400 });
 
   // 1) save the user message (done) and a pending assistant placeholder
-  const userMessage = addMessage({ sessionId: params.id, role: "user", content, status: "completed" });
-  const assistantMessage = addMessage({ sessionId: params.id, role: "assistant", content: "", status: "pending" });
+  const userMessage = addMessage({ sessionId: id, role: "user", content, status: "completed" });
+  const assistantMessage = addMessage({ sessionId: id, role: "assistant", content: "", status: "pending" });
 
   // 2) correlation id = the pending assistant message id (what the callback matches on)
   const correlationId = assistantMessage.id;
@@ -58,17 +60,17 @@ export async function POST(request, { params }) {
     );
   }
   const callbackUrl = `${baseUrl}/api/webhook/callback`;
-  const payload = { sessionId: params.id, correlationId, prompt: content, callbackUrl };
+  const payload = { sessionId: id, correlationId, prompt: content, callbackUrl };
 
   createRun({
-    sessionId: params.id,
+    sessionId: id,
     userMessageId: userMessage.id,
     assistantMessageId: assistantMessage.id,
     correlationId,
     webhookUrl: process.env.ROVO_WEBHOOK_URL || "",
     requestPayload: JSON.stringify(payload),
   });
-  touchSession(params.id);
+  touchSession(id);
 
   // 3) fire the webhook. A 200 is only an ACK - do NOT wait for the answer here.
   try {
@@ -81,7 +83,7 @@ export async function POST(request, { params }) {
       content: `Could not reach the agent: ${err.message}`,
       rawPayload: String(err),
     });
-    const messages = getMessages(params.id);
+    const messages = getMessages(id);
     return Response.json(
       { userMessage, assistantMessage: messages.find((m) => m.id === assistantMessage.id), error: err.message },
       { status: 200 }
