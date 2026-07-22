@@ -11,14 +11,15 @@ import {
   completeRunByCorrelation,
 } from "@/lib/db";
 import { fireRovo } from "@/lib/rovo";
-import { getPublicBaseUrl, isLocalHost, TUNNEL_NOT_READY } from "@/lib/publicUrl";
+import { getPublicBaseUrl, isLocalHost, parsePhaseTimeoutSeconds, TUNNEL_NOT_READY } from "@/lib/publicUrl";
 import { decodeAgentText } from "@/lib/textDecode.v2";
 import { logEvent } from "@/lib/instrumentation";
-import { isRecord, type FireRovoPayload } from "@/lib/rovoContracts";
+import { type FireRovoPayload } from "@/lib/rovoContracts";
+import { isRecord } from "@/lib/validation";
 
 export const runtime = "nodejs";
 
-const TIMEOUT = Number(process.env.PHASE_TIMEOUT_SECONDS || 180);
+const TIMEOUT = parsePhaseTimeoutSeconds(process.env.PHASE_TIMEOUT_SECONDS);
 
 export async function GET(
   request: Request,

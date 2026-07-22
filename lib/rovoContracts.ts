@@ -5,6 +5,8 @@
 // header, before any of this runs. It is therefore never typed via a bare assertion — it
 // stays `unknown` until parseRovoCallbackBody narrows it.
 
+import { isRecord } from "@/lib/validation";
+
 /** Body this app sends TO Rovo's Incoming webhook (see lib/rovo.ts -> fireRovo). */
 export interface FireRovoPayload {
   sessionId: string;
@@ -29,13 +31,6 @@ export interface ParsedRovoCallback {
  *  it is never a thrown exception, since malformed external input is an expected case,
  *  not a programmer error. */
 export type ParseResult<T> = { valid: true; data: T } | { valid: false; reason: string };
-
-/** General-purpose guard: narrows an `unknown` value to a plain object so its properties
- *  can be safely accessed. Shared across route request-body parsing (not Rovo-specific)
- *  to avoid every route redefining the same check. */
-export function isRecord(value: unknown): value is Record<string, unknown> {
-  return typeof value === "object" && value !== null && !Array.isArray(value);
-}
 
 /**
  * Validates a raw, untrusted Rovo callback body - already JSON.parse'd by the route, or

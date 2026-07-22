@@ -1,7 +1,7 @@
 // GET  /api/sessions        -> list sessions for the sidebar
 // POST /api/sessions        -> create a new session
 import { listSessions, createSession } from "@/lib/db";
-import { isRecord } from "@/lib/rovoContracts";
+import { isRecord } from "@/lib/validation";
 
 export const runtime = "nodejs";
 

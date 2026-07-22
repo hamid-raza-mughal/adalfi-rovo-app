@@ -3,7 +3,7 @@
 // DELETE /api/sessions/:id  -> delete the session and all associated records
 
 import { getSession, getMessages, renameSession, deleteSession } from "@/lib/db";
-import { isRecord } from "@/lib/rovoContracts";
+import { isRecord } from "@/lib/validation";
 
 export const runtime = "nodejs";
 

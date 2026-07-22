@@ -10,7 +10,7 @@ import { mkdirSync, writeFileSync, rmSync } from 'node:fs';
 import { randomUUID } from 'node:crypto';
 
 // publicUrl.js reads RUNTIME_DIR at call time, so static import is fine.
-import { getPublicBaseUrl, isLocalHost, TUNNEL_NOT_READY } from '../lib/publicUrl.js';
+import { getPublicBaseUrl, isLocalHost, TUNNEL_NOT_READY, parsePhaseTimeoutSeconds } from '../lib/publicUrl.ts';
 
 // --- helpers ---
 
@@ -183,4 +183,92 @@ test('localhost-only request with 127.0.0.1 returns TUNNEL_NOT_READY', () => {
     )
   );
   assert.strictEqual(result, TUNNEL_NOT_READY);
+});
+
+// --- URL validation (env-var and runtime-file tiers only, not the request-header tier) ---
+
+test('malformed PUBLIC_BASE_URL falls through to the next tier instead of being used verbatim', () => {
+  const result = withEnv('PUBLIC_BASE_URL', 'not a url at all', () =>
+    withEnv('RUNTIME_DIR', withEmptyRuntime(), () =>
+      getPublicBaseUrl(makeRequest('real-host.example.com'))
+    )
+  );
+  // Falls through past the malformed env value, past the empty runtime file, to request headers.
+  assert.strictEqual(result, 'https://real-host.example.com');
+});
+
+test('non-http(s) scheme in PUBLIC_BASE_URL falls through to the next tier', () => {
+  const result = withEnv('PUBLIC_BASE_URL', 'ftp://files.example.com', () =>
+    withEnv('RUNTIME_DIR', withEmptyRuntime(), () =>
+      getPublicBaseUrl(makeRequest('real-host.example.com'))
+    )
+  );
+  assert.strictEqual(result, 'https://real-host.example.com');
+});
+
+test('valid PUBLIC_BASE_URL is still used verbatim (well-formed check does not reject good input)', () => {
+  const result = withEnv('PUBLIC_BASE_URL', 'https://override.example.com', () =>
+    withEnv('RUNTIME_DIR', withEmptyRuntime(), () =>
+      getPublicBaseUrl(makeRequest('localhost:3000'))
+    )
+  );
+  assert.strictEqual(result, 'https://override.example.com');
+});
+
+test('malformed url field in runtime JSON falls through instead of being used verbatim', () => {
+  const runtimeDir = withRuntimeFile(JSON.stringify({ url: 'not a url at all' }));
+  const result = withEnv('PUBLIC_BASE_URL', undefined, () =>
+    withEnv('RUNTIME_DIR', runtimeDir, () =>
+      getPublicBaseUrl(makeRequest('real-host.example.com'))
+    )
+  );
+  assert.strictEqual(result, 'https://real-host.example.com');
+});
+
+test('non-object runtime JSON (valid JSON, wrong shape) falls through instead of crashing', () => {
+  const runtimeDir = withRuntimeFile(JSON.stringify(['not', 'an', 'object']));
+  const result = withEnv('PUBLIC_BASE_URL', undefined, () =>
+    withEnv('RUNTIME_DIR', runtimeDir, () =>
+      getPublicBaseUrl(makeRequest('real-host.example.com'))
+    )
+  );
+  assert.strictEqual(result, 'https://real-host.example.com');
+});
+
+// --- PHASE_TIMEOUT_SECONDS parsing (lib/publicUrl.ts -> parsePhaseTimeoutSeconds) ---
+
+test('missing PHASE_TIMEOUT_SECONDS defaults to 180', () => {
+  assert.strictEqual(parsePhaseTimeoutSeconds(undefined), 180);
+});
+
+test('empty PHASE_TIMEOUT_SECONDS defaults to 180', () => {
+  assert.strictEqual(parsePhaseTimeoutSeconds(''), 180);
+});
+
+test('valid PHASE_TIMEOUT_SECONDS is used as-is', () => {
+  assert.strictEqual(parsePhaseTimeoutSeconds('300'), 300);
+});
+
+test('non-numeric PHASE_TIMEOUT_SECONDS defaults to 180 instead of becoming NaN', () => {
+  assert.strictEqual(parsePhaseTimeoutSeconds('abc'), 180);
+});
+
+test('literal "NaN" string defaults to 180', () => {
+  assert.strictEqual(parsePhaseTimeoutSeconds('NaN'), 180);
+});
+
+test('literal "Infinity" string defaults to 180 instead of becoming an unusable offset', () => {
+  assert.strictEqual(parsePhaseTimeoutSeconds('Infinity'), 180);
+});
+
+test('literal "-Infinity" string defaults to 180', () => {
+  assert.strictEqual(parsePhaseTimeoutSeconds('-Infinity'), 180);
+});
+
+test('zero is a valid PHASE_TIMEOUT_SECONDS value (matches failStaleRuns(0) usage elsewhere)', () => {
+  assert.strictEqual(parsePhaseTimeoutSeconds('0'), 0);
+});
+
+test('negative PHASE_TIMEOUT_SECONDS defaults to 180', () => {
+  assert.strictEqual(parsePhaseTimeoutSeconds('-5'), 180);
 });

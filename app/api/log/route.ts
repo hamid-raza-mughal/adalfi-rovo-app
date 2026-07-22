@@ -3,7 +3,7 @@
 // This endpoint is local-only; no auth token is required because it writes no data and
 // carries no side effects — a rejected or ignored call is harmless.
 import { logEvent } from "@/lib/instrumentation";
-import { isRecord } from "@/lib/rovoContracts";
+import { isRecord } from "@/lib/validation";
 
 export const runtime = "nodejs";
 
