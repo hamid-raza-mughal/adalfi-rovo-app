@@ -148,9 +148,15 @@ export default function Home() {
   // signature without going through that ambient-global intersection, giving the correct
   // browser `number` handle type this ref actually holds.
   const pollRef = useRef<ReturnType<Window['setInterval']> | null>(null);
-  // Acceleration only, not a replacement for polling above - see startSse/stopSse. Holds
-  // at most one open connection at a time, for whichever session is currently pending.
+  // Holds at most one open connection at a time, for whichever session is currently
+  // pending. Polling is the fallback now: it runs until SSE proves itself connected
+  // (`open`) and resumes automatically if SSE errors out - see startSse/stopSse.
   const sseRef = useRef<EventSource | null>(null);
+  // Bumped by stopSse() every time a connection is torn down (terminal state, session
+  // change, or unmount). Each connection's open/message/error handlers capture the value
+  // in effect at creation time, so a mismatch means "this connection was already retired" -
+  // the only way a late/racing browser event can be told apart from a live one.
+  const sseEpochRef = useRef<number>(0);
   const endRef = useRef<HTMLDivElement | null>(null);
 
   // Instrumentation refs — tracking state across renders and interval callbacks.
@@ -264,25 +270,51 @@ export default function Home() {
     }
   }
 
-  // SSE is acceleration only: a `message` event just triggers the same authoritative
-  // pollOnce() fetch polling already uses (never appends SSE data directly, never trusts
-  // it over the database). Polling's own interval, startup, stopping, timeout, and error
-  // behaviour above are untouched - this only adds a faster trigger for the same refresh.
+  // SSE is now the normal delivery path; polling is the fallback. Both start together
+  // (see loadMessages/send) so polling covers the gap while the connection is still being
+  // established. Once `open` fires, a recovery refresh runs and the fallback interval
+  // stops; if the connection later errors, polling resumes until it recovers. Native
+  // EventSource reconnection is solely responsible for reconnect attempts - this file
+  // never closes and recreates the connection itself, and never adds a custom retry timer.
+  // A `message` event never reads its payload - it only triggers the same authoritative
+  // pollOnce() fetch polling already uses, so the database is always what gets rendered.
   function startSse(sessionId: string): void {
     if (sseRef.current) return; // already connected for the active session
+    const epoch = sseEpochRef.current; // captured once; stopSse() bumps this on teardown
+    const isStale = () => activeIdRef.current !== sessionId || sseEpochRef.current !== epoch;
+
     const source = new EventSource(`/api/sessions/${sessionId}/events`);
+
+    source.addEventListener('open', () => {
+      if (isStale()) return;
+      // Recovery refresh: picks up anything that may have changed while this connection
+      // was still connecting (or reconnecting after a prior error).
+      pollOnce().then(() => {
+        // pollOnce() may have already torn this connection down via stopSse() if the
+        // refresh found a terminal state - re-check before touching polling again.
+        if (isStale()) return;
+        stopPolling(); // SSE is confirmed live; the fallback interval is no longer needed
+      });
+    });
+
     source.addEventListener('message', () => {
-      // Defense-in-depth against a stale connection's event arriving after the active
-      // session changed - stopSse() in the activeId effect above already closes the old
-      // session's connection first, but this guard costs nothing and directly prevents a
-      // late/racing event from ever refreshing the wrong session.
-      if (activeIdRef.current !== sessionId) return;
+      if (isStale()) return;
       pollOnce();
     });
+
+    source.addEventListener('error', () => {
+      if (isStale()) return;
+      // Connection dropped - native reconnection is already underway in the background.
+      // Resume the fallback interval only if the response is genuinely still pending, not
+      // merely because the network blipped after the answer had already arrived.
+      if (hasPending(messagesRef.current)) startPolling();
+    });
+
     sseRef.current = source;
   }
 
   function stopSse(): void {
+    sseEpochRef.current += 1; // invalidate any handler still in flight for this connection
     if (sseRef.current) {
       sseRef.current.close();
       sseRef.current = null;
@@ -328,6 +360,14 @@ export default function Home() {
   useEffect(() => {
     activeIdRef.current = activeId;
   }, [activeId]);
+
+  // keep a ref of the current messages so the SSE `error` handler - registered once,
+  // possibly firing much later after several re-renders - can check "is this still
+  // pending" without closing over a stale `messages` snapshot from when it was created.
+  const messagesRef = useRef<Message[]>(messages);
+  useEffect(() => {
+    messagesRef.current = messages;
+  }, [messages]);
 
   async function send(): Promise<void> {
     const text = input.trim();
