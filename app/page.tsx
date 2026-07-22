@@ -148,6 +148,9 @@ export default function Home() {
   // signature without going through that ambient-global intersection, giving the correct
   // browser `number` handle type this ref actually holds.
   const pollRef = useRef<ReturnType<Window['setInterval']> | null>(null);
+  // Acceleration only, not a replacement for polling above - see startSse/stopSse. Holds
+  // at most one open connection at a time, for whichever session is currently pending.
+  const sseRef = useRef<EventSource | null>(null);
   const endRef = useRef<HTMLDivElement | null>(null);
 
   // Instrumentation refs — tracking state across renders and interval callbacks.
@@ -160,19 +163,26 @@ export default function Home() {
   // load the session list once on mount
   useEffect(() => {
     refreshSessions();
-    return stopPolling;
+    return () => {
+      stopPolling();
+      stopSse();
+    };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   // load messages whenever the active session changes
   useEffect(() => {
     stopPolling();
+    stopSse(); // close the previous session's connection before opening a new one
     if (!activeId) {
       setMessages([]);
       return;
     }
     loadMessages(activeId);
-    return stopPolling;
+    return () => {
+      stopPolling();
+      stopSse();
+    };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [activeId]);
 
@@ -231,7 +241,10 @@ export default function Home() {
     const body = isRecord(data) ? data : {};
     const list = toMessageList(body.messages);
     setMessages(list);
-    if (hasPending(list)) startPolling();
+    if (hasPending(list)) {
+      startPolling();
+      startSse(id);
+    }
   }
 
   function hasPending(list: Message[]): boolean {
@@ -248,6 +261,31 @@ export default function Home() {
     if (pollRef.current) {
       window.clearInterval(pollRef.current);
       pollRef.current = null;
+    }
+  }
+
+  // SSE is acceleration only: a `message` event just triggers the same authoritative
+  // pollOnce() fetch polling already uses (never appends SSE data directly, never trusts
+  // it over the database). Polling's own interval, startup, stopping, timeout, and error
+  // behaviour above are untouched - this only adds a faster trigger for the same refresh.
+  function startSse(sessionId: string): void {
+    if (sseRef.current) return; // already connected for the active session
+    const source = new EventSource(`/api/sessions/${sessionId}/events`);
+    source.addEventListener('message', () => {
+      // Defense-in-depth against a stale connection's event arriving after the active
+      // session changed - stopSse() in the activeId effect above already closes the old
+      // session's connection first, but this guard costs nothing and directly prevents a
+      // late/racing event from ever refreshing the wrong session.
+      if (activeIdRef.current !== sessionId) return;
+      pollOnce();
+    });
+    sseRef.current = source;
+  }
+
+  function stopSse(): void {
+    if (sseRef.current) {
+      sseRef.current.close();
+      sseRef.current = null;
     }
   }
 
@@ -274,6 +312,7 @@ export default function Home() {
           });
         }
         stopPolling();
+        stopSse();
       }
     } catch {
       logClientEvent('client_poll_failed', {
@@ -328,6 +367,7 @@ export default function Home() {
       const newMessages = [body.userMessage, body.assistantMessage].filter(isMessage);
       setMessages((m) => [...m, ...newMessages]);
       startPolling();
+      startSse(activeId);
       refreshSessions();
     } finally {
       setBusy(false);
