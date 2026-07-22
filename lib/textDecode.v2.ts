@@ -1,4 +1,4 @@
-// lib/textDecode.v2.js
+// lib/textDecode.v2.ts
 // v2 of the decode fallback. lib/textDecode.js (v1) only ever reversed one encoding
 // (urlEncode/percent-encoding) and is left untouched below it - this file is a structural
 // iteration, not a patch: it adds an HTML/XML-entity decoder for flows built with
@@ -26,13 +26,13 @@ const LOOKS_URL_ENCODED = /%[0-9A-Fa-f]{2}/;
 const LOOKS_HTML_ENCODED = /&(?:amp|lt|gt|quot|apos|#\d+|#x[0-9A-Fa-f]+);/i;
 const HTML_ENTITY = /&(?:(amp|lt|gt|quot|apos)|#(\d+)|#x([0-9A-Fa-f]+));/gi;
 
-const NAMED_ENTITIES = { amp: "&", lt: "<", gt: ">", quot: '"', apos: "'" };
+const NAMED_ENTITIES: Record<string, string> = { amp: "&", lt: "<", gt: ">", quot: '"', apos: "'" };
 
 // Reverses urlEncode(): "+" is a literal space in this convention and decodeURIComponent
 // does not touch it, so swap it in before decoding. Guarded + try/catch because
 // decodeURIComponent throws on a "%" that isn't followed by two hex digits - which plain
 // text containing a percentage ("25% done") would otherwise trip.
-export function decodeUrlEncoding(content) {
+export function decodeUrlEncoding(content: string): string {
   if (typeof content !== "string" || !LOOKS_URL_ENCODED.test(content)) return content;
   try {
     const decoded = decodeURIComponent(content.replace(/\+/g, " "));
@@ -44,25 +44,31 @@ export function decodeUrlEncoding(content) {
 
 // Reverses htmlEncode()/xmlEncode(). Bounds-checked: a crafted numeric reference outside the
 // valid code point range would make String.fromCodePoint throw, so out-of-range refs are left
-// as-is instead of erroring (this endpoint is internet-facing, see route.js).
-export function decodeHtmlEntities(content) {
+// as-is instead of erroring (this endpoint is internet-facing, see route.ts).
+export function decodeHtmlEntities(content: string): string {
   if (typeof content !== "string" || !LOOKS_HTML_ENCODED.test(content)) return content;
-  return content.replace(HTML_ENTITY, (match, name, dec, hex) => {
-    let codePoint;
-    if (dec !== undefined) codePoint = parseInt(dec, 10);
-    else if (hex !== undefined) codePoint = parseInt(hex, 16);
-    if (codePoint !== undefined) {
-      return codePoint >= 0 && codePoint <= 0x10ffff ? String.fromCodePoint(codePoint) : match;
+  return content.replace(
+    HTML_ENTITY,
+    (match: string, name: string | undefined, dec: string | undefined, hex: string | undefined) => {
+      let codePoint: number | undefined;
+      if (dec !== undefined) codePoint = parseInt(dec, 10);
+      else if (hex !== undefined) codePoint = parseInt(hex, 16);
+      if (codePoint !== undefined) {
+        return codePoint >= 0 && codePoint <= 0x10ffff ? String.fromCodePoint(codePoint) : match;
+      }
+      // The regex's three groups are mutually exclusive alternatives, so reaching here
+      // always means `name` matched - but narrow explicitly rather than assert it.
+      if (name === undefined) return match;
+      return NAMED_ENTITIES[name.toLowerCase()] ?? match;
     }
-    return NAMED_ENTITIES[name.toLowerCase()] ?? match;
-  });
+  );
 }
 
 // The dispatcher: inspect the content and apply whichever decoder (if any) matches. Order
 // only matters for the (unlikely, for this app's markdown replies) case where a string could
 // match both signatures - percent-encoding is the more specific signal, so it's tried first.
 // Plain jsonEncode'd text matches neither and passes through unchanged.
-export function decodeAgentText(content) {
+export function decodeAgentText(content: string): string {
   if (typeof content !== "string") return content;
   if (LOOKS_URL_ENCODED.test(content)) return decodeUrlEncoding(content);
   if (LOOKS_HTML_ENCODED.test(content)) return decodeHtmlEntities(content);

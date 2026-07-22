@@ -17,7 +17,7 @@ process.env.CALLBACK_SHARED_SECRET = 'test-callback-secret-abc';
 delete globalThis.__adalfiDb;
 
 // Dynamic imports after env setup.
-const { POST } = await import('../app/api/webhook/callback/route.js');
+const { POST } = await import('../app/api/webhook/callback/route.ts');
 const dbMod = await import('../lib/db.js');
 const { default: db, createSession, addMessage, createRun, getMessage } = dbMod;
 
@@ -116,6 +116,47 @@ test('missing correlationId returns 400', async () => {
   const req = makeCallbackRequest({ content: 'answer', status: 'ok' });
   const res = await POST(req);
   assert.strictEqual(res.status, 400);
+});
+
+test('non-string correlationId (invalid primitive type) returns 400, not a silent DB mismatch', async () => {
+  const req = makeCallbackRequest({ correlationId: 12345, content: 'answer', status: 'ok' });
+  const res = await POST(req);
+  assert.strictEqual(res.status, 400);
+  const body = await res.json();
+  assert.strictEqual(body.error, 'correlationId required');
+});
+
+test('malformed JSON body returns 400 (authentication still evaluated first)', async () => {
+  const req = new Request('http://localhost/api/webhook/callback', {
+    method: 'POST',
+    headers: { 'x-callback-token': process.env.CALLBACK_SHARED_SECRET },
+    body: 'NOT JSON',
+  });
+  const res = await POST(req);
+  assert.strictEqual(res.status, 400);
+  const body = await res.json();
+  assert.strictEqual(body.error, 'correlationId required');
+});
+
+test('optional fields (status, content) may be omitted and still reach persistence', async () => {
+  const { correlationId, assistantMessageId } = makeRun();
+  const req = makeCallbackRequest({ correlationId });
+  const res = await POST(req);
+  assert.strictEqual(res.status, 200);
+  const body = await res.json();
+  assert.ok(body.matched);
+  const msg = getMessage(assistantMessageId);
+  assert.strictEqual(msg.content, ''); // default content
+  assert.strictEqual(msg.status, 'completed'); // default status maps to ok:true
+});
+
+test('arbitrary non-"ok" status value marks the message failed, not just the literal "error"', async () => {
+  const { correlationId, assistantMessageId } = makeRun();
+  const req = makeCallbackRequest({ correlationId, content: 'Something went sideways.', status: 'weird-value' });
+  const res = await POST(req);
+  assert.strictEqual(res.status, 200);
+  const msg = getMessage(assistantMessageId);
+  assert.strictEqual(msg.status, 'failed');
 });
 
 test('error response does not expose stack traces or db paths', async () => {

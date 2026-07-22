@@ -17,16 +17,28 @@
 //
 // Fallback: if a flow edit ever sends `content` through urlEncode, htmlEncode, or xmlEncode
 // instead, it arrives encoded rather than plain - "%3D%3D%3D+P0+COLD..." for urlEncode, or
-// "&amp;"-style entities for htmlEncode/xmlEncode. decodeAgentText (lib/textDecode.v2.js)
+// "&amp;"-style entities for htmlEncode/xmlEncode. decodeAgentText (lib/textDecode.v2.ts)
 // inspects the content and picks whichever decoder matches; it's a no-op on the intended
 // jsonEncode path, where none of those signatures appear.
 import { completeRunByCorrelation, getRunByCorrelation } from "@/lib/db";
 import { decodeAgentText } from "@/lib/textDecode.v2";
 import { logEvent } from "@/lib/instrumentation";
+import { parseRovoCallbackBody } from "@/lib/rovoContracts";
 
 export const runtime = "nodejs";
 
-export async function POST(request) {
+// lib/db.js has not been converted yet (a later slice), so getRunByCorrelation's return
+// type is inferred as `any`. This narrows it to the three read-only fields this route uses
+// for logging/lookup. It is trusted internal data produced by this same app, not the
+// untrusted callback body below, so a direct assertion (rather than runtime validation) is
+// the appropriate tool here.
+interface WebhookRunLookup {
+  id: string;
+  session_id: string;
+  assistant_message_id: string;
+}
+
+export async function POST(request: Request): Promise<Response> {
   const callbackReceivedAt = Date.now();
 
   // Emit callback_received immediately — this is the reference timestamp for all
@@ -46,50 +58,52 @@ export async function POST(request) {
     return Response.json({ error: "unauthorized" }, { status: 401 });
   }
 
-  // 2) parse
-  const body = await request.json().catch(() => null);
-  if (!body?.correlationId) {
-    return Response.json({ error: "correlationId required" }, { status: 400 });
+  // 2) parse + validate. The body stays `unknown` until parseRovoCallbackBody narrows it -
+  // it is never typed via a bare assertion, since this is the highest-risk trust boundary
+  // in the app (public internet, authenticated only by the shared-secret header above).
+  const rawBody: unknown = await request.json().catch(() => null);
+  const parsed = parseRovoCallbackBody(rawBody);
+  if (!parsed.valid) {
+    return Response.json({ error: parsed.reason }, { status: 400 });
   }
+  const { correlationId, ok, content: rawContent } = parsed.data;
 
   // Look up the run to surface sessionId, runId, and messageId in subsequent log entries.
   // correlationId = assistantMessage.id, so messageId is the same value — named separately
   // for log readability. The run may not exist for unknown/duplicate correlationIds.
-  const run = getRunByCorrelation(body.correlationId);
+  const run = getRunByCorrelation(correlationId) as WebhookRunLookup | undefined;
   const sessionId = run?.session_id;
   const runId = run?.id;
   const messageId = run?.assistant_message_id;
 
   const validatedAt = Date.now();
   logEvent('callback_validated', {
-    correlationId: body.correlationId,
+    correlationId,
     sessionId,
     runId,
     messageId,
     durationMs: validatedAt - callbackReceivedAt,
     durationFrom: 'callback_received',
     status: 'success',
-    contentPresent: typeof body.content === 'string' && body.content.length > 0,
-    contentLength: typeof body.content === 'string' ? body.content.length : 0,
+    contentPresent: rawContent.length > 0,
+    contentLength: rawContent.length,
   });
 
   // 3) the answer. jsonEncode on the Rovo side means this is normally already plain,
   // readable text - JSON.parse() above has already unescaped the quotes/newlines jsonEncode
   // added. decodeAgentText is the fallback for the urlEncode/htmlEncode/xmlEncode case above.
-  const rawContent = typeof body.content === "string" ? body.content : "";
   const content = decodeAgentText(rawContent);
-  const ok = (body.status ?? "ok") === "ok";
 
   // 4) fill the pending reply (idempotent: unknown/duplicate correlationId -> matched:false, harmless)
   const matched = completeRunByCorrelation({
-    correlationId: body.correlationId,
+    correlationId,
     ok,
     content,
-    rawPayload: JSON.stringify(body).slice(0, 5000),
+    rawPayload: JSON.stringify(rawBody).slice(0, 5000),
   });
 
   logEvent('database_update_completed', {
-    correlationId: body.correlationId,
+    correlationId,
     sessionId,
     runId,
     messageId,

@@ -27,7 +27,7 @@ delete globalThis.__adalfiDb;
 // --- Dynamic imports ---
 const { logEvent } = await import('../lib/instrumentation.js');
 const { POST: messagesPost } = await import('../app/api/sessions/[id]/messages/route.js');
-const { POST: callbackPost } = await import('../app/api/webhook/callback/route.js');
+const { POST: callbackPost } = await import('../app/api/webhook/callback/route.ts');
 const { POST: logPost } = await import('../app/api/log/route.js');
 const dbMod = await import('../lib/db.js');
 const { default: db, createSession, addMessage, createRun, getRunByCorrelation } = dbMod;

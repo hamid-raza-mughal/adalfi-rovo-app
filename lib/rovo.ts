@@ -1,9 +1,11 @@
-// lib/rovo.js
+// lib/rovo.ts
 // Fires ONE Rovo Studio automation flow via its Incoming webhook.
 // IMPORTANT: a 200 here is only an ACK that the flow was accepted - it is NOT the agent's answer.
 // The answer comes back later to /api/webhook/callback. Never treat this 200 as "done".
 
-export async function fireRovo({ sessionId, correlationId, prompt, callbackUrl }) {
+import type { FireRovoPayload } from "@/lib/rovoContracts";
+
+export async function fireRovo({ sessionId, correlationId, prompt, callbackUrl }: FireRovoPayload): Promise<true> {
   const url = process.env.ROVO_WEBHOOK_URL;
   const secret = process.env.ROVO_WEBHOOK_SECRET;
   if (!url || !secret) {

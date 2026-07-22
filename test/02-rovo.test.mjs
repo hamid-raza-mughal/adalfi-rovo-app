@@ -5,7 +5,7 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
 
-import { fireRovo } from '../lib/rovo.js';
+import { fireRovo } from '../lib/rovo.ts';
 
 // --- helpers ---
 
