@@ -39,7 +39,7 @@ export async function POST(request, { params }) {
   if (!session) return Response.json({ error: "not found" }, { status: 404 });
 
   const body = await request.json().catch(() => ({}));
-  const content = (body?.content || "").trim();
+  const content = typeof body?.content === "string" ? body.content.trim() : "";
   if (!content) return Response.json({ error: "content required" }, { status: 400 });
 
   // clientRequestId is generated in the browser before submission and echoed here so that

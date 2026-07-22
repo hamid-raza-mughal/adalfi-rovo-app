@@ -155,3 +155,88 @@ test('POST messages with valid tunnel creates a webhook run', async () => {
     globalThis.fetch = original;
   }
 });
+
+// --- tests: content validation (typeof guard before .trim()) ---
+// A truthy non-string body.content (number, object, array, boolean) previously reached
+// `.trim()` directly and crashed with an unhandled TypeError. These confirm every such
+// value now returns the same 400 "content required" response the route already used for
+// missing/empty content, instead of throwing or returning 500.
+
+test('valid string content passes validation and proceeds past the content gate', async () => {
+  clearRuntimeFile(); // no tunnel: proves this reached the tunnel gate, not rejected for content
+  const session = createSession('Valid content test');
+  const req = makePostRequest(session.id, 'Hello, agent.', null);
+  const res = await messagesPost(req, params(session.id));
+  assert.strictEqual(res.status, 503); // tunnel-not-ready, NOT 400 - content was accepted
+});
+
+test('string with surrounding whitespace is trimmed and passes validation', async () => {
+  clearRuntimeFile();
+  const session = createSession('Whitespace trim test');
+  const req = makePostRequest(session.id, '   Hello, agent.   ', null);
+  const res = await messagesPost(req, params(session.id));
+  assert.strictEqual(res.status, 503); // passed content validation, reached the tunnel gate
+});
+
+test('empty string content returns 400 content required', async () => {
+  const session = createSession('Empty string test');
+  const req = makePostRequest(session.id, '', null);
+  const res = await messagesPost(req, params(session.id));
+  assert.strictEqual(res.status, 400);
+  const body = await res.json();
+  assert.strictEqual(body.error, 'content required');
+});
+
+test('whitespace-only content returns 400 content required', async () => {
+  const session = createSession('Whitespace only test');
+  const req = makePostRequest(session.id, '   \n\t  ', null);
+  const res = await messagesPost(req, params(session.id));
+  assert.strictEqual(res.status, 400);
+  const body = await res.json();
+  assert.strictEqual(body.error, 'content required');
+});
+
+test('number content is rejected with 400, not a 500 crash', async () => {
+  const session = createSession('Number content test');
+  const req = makePostRequest(session.id, 12345, null);
+  const res = await messagesPost(req, params(session.id));
+  assert.strictEqual(res.status, 400);
+  const body = await res.json();
+  assert.strictEqual(body.error, 'content required');
+});
+
+test('object content is rejected with 400, not a 500 crash', async () => {
+  const session = createSession('Object content test');
+  const req = makePostRequest(session.id, { nested: 'value' }, null);
+  const res = await messagesPost(req, params(session.id));
+  assert.strictEqual(res.status, 400);
+  const body = await res.json();
+  assert.strictEqual(body.error, 'content required');
+});
+
+test('array content is rejected with 400, not a 500 crash', async () => {
+  const session = createSession('Array content test');
+  const req = makePostRequest(session.id, ['a', 'b', 'c'], null);
+  const res = await messagesPost(req, params(session.id));
+  assert.strictEqual(res.status, 400);
+  const body = await res.json();
+  assert.strictEqual(body.error, 'content required');
+});
+
+test('boolean content is rejected with 400, not a 500 crash', async () => {
+  const session = createSession('Boolean content test');
+  const req = makePostRequest(session.id, true, null);
+  const res = await messagesPost(req, params(session.id));
+  assert.strictEqual(res.status, 400);
+  const body = await res.json();
+  assert.strictEqual(body.error, 'content required');
+});
+
+test('null content is rejected with 400 content required', async () => {
+  const session = createSession('Null content test');
+  const req = makePostRequest(session.id, null, null);
+  const res = await messagesPost(req, params(session.id));
+  assert.strictEqual(res.status, 400);
+  const body = await res.json();
+  assert.strictEqual(body.error, 'content required');
+});
