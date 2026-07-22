@@ -1,7 +1,70 @@
 "use client";
-import { useEffect, useRef, useState } from "react";
-import ReactMarkdown from "react-markdown";
+import { useEffect, useRef, useState, type KeyboardEvent } from "react";
+import ReactMarkdown, { type Components } from "react-markdown";
 import remarkGfm from "remark-gfm";
+
+// ---------------------------------------------------------------------------
+// Client-safe models. Deliberately local (not imported from lib/db.ts): this
+// file is "use client" and must never pull in a module reachable from
+// better-sqlite3. These mirror only the fields this UI actually reads from
+// the wire - not the full server row shape.
+// ---------------------------------------------------------------------------
+interface Session {
+  id: string;
+  title: string;
+  created_at: string;
+  updated_at: string;
+}
+
+type MessageRole = "user" | "assistant" | "system";
+type MessageStatus = "pending" | "completed" | "failed";
+
+interface Message {
+  id: string;
+  role: MessageRole;
+  content: string;
+  status: MessageStatus;
+  created_at: string;
+}
+
+// ---------------------------------------------------------------------------
+// Lightweight local narrowing for network responses. Not a schema library:
+// each check is a shallow, single-purpose guard for exactly the field this
+// file touches, matching the same-origin, self-typed API this page talks to.
+// ---------------------------------------------------------------------------
+function isRecord(value: unknown): value is Record<string, unknown> {
+  return typeof value === "object" && value !== null && !Array.isArray(value);
+}
+
+function isMessage(value: unknown): value is Message {
+  return (
+    isRecord(value) &&
+    typeof value.id === "string" &&
+    (value.role === "user" || value.role === "assistant" || value.role === "system") &&
+    typeof value.content === "string" &&
+    (value.status === "pending" || value.status === "completed" || value.status === "failed") &&
+    typeof value.created_at === "string"
+  );
+}
+
+function isSession(value: unknown): value is Session {
+  return (
+    isRecord(value) &&
+    typeof value.id === "string" &&
+    value.id.length > 0 &&
+    typeof value.title === "string" &&
+    typeof value.created_at === "string" &&
+    typeof value.updated_at === "string"
+  );
+}
+
+function toSessionList(value: unknown): Session[] {
+  return Array.isArray(value) ? value : [];
+}
+
+function toMessageList(value: unknown): Message[] {
+  return Array.isArray(value) ? value : [];
+}
 
 // ---------------------------------------------------------------------------
 // Client-side lifecycle instrumentation
@@ -9,9 +72,34 @@ import remarkGfm from "remark-gfm";
 // server's /api/log endpoint so one unified trace appears on stdout.
 // Never throws; never logs prompt/response content, secrets, or URLs.
 // ---------------------------------------------------------------------------
-function logClientEvent(event, meta = {}) {
+interface ClientEventMeta {
+  clientRequestId?: string | null;
+  correlationId?: string | null;
+  sessionId?: string | null;
+  messageId?: string | null;
+  durationMs?: number;
+  durationFrom?: string;
+  status?: string;
+  promptLength?: number;
+}
+
+interface ClientLogEntry {
+  event: string;
+  timestamp: string;
+  source: "browser";
+  clientRequestId?: string | null;
+  correlationId?: string | null;
+  sessionId?: string | null;
+  messageId?: string | null;
+  durationMs?: number;
+  durationFrom?: string;
+  status?: string;
+  promptLength?: number;
+}
+
+function logClientEvent(event: string, meta: ClientEventMeta = {}): void {
   try {
-    const entry = { event, timestamp: new Date().toISOString(), source: 'browser' };
+    const entry: ClientLogEntry = { event, timestamp: new Date().toISOString(), source: 'browser' };
     if (meta.clientRequestId !== undefined) entry.clientRequestId = meta.clientRequestId;
     if (meta.correlationId !== undefined) entry.correlationId = meta.correlationId;
     if (meta.sessionId !== undefined) entry.sessionId = meta.sessionId;
@@ -34,30 +122,40 @@ function logClientEvent(event, meta = {}) {
   } catch {} // eslint-disable-line no-empty
 }
 
-// Assistant/system replies come from Rovo as markdown (see lib/textDecode.v2.js); render them
+// Assistant/system replies come from Rovo as markdown (see lib/textDecode.v2.ts); render them
 // instead of showing raw "**bold**"/"# heading" syntax. User messages stay as plain text -
 // nothing to render, and it keeps whatever a person literally typed from being reinterpreted.
 // No rehype-raw plugin: react-markdown's default (markdown -> elements only, no raw HTML
 // passthrough) is the safer choice for content arriving over the internet-facing callback route.
-const MARKDOWN_COMPONENTS = {
+const MARKDOWN_COMPONENTS: Components = {
   a: ({ node, ...props }) => <a {...props} target="_blank" rel="noopener noreferrer" />,
 };
 
 export default function Home() {
-  const [sessions, setSessions] = useState([]);
-  const [activeId, setActiveId] = useState(null);
-  const [messages, setMessages] = useState([]);
-  const [input, setInput] = useState("");
-  const [busy, setBusy] = useState(false);
-  const pollRef = useRef(null);
-  const endRef = useRef(null);
+  const [sessions, setSessions] = useState<Session[]>([]);
+  const [activeId, setActiveId] = useState<string | null>(null);
+  const [messages, setMessages] = useState<Message[]>([]);
+  const [input, setInput] = useState<string>("");
+  const [busy, setBusy] = useState<boolean>(false);
+  // `ReturnType<Window['setInterval']>` rather than `ReturnType<typeof window.setInterval>`:
+  // in this project's type environment `window` is typed as `Window & typeof globalThis`, and
+  // @types/node's ambient `declare global { function setInterval(...): NodeJS.Timeout }`
+  // pollutes a bare `typeof window.setInterval` lookup even through the `window.` qualifier
+  // (verified: `ReturnType<typeof window.setInterval>` resolves to `Timeout`, but the actual
+  // call `window.setInterval(fn, ms)` below still returns `number` - the two disagree, and
+  // assigning the real return value to a `Timeout`-typed ref fails to compile). Indexing the
+  // `Window` interface directly (`Window['setInterval']`) reads the DOM lib's own method
+  // signature without going through that ambient-global intersection, giving the correct
+  // browser `number` handle type this ref actually holds.
+  const pollRef = useRef<ReturnType<Window['setInterval']> | null>(null);
+  const endRef = useRef<HTMLDivElement | null>(null);
 
   // Instrumentation refs — tracking state across renders and interval callbacks.
-  const promptSubmittedAtRef = useRef(null);   // Date.now() when the user hit Send
-  const clientRequestIdRef = useRef(null);     // UUID generated in the browser before each submission
-  const lastCorrelationIdRef = useRef(null);   // assistantMessage.id returned by the server
-  const pendingDetectedRef = useRef(false);    // true while we're polling for a response
-  const renderedMessageIds = useRef(new Set()); // guards against duplicate response_rendered events
+  const promptSubmittedAtRef = useRef<number | null>(null);   // Date.now() when the user hit Send
+  const clientRequestIdRef = useRef<string | null>(null);     // UUID generated in the browser before each submission
+  const lastCorrelationIdRef = useRef<string | null>(null);   // assistantMessage.id returned by the server
+  const pendingDetectedRef = useRef<boolean>(false);          // true while we're polling for a response
+  const renderedMessageIds = useRef<Set<string>>(new Set());  // guards against duplicate response_rendered events
 
   // load the session list once on mount
   useEffect(() => {
@@ -104,20 +202,21 @@ export default function Home() {
     });
   }, [messages, activeId]);
 
-  async function refreshSessions() {
+  async function refreshSessions(): Promise<void> {
     const res = await fetch("/api/sessions");
-    const data = await res.json();
-    setSessions(data.sessions || []);
-    setActiveId((cur) => cur || data.sessions?.[0]?.id || null);
+    const data: unknown = await res.json();
+    const body = isRecord(data) ? data : {};
+    const sessionList = toSessionList(body.sessions);
+    setSessions(sessionList);
+    setActiveId((cur) => cur || sessionList[0]?.id || null);
   }
 
-  async function newChat() {
+  async function newChat(): Promise<void> {
     const res = await fetch("/api/sessions", { method: "POST" });
-    const data = await res.json().catch(() => null);
-    const session = data?.session;
-    const validSession =
-      res.ok && typeof session === "object" && session !== null && typeof session.id === "string" && session.id.length > 0;
-    if (!validSession) {
+    const data: unknown = await res.json().catch(() => null);
+    const body = isRecord(data) ? data : {};
+    const session = body.session;
+    if (!res.ok || !isSession(session)) {
       logClientEvent('new_chat_failed', { status: 'failed' });
       return;
     }
@@ -126,38 +225,40 @@ export default function Home() {
     setMessages([]);
   }
 
-  async function loadMessages(id) {
+  async function loadMessages(id: string): Promise<void> {
     const res = await fetch(`/api/sessions/${id}/messages`);
-    const data = await res.json();
-    const list = data.messages || [];
+    const data: unknown = await res.json();
+    const body = isRecord(data) ? data : {};
+    const list = toMessageList(body.messages);
     setMessages(list);
     if (hasPending(list)) startPolling();
   }
 
-  function hasPending(list) {
+  function hasPending(list: Message[]): boolean {
     return list.some((m) => m.role === "assistant" && m.status === "pending");
   }
 
-  function startPolling() {
+  function startPolling(): void {
     pendingDetectedRef.current = true;
     if (pollRef.current) return; // already polling
-    pollRef.current = setInterval(pollOnce, 2500);
+    pollRef.current = window.setInterval(pollOnce, 2500);
   }
 
-  function stopPolling() {
+  function stopPolling(): void {
     if (pollRef.current) {
-      clearInterval(pollRef.current);
+      window.clearInterval(pollRef.current);
       pollRef.current = null;
     }
   }
 
-  async function pollOnce() {
+  async function pollOnce(): Promise<void> {
     const id = activeIdRef.current;
     if (!id) return;
     try {
       const res = await fetch(`/api/sessions/${id}/messages`);
-      const data = await res.json();
-      const list = data.messages || [];
+      const data: unknown = await res.json();
+      const body = isRecord(data) ? data : {};
+      const list = toMessageList(body.messages);
       setMessages(list);
       if (!hasPending(list)) {
         // Detect transition: we were waiting and the response is now present.
@@ -184,12 +285,12 @@ export default function Home() {
   }
 
   // keep a ref of the active id so the interval callback always sees the current value
-  const activeIdRef = useRef(activeId);
+  const activeIdRef = useRef<string | null>(activeId);
   useEffect(() => {
     activeIdRef.current = activeId;
   }, [activeId]);
 
-  async function send() {
+  async function send(): Promise<void> {
     const text = input.trim();
     if (!text || !activeId || busy || hasPending(messages)) return;
 
@@ -216,14 +317,16 @@ export default function Home() {
         // and is never passed to Rovo or stored in the database.
         body: JSON.stringify({ content: text, clientRequestId }),
       });
-      const data = await res.json();
+      const data: unknown = await res.json();
+      const body = isRecord(data) ? data : {};
 
       // Capture the correlationId (assistantMessage.id) for subsequent lifecycle events.
-      if (data.assistantMessage?.id) {
-        lastCorrelationIdRef.current = data.assistantMessage.id;
+      if (isMessage(body.assistantMessage)) {
+        lastCorrelationIdRef.current = body.assistantMessage.id;
       }
 
-      setMessages((m) => [...m, data.userMessage, data.assistantMessage].filter(Boolean));
+      const newMessages = [body.userMessage, body.assistantMessage].filter(isMessage);
+      setMessages((m) => [...m, ...newMessages]);
       startPolling();
       refreshSessions();
     } finally {
@@ -231,7 +334,7 @@ export default function Home() {
     }
   }
 
-  function onKey(e) {
+  function onKey(e: KeyboardEvent<HTMLTextAreaElement>): void {
     if (e.key === "Enter" && !e.shiftKey) {
       e.preventDefault();
       send();
