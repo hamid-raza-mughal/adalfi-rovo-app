@@ -288,12 +288,16 @@ export default function Home() {
     source.addEventListener('open', () => {
       if (isStale()) return;
       // Recovery refresh: picks up anything that may have changed while this connection
-      // was still connecting (or reconnecting after a prior error).
-      pollOnce().then(() => {
+      // was still connecting (or reconnecting after a prior error). Only stop the fallback
+      // interval if this refresh actually succeeded - if it failed (e.g. a transient
+      // network blip unrelated to SSE health), polling must keep running so it can still
+      // recover the response; otherwise a failed one-off fetch here would leave the client
+      // permanently pending with no active delivery mechanism.
+      pollOnce().then((succeeded) => {
         // pollOnce() may have already torn this connection down via stopSse() if the
         // refresh found a terminal state - re-check before touching polling again.
         if (isStale()) return;
-        stopPolling(); // SSE is confirmed live; the fallback interval is no longer needed
+        if (succeeded) stopPolling(); // SSE confirmed live and refresh succeeded - fallback no longer needed
       });
     });
 
@@ -321,9 +325,14 @@ export default function Home() {
     }
   }
 
-  async function pollOnce(): Promise<void> {
+  // Returns whether the refresh actually succeeded - callers that gate further action on it
+  // (the SSE `open` handler) need to tell "fetched fresh data" apart from "the request
+  // failed and setMessages was never called for it". The interval timer and the SSE
+  // `message` handler both still call this the same fire-and-forget way as before and
+  // simply ignore the return value - this is additive, not a behaviour change for them.
+  async function pollOnce(): Promise<boolean> {
     const id = activeIdRef.current;
-    if (!id) return;
+    if (!id) return false;
     try {
       const res = await fetch(`/api/sessions/${id}/messages`);
       const data: unknown = await res.json();
@@ -346,12 +355,14 @@ export default function Home() {
         stopPolling();
         stopSse();
       }
+      return true;
     } catch {
       logClientEvent('client_poll_failed', {
         clientRequestId: clientRequestIdRef.current,
         sessionId: id,
         status: 'failed',
       });
+      return false;
     }
   }
 
