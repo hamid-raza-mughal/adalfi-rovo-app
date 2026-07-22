@@ -1,0 +1,65 @@
+/**
+ * Application semantic layer + Tailwind theme connection point.
+ *
+ * The @theme block below is what makes Tailwind utilities (bg-*, text-*, font-*, rounded-*,
+ * ...) exist at all in this project — Tailwind's own default theme is deliberately not
+ * imported (see app/globals.css), so nothing here duplicates or competes with the generated
+ * Figma tokens in tokens.generated.css. Every @theme value references a generated token via
+ * var(...), never a hardcoded literal.
+ *
+ * Color mapping is Material-naming-convention-driven (the source Figma variables already
+ * use it: "on_X" = the ink color for use on top of X, "_variant" = a secondary/elevated
+ * tier), so this is a low-judgment mapping, not a guess:
+ *   background/surface  -> System/Background, System/Surfaces
+ *   text                 -> System/Surfaces/on_surface(_variant)
+ *   border               -> System/Outlines/outline
+ *   action (primary CTA) -> System/Accents/primary + on_primary
+ *   status               -> System/Expressions/*
+ *
+ * Spacing is deliberately NOT aliased here: the export has six parallel named scales
+ * (4-scale, 8-scale, tiny, negative, aux, grid/*) with no single canonical "the" spacing
+ * scale declared by the source — picking one is a real component-level design decision,
+ * not a mechanical one. The raw --figma-layout-* tokens remain fully available for
+ * low-level composition per the documented consumption priority (theme.css's header below).
+ * Border width is likewise left as raw --figma-border-stroke-* tokens for the same reason —
+ * only one scale exists, but no consuming component exists yet to confirm which weight is
+ * "the" default. Shadow gets no separate semantic alias: there is exactly one effect style
+ * in the export, and it's already a complete, directly-usable recipe
+ * (.effect-style-dropdown-shadows-grid-header-effect) — wrapping it in another alias would
+ * add indirection without adding meaning.
+ */
+
+@theme {
+  --font-sans: var(--figma-font-fonts-primary);
+
+  --color-app-background: var(--figma-color-system-background-bg);
+  --color-surface: var(--figma-color-system-surfaces-surface);
+  --color-surface-elevated: var(--figma-color-system-surfaces-surface-variant);
+  --color-text-primary: var(--figma-color-system-surfaces-on-surface);
+  --color-text-secondary: var(--figma-color-system-surfaces-on-surface-variant);
+  --color-border: var(--figma-color-system-outlines-outline);
+  --color-action-primary: var(--figma-color-system-accents-primary);
+  --color-action-on-primary: var(--figma-color-system-accents-on-primary);
+  --color-status-success: var(--figma-color-system-expressions-success);
+  --color-status-info: var(--figma-color-system-expressions-info);
+  --color-status-warning: var(--figma-color-system-expressions-warning);
+  --color-status-error: var(--figma-color-system-expressions-error);
+
+  --radius-xxs: var(--figma-border-radius-global-xxs);
+  --radius-xs: var(--figma-border-radius-global-xs);
+  --radius-sm: var(--figma-border-radius-global-sm);
+  --radius-md: var(--figma-border-radius-global-md);
+  --radius-lg: var(--figma-border-radius-global-lg);
+  --radius-xl: var(--figma-border-radius-global-xl);
+  --radius-full: var(--figma-border-radius-global-full);
+}
+
+/**
+ * Consumption priority (documented per Part 5):
+ *   1. An approved complete style recipe (text-style-*, paint-style-*, effect-style-*)
+ *      when it defines the complete design.
+ *   2. Application semantic tokens (the color, radius, and font aliases above, surfaced
+ *      as Tailwind utilities: bg-app-background, text-text-primary, rounded-sm, ...).
+ *   3. Raw generated --figma- variables only for low-level design-system composition.
+ *   4. Never a hardcoded value when an appropriate exported token already exists.
+ */

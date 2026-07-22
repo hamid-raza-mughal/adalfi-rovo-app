@@ -1,0 +1,2292 @@
+/**
+ * GENERATED FILE — do not hand-edit.
+ * Source: Adalfi Design Tokens (schema 1.1, exported 2026-07-22T18:47:34.002Z)
+ * Produced by scripts/generate-design-system.mts from design-tokens/adalfi-design-tokens.json
+ */
+
+:root {
+  --paint-style-brand-dark-green-1: rgb(7 33 38 / 100%);
+  --paint-style-brand-dark-green-2: rgb(17 48 55 / 100%);
+  --paint-style-brand-dark-green-3: rgb(47 93 99 / 100%);
+  --paint-style-brand-grey-1: rgb(151 171 175 / 100%);
+  --paint-style-brand-grey-2: rgb(201 208 209 / 100%);
+  --paint-style-brand-grey-3: rgb(238 239 237 / 100%);
+  --paint-style-brand-beige-1: rgb(231 226 214 / 100%);
+  --paint-style-brand-beige-2: rgb(245 243 239 / 100%);
+  --paint-style-ref-brand-prim-prim-2: rgb(1 25 20 / 100%);
+  --paint-style-ref-brand-prim-prim-10: rgb(8 68 58 / 100%);
+  --paint-style-ref-brand-prim-prim-20: rgb(2 100 76 / 100%);
+  --paint-style-ref-brand-prim-prim-30: rgb(5 122 91 / 100%);
+  --paint-style-ref-brand-prim-prim-40: rgb(9 144 106 / 100%);
+  --paint-style-ref-brand-prim-prim-50: rgb(15 168 122 / 100%);
+  --paint-style-ref-brand-prim-prim-60: rgb(21 193 136 / 100%);
+  --paint-style-ref-brand-prim-prim-70: rgb(30 215 152 / 100%);
+  --paint-style-ref-brand-prim-prim-80: rgb(92 235 187 / 100%);
+  --paint-style-ref-brand-prim-prim-90: rgb(163 245 218 / 100%);
+  --paint-style-ref-brand-prim-prim-95: rgb(205 249 234 / 100%);
+  --paint-style-ref-brand-prim-prim-97: rgb(232 252 246 / 100%);
+  --paint-style-ref-brand-scnd-scnd-2: rgb(24 21 12 / 100%);
+  --paint-style-ref-brand-scnd-scnd-10: rgb(62 53 29 / 100%);
+  --paint-style-ref-brand-scnd-scnd-20: rgb(90 76 43 / 100%);
+  --paint-style-ref-brand-scnd-scnd-30: rgb(116 99 58 / 100%);
+  --paint-style-ref-brand-scnd-scnd-40: rgb(140 119 71 / 100%);
+  --paint-style-ref-brand-scnd-scnd-50: rgb(164 141 86 / 100%);
+  --paint-style-ref-brand-scnd-scnd-60: rgb(179 160 115 / 100%);
+  --paint-style-ref-brand-scnd-scnd-70: rgb(194 180 146 / 100%);
+  --paint-style-ref-brand-scnd-scnd-80: rgb(210 199 174 / 100%);
+  --paint-style-ref-brand-scnd-scnd-90: rgb(231 226 214 / 100%);
+  --paint-style-ref-brand-scnd-scnd-95: rgb(241 236 224 / 100%);
+  --paint-style-ref-brand-scnd-scnd-97: rgb(245 243 239 / 100%);
+  --paint-style-ref-m2-red-red-10: rgb(183 28 28 / 100%);
+  --paint-style-ref-m2-red-red-20: rgb(198 40 40 / 100%);
+  --paint-style-ref-m2-red-red-30: rgb(211 47 47 / 100%);
+  --paint-style-ref-m2-red-red-40: rgb(229 57 53 / 100%);
+  --paint-style-ref-m2-red-red-50: rgb(244 67 54 / 100%);
+  --paint-style-ref-m2-red-red-60: rgb(239 83 80 / 100%);
+  --paint-style-ref-m2-red-red-70: rgb(229 115 115 / 100%);
+  --paint-style-ref-m2-red-red-80: rgb(239 154 154 / 100%);
+  --paint-style-ref-m2-red-red-90: rgb(255 205 210 / 100%);
+  --paint-style-ref-m2-red-red-95: rgb(255 235 238 / 100%);
+  --paint-style-ref-m2-red-red-a-90: rgb(255 138 128 / 100%);
+  --paint-style-ref-m2-red-red-a-80: rgb(255 82 82 / 100%);
+  --paint-style-ref-m2-red-red-a-60: rgb(255 23 68 / 100%);
+  --paint-style-ref-m2-red-red-a-30: rgb(213 0 0 / 100%);
+  --paint-style-ref-m2-pink-pink-10: rgb(136 14 79 / 100%);
+  --paint-style-ref-m2-pink-pink-20: rgb(173 20 87 / 100%);
+  --paint-style-ref-m2-pink-pink-30: rgb(194 24 91 / 100%);
+  --paint-style-ref-m2-pink-pink-40: rgb(216 27 96 / 100%);
+  --paint-style-ref-m2-pink-pink-50: rgb(233 30 99 / 100%);
+  --paint-style-ref-m2-pink-pink-60: rgb(236 64 122 / 100%);
+  --paint-style-ref-m2-pink-pink-70: rgb(240 98 146 / 100%);
+  --paint-style-ref-m2-pink-pink-80: rgb(244 143 177 / 100%);
+  --paint-style-ref-m2-pink-pink-90: rgb(248 187 208 / 100%);
+  --paint-style-ref-m2-pink-pink-95: rgb(252 228 236 / 100%);
+  --paint-style-ref-m2-pink-pink-a-90: rgb(255 128 171 / 100%);
+  --paint-style-ref-m2-pink-pink-a-80: rgb(255 64 129 / 100%);
+  --paint-style-ref-m2-pink-pink-a-60: rgb(245 0 87 / 100%);
+  --paint-style-ref-m2-pink-pink-a-30: rgb(197 17 98 / 100%);
+  --paint-style-ref-m2-purple-purple-10: rgb(74 20 140 / 100%);
+  --paint-style-ref-m2-purple-purple-20: rgb(106 27 154 / 100%);
+  --paint-style-ref-m2-purple-purple-30: rgb(123 31 162 / 100%);
+  --paint-style-ref-m2-purple-purple-40: rgb(142 36 170 / 100%);
+  --paint-style-ref-m2-purple-purple-50: rgb(156 39 176 / 100%);
+  --paint-style-ref-m2-purple-purple-60: rgb(171 71 188 / 100%);
+  --paint-style-ref-m2-purple-purple-70: rgb(186 104 200 / 100%);
+  --paint-style-ref-m2-purple-purple-80: rgb(206 147 216 / 100%);
+  --paint-style-ref-m2-purple-purple-90: rgb(225 190 231 / 100%);
+  --paint-style-ref-m2-purple-purple-95: rgb(243 229 245 / 100%);
+  --paint-style-ref-m2-purple-purple-a-90: rgb(234 128 252 / 100%);
+  --paint-style-ref-m2-purple-purple-a-80: rgb(224 64 251 / 100%);
+  --paint-style-ref-m2-purple-purple-a-60: rgb(213 0 249 / 100%);
+  --paint-style-ref-m2-purple-purple-a-30: rgb(170 0 255 / 100%);
+  --paint-style-ref-m2-deep-purple-dp-purple-10: rgb(49 27 146 / 100%);
+  --paint-style-ref-m2-deep-purple-dp-purple-20: rgb(69 39 160 / 100%);
+  --paint-style-ref-m2-deep-purple-dp-purple-30: rgb(81 45 168 / 100%);
+  --paint-style-ref-m2-deep-purple-dp-purple-40: rgb(94 53 177 / 100%);
+  --paint-style-ref-m2-deep-purple-dp-purple-50: rgb(103 58 183 / 100%);
+  --paint-style-ref-m2-deep-purple-dp-purple-60: rgb(126 87 194 / 100%);
+  --paint-style-ref-m2-deep-purple-dp-purple-70: rgb(149 117 205 / 100%);
+  --paint-style-ref-m2-deep-purple-dp-purple-80: rgb(179 157 219 / 100%);
+  --paint-style-ref-m2-deep-purple-dp-purple-90: rgb(209 196 233 / 100%);
+  --paint-style-ref-m2-deep-purple-dp-purple-95: rgb(237 231 246 / 100%);
+  --paint-style-ref-m2-deep-purple-dp-purple-a-90: rgb(179 136 255 / 100%);
+  --paint-style-ref-m2-deep-purple-dp-purple-a-80: rgb(124 77 255 / 100%);
+  --paint-style-ref-m2-deep-purple-dp-purple-a-60: rgb(101 31 255 / 100%);
+  --paint-style-ref-m2-deep-purple-dp-purple-a-30: rgb(98 0 234 / 100%);
+  --paint-style-ref-m2-indigo-indgo-10: rgb(31 40 90 / 100%);
+  --paint-style-ref-m2-indigo-indgo-20: rgb(40 53 147 / 100%);
+  --paint-style-ref-m2-indigo-indgo-30: rgb(48 63 159 / 100%);
+  --paint-style-ref-m2-indigo-indgo-40: rgb(57 73 171 / 100%);
+  --paint-style-ref-m2-indigo-indgo-50: rgb(63 81 181 / 100%);
+  --paint-style-ref-m2-indigo-indgo-60: rgb(92 107 192 / 100%);
+  --paint-style-ref-m2-indigo-indgo-70: rgb(121 134 203 / 100%);
+  --paint-style-ref-m2-indigo-indgo-80: rgb(159 168 218 / 100%);
+  --paint-style-ref-m2-indigo-indgo-90: rgb(197 202 233 / 100%);
+  --paint-style-ref-m2-indigo-indgo-95: rgb(232 234 246 / 100%);
+  --paint-style-ref-m2-indigo-indgo-a-30: rgb(48 79 254 / 100%);
+  --paint-style-ref-m2-indigo-indgo-a-60: rgb(61 90 254 / 100%);
+  --paint-style-ref-m2-indigo-indgo-a-80: rgb(83 109 254 / 100%);
+  --paint-style-ref-m2-indigo-indgo-a-90: rgb(140 158 255 / 100%);
+  --paint-style-ref-m2-blue-blue-10: rgb(13 71 161 / 100%);
+  --paint-style-ref-m2-blue-blue-20: rgb(21 101 192 / 100%);
+  --paint-style-ref-m2-blue-blue-30: rgb(25 118 210 / 100%);
+  --paint-style-ref-m2-blue-blue-40: rgb(30 136 229 / 100%);
+  --paint-style-ref-m2-blue-blue-50: rgb(33 150 243 / 100%);
+  --paint-style-ref-m2-blue-blue-60: rgb(66 165 245 / 100%);
+  --paint-style-ref-m2-blue-blue-70: rgb(100 181 246 / 100%);
+  --paint-style-ref-m2-blue-blue-80: rgb(144 202 249 / 100%);
+  --paint-style-ref-m2-blue-blue-90: rgb(187 222 251 / 100%);
+  --paint-style-ref-m2-blue-blue-95: rgb(227 242 253 / 100%);
+  --paint-style-ref-m2-blue-blue-a-90: rgb(130 177 255 / 100%);
+  --paint-style-ref-m2-blue-blue-a-80: rgb(68 138 255 / 100%);
+  --paint-style-ref-m2-blue-blue-a-60: rgb(41 121 255 / 100%);
+  --paint-style-ref-m2-blue-blue-a-30: rgb(41 98 255 / 100%);
+  --paint-style-ref-m2-light-blue-lt-blue-10: rgb(1 87 155 / 100%);
+  --paint-style-ref-m2-light-blue-lt-blue-20: rgb(2 119 189 / 100%);
+  --paint-style-ref-m2-light-blue-lt-blue-30: rgb(2 136 209 / 100%);
+  --paint-style-ref-m2-light-blue-lt-blue-40: rgb(3 155 229 / 100%);
+  --paint-style-ref-m2-light-blue-lt-blue-50: rgb(3 169 244 / 100%);
+  --paint-style-ref-m2-light-blue-lt-blue-60: rgb(41 182 246 / 100%);
+  --paint-style-ref-m2-light-blue-lt-blue-70: rgb(79 195 247 / 100%);
+  --paint-style-ref-m2-light-blue-lt-blue-80: rgb(129 212 250 / 100%);
+  --paint-style-ref-m2-light-blue-lt-blue-90: rgb(179 229 252 / 100%);
+  --paint-style-ref-m2-light-blue-lt-blue-95: rgb(225 245 254 / 100%);
+  --paint-style-ref-m2-light-blue-lt-blue-a-30: rgb(0 145 234 / 100%);
+  --paint-style-ref-m2-light-blue-lt-blue-a-60: rgb(0 176 255 / 100%);
+  --paint-style-ref-m2-light-blue-lt-blue-a-80: rgb(64 196 255 / 100%);
+  --paint-style-ref-m2-light-blue-lt-blue-a-90: rgb(128 216 255 / 100%);
+  --paint-style-ref-m2-cyan-cyan-10: rgb(0 96 100 / 100%);
+  --paint-style-ref-m2-cyan-cyan-20: rgb(0 131 143 / 100%);
+  --paint-style-ref-m2-cyan-cyan-30: rgb(0 151 167 / 100%);
+  --paint-style-ref-m2-cyan-cyan-40: rgb(0 172 193 / 100%);
+  --paint-style-ref-m2-cyan-cyan-50: rgb(0 188 212 / 100%);
+  --paint-style-ref-m2-cyan-cyan-60: rgb(38 198 218 / 100%);
+  --paint-style-ref-m2-cyan-cyan-70: rgb(77 208 225 / 100%);
+  --paint-style-ref-m2-cyan-cyan-80: rgb(128 222 234 / 100%);
+  --paint-style-ref-m2-cyan-cyan-90: rgb(178 235 242 / 100%);
+  --paint-style-ref-m2-cyan-cyan-95: rgb(224 247 250 / 100%);
+  --paint-style-ref-m2-cyan-cyan-a-90: rgb(132 255 255 / 100%);
+  --paint-style-ref-m2-cyan-cyan-a-80: rgb(24 255 255 / 100%);
+  --paint-style-ref-m2-cyan-cyan-a-60: rgb(0 229 255 / 100%);
+  --paint-style-ref-m2-cyan-cyan-a-30: rgb(0 184 212 / 100%);
+  --paint-style-ref-m2-teal-teal-10: rgb(0 77 64 / 100%);
+  --paint-style-ref-m2-teal-teal-20: rgb(0 105 92 / 100%);
+  --paint-style-ref-m2-teal-teal-30: rgb(0 121 107 / 100%);
+  --paint-style-ref-m2-teal-teal-40: rgb(0 137 123 / 100%);
+  --paint-style-ref-m2-teal-teal-50: rgb(0 150 136 / 100%);
+  --paint-style-ref-m2-teal-teal-60: rgb(38 166 154 / 100%);
+  --paint-style-ref-m2-teal-teal-70: rgb(77 182 172 / 100%);
+  --paint-style-ref-m2-teal-teal-80: rgb(128 203 196 / 100%);
+  --paint-style-ref-m2-teal-teal-90: rgb(178 223 219 / 100%);
+  --paint-style-ref-m2-teal-teal-95: rgb(224 242 241 / 100%);
+  --paint-style-ref-m2-teal-teal-a-90: rgb(167 255 235 / 100%);
+  --paint-style-ref-m2-teal-teal-a-80: rgb(100 255 218 / 100%);
+  --paint-style-ref-m2-teal-teal-a-60: rgb(29 233 182 / 100%);
+  --paint-style-ref-m2-teal-teal-a-30: rgb(102 192 183 / 100%);
+  --paint-style-ref-m2-green-green-10: rgb(27 94 32 / 100%);
+  --paint-style-ref-m2-green-green-20: rgb(46 125 50 / 100%);
+  --paint-style-ref-m2-green-green-30: rgb(56 142 60 / 100%);
+  --paint-style-ref-m2-green-green-40: rgb(67 160 71 / 100%);
+  --paint-style-ref-m2-green-green-50: rgb(76 175 80 / 100%);
+  --paint-style-ref-m2-green-green-60: rgb(102 187 106 / 100%);
+  --paint-style-ref-m2-green-green-70: rgb(129 199 132 / 100%);
+  --paint-style-ref-m2-green-green-80: rgb(165 214 167 / 100%);
+  --paint-style-ref-m2-green-green-90: rgb(200 230 201 / 100%);
+  --paint-style-ref-m2-green-green-95: rgb(232 245 233 / 100%);
+  --paint-style-ref-m2-green-green-a-90: rgb(185 246 202 / 100%);
+  --paint-style-ref-m2-green-green-a-80: rgb(105 240 174 / 100%);
+  --paint-style-ref-m2-green-green-a-60: rgb(0 230 118 / 100%);
+  --paint-style-ref-m2-green-green-a-30: rgb(0 200 83 / 100%);
+  --paint-style-ref-m2-light-green-lt-green-10: rgb(51 105 30 / 100%);
+  --paint-style-ref-m2-light-green-lt-green-20: rgb(85 139 47 / 100%);
+  --paint-style-ref-m2-light-green-lt-green-30: rgb(104 159 56 / 100%);
+  --paint-style-ref-m2-light-green-lt-green-40: rgb(124 179 66 / 100%);
+  --paint-style-ref-m2-light-green-lt-green-50: rgb(139 195 74 / 100%);
+  --paint-style-ref-m2-light-green-lt-green-60: rgb(156 204 101 / 100%);
+  --paint-style-ref-m2-light-green-lt-green-70: rgb(174 213 129 / 100%);
+  --paint-style-ref-m2-light-green-lt-green-80: rgb(197 225 165 / 100%);
+  --paint-style-ref-m2-light-green-lt-green-90: rgb(220 237 200 / 100%);
+  --paint-style-ref-m2-light-green-lt-green-95: rgb(241 248 233 / 100%);
+  --paint-style-ref-m2-light-green-lt-green-a-90: rgb(204 255 144 / 100%);
+  --paint-style-ref-m2-light-green-lt-green-a-80: rgb(178 255 89 / 100%);
+  --paint-style-ref-m2-light-green-lt-green-a-60: rgb(118 255 3 / 100%);
+  --paint-style-ref-m2-light-green-lt-green-a-30: rgb(100 221 23 / 100%);
+  --paint-style-ref-m2-lime-lime-10: rgb(130 119 23 / 100%);
+  --paint-style-ref-m2-lime-lime-20: rgb(158 157 36 / 100%);
+  --paint-style-ref-m2-lime-lime-30: rgb(175 180 43 / 100%);
+  --paint-style-ref-m2-lime-lime-40: rgb(192 202 51 / 100%);
+  --paint-style-ref-m2-lime-lime-50: rgb(205 220 57 / 100%);
+  --paint-style-ref-m2-lime-lime-60: rgb(212 225 87 / 100%);
+  --paint-style-ref-m2-lime-lime-70: rgb(220 231 117 / 100%);
+  --paint-style-ref-m2-lime-lime-80: rgb(230 238 156 / 100%);
+  --paint-style-ref-m2-lime-lime-90: rgb(240 244 195 / 100%);
+  --paint-style-ref-m2-lime-lime-95: rgb(249 251 231 / 100%);
+  --paint-style-ref-m2-lime-lime-a-90: rgb(244 255 129 / 100%);
+  --paint-style-ref-m2-lime-lime-a-80: rgb(238 255 65 / 100%);
+  --paint-style-ref-m2-lime-lime-a-60: rgb(198 255 0 / 100%);
+  --paint-style-ref-m2-lime-lime-a-30: rgb(174 234 0 / 100%);
+  --paint-style-ref-m2-yellow-yellow-10: rgb(245 127 23 / 100%);
+  --paint-style-ref-m2-yellow-yellow-20: rgb(249 168 37 / 100%);
+  --paint-style-ref-m2-yellow-yellow-30: rgb(251 192 45 / 100%);
+  --paint-style-ref-m2-yellow-yellow-40: rgb(253 216 53 / 100%);
+  --paint-style-ref-m2-yellow-yellow-50: rgb(255 235 59 / 100%);
+  --paint-style-ref-m2-yellow-yellow-60: rgb(255 238 88 / 100%);
+  --paint-style-ref-m2-yellow-yellow-70: rgb(255 241 118 / 100%);
+  --paint-style-ref-m2-yellow-yellow-80: rgb(255 245 157 / 100%);
+  --paint-style-ref-m2-yellow-yellow-90: rgb(255 249 196 / 100%);
+  --paint-style-ref-m2-yellow-yellow-95: rgb(255 253 231 / 100%);
+  --paint-style-ref-m2-yellow-yellow-a-90: rgb(255 255 141 / 100%);
+  --paint-style-ref-m2-yellow-yellow-a-80: rgb(255 255 0 / 100%);
+  --paint-style-ref-m2-yellow-yellow-a-60: rgb(255 234 0 / 100%);
+  --paint-style-ref-m2-yellow-yellow-a-30: rgb(255 214 0 / 100%);
+  --paint-style-ref-m2-amber-amber-10: rgb(255 111 0 / 100%);
+  --paint-style-ref-m2-amber-amber-20: rgb(255 143 0 / 100%);
+  --paint-style-ref-m2-amber-amber-30: rgb(255 160 0 / 100%);
+  --paint-style-ref-m2-amber-amber-40: rgb(255 179 0 / 100%);
+  --paint-style-ref-m2-amber-amber-50: rgb(255 193 7 / 100%);
+  --paint-style-ref-m2-amber-amber-60: rgb(255 202 40 / 100%);
+  --paint-style-ref-m2-amber-amber-70: rgb(255 213 79 / 100%);
+  --paint-style-ref-m2-amber-amber-80: rgb(255 224 130 / 100%);
+  --paint-style-ref-m2-amber-amber-90: rgb(255 236 179 / 100%);
+  --paint-style-ref-m2-amber-amber-95: rgb(255 248 225 / 100%);
+  --paint-style-ref-m2-amber-amber-a-90: rgb(255 229 127 / 100%);
+  --paint-style-ref-m2-amber-amber-a-80: rgb(255 215 64 / 100%);
+  --paint-style-ref-m2-amber-amber-a-60: rgb(255 196 0 / 100%);
+  --paint-style-ref-m2-amber-amber-a-30: rgb(255 171 0 / 100%);
+  --paint-style-ref-m2-orange-orange-10: rgb(230 81 0 / 100%);
+  --paint-style-ref-m2-orange-orange-20: rgb(239 108 0 / 100%);
+  --paint-style-ref-m2-orange-orange-30: rgb(245 124 0 / 100%);
+  --paint-style-ref-m2-orange-orange-40: rgb(251 140 0 / 100%);
+  --paint-style-ref-m2-orange-orange-50: rgb(255 152 0 / 100%);
+  --paint-style-ref-m2-orange-orange-60: rgb(255 167 38 / 100%);
+  --paint-style-ref-m2-orange-orange-70: rgb(255 183 77 / 100%);
+  --paint-style-ref-m2-orange-orange-80: rgb(255 204 128 / 100%);
+  --paint-style-ref-m2-orange-orange-90: rgb(255 224 178 / 100%);
+  --paint-style-ref-m2-orange-orange-95: rgb(255 243 224 / 100%);
+  --paint-style-ref-m2-orange-orange-a-90: rgb(255 209 128 / 100%);
+  --paint-style-ref-m2-orange-orange-a-80: rgb(255 171 64 / 100%);
+  --paint-style-ref-m2-orange-orange-a-60: rgb(255 145 0 / 100%);
+  --paint-style-ref-m2-orange-orange-a-30: rgb(255 109 0 / 100%);
+  --paint-style-ref-m2-deep-orange-dp-orange-10: rgb(191 54 12 / 100%);
+  --paint-style-ref-m2-deep-orange-dp-orange-20: rgb(216 67 21 / 100%);
+  --paint-style-ref-m2-deep-orange-dp-orange-30: rgb(230 74 25 / 100%);
+  --paint-style-ref-m2-deep-orange-dp-orange-40: rgb(244 81 30 / 100%);
+  --paint-style-ref-m2-deep-orange-dp-orange-50: rgb(255 87 34 / 100%);
+  --paint-style-ref-m2-deep-orange-dp-orange-60: rgb(255 112 67 / 100%);
+  --paint-style-ref-m2-deep-orange-dp-orange-70: rgb(255 138 101 / 100%);
+  --paint-style-ref-m2-deep-orange-dp-orange-80: rgb(255 171 145 / 100%);
+  --paint-style-ref-m2-deep-orange-dp-orange-90: rgb(255 204 188 / 100%);
+  --paint-style-ref-m2-deep-orange-dp-orange-95: rgb(251 233 231 / 100%);
+  --paint-style-ref-m2-deep-orange-dp-orange-a-30: rgb(221 44 0 / 100%);
+  --paint-style-ref-m2-deep-orange-dp-orange-a-60: rgb(255 61 0 / 100%);
+  --paint-style-ref-m2-deep-orange-dp-orange-a-80: rgb(255 110 64 / 100%);
+  --paint-style-ref-m2-deep-orange-dp-orange-a-90: rgb(255 158 128 / 100%);
+  --paint-style-ref-m2-brown-brown-10: rgb(62 39 35 / 100%);
+  --paint-style-ref-m2-brown-brown-20: rgb(78 52 46 / 100%);
+  --paint-style-ref-m2-brown-brown-30: rgb(93 64 55 / 100%);
+  --paint-style-ref-m2-brown-brown-40: rgb(109 76 65 / 100%);
+  --paint-style-ref-m2-brown-browne-50: rgb(121 85 72 / 100%);
+  --paint-style-ref-m2-brown-brown-60: rgb(141 110 99 / 100%);
+  --paint-style-ref-m2-brown-brown-70: rgb(161 136 127 / 100%);
+  --paint-style-ref-m2-brown-brown-80: rgb(188 170 164 / 100%);
+  --paint-style-ref-m2-brown-brown-90: rgb(255 204 188 / 100%);
+  --paint-style-ref-m2-brown-brown-95: rgb(251 233 231 / 100%);
+  --paint-style-ref-m2-blue-gray-bl-gray-10: rgb(38 50 56 / 100%);
+  --paint-style-ref-m2-blue-gray-bl-gray-20: rgb(55 71 79 / 100%);
+  --paint-style-ref-m2-blue-gray-bl-gray-30: rgb(69 90 100 / 100%);
+  --paint-style-ref-m2-blue-gray-bl-gray-40: rgb(84 110 122 / 100%);
+  --paint-style-ref-m2-blue-gray-bl-gray-50: rgb(96 125 139 / 100%);
+  --paint-style-ref-m2-blue-gray-bl-gray-60: rgb(120 144 156 / 100%);
+  --paint-style-ref-m2-blue-gray-bl-gray-70: rgb(144 164 174 / 100%);
+  --paint-style-ref-m2-blue-gray-bl-gray-80: rgb(176 190 197 / 100%);
+  --paint-style-ref-m2-blue-gray-bl-gray-90: rgb(207 216 220 / 100%);
+  --paint-style-ref-m2-blue-gray-bl-gray-95: rgb(236 239 241 / 100%);
+  --paint-style-ref-m2-gray-gray-10: rgb(33 33 33 / 100%);
+  --paint-style-ref-m2-gray-gray-20: rgb(66 66 66 / 100%);
+  --paint-style-ref-m2-gray-gray-30: rgb(97 97 97 / 100%);
+  --paint-style-ref-m2-gray-gray-40: rgb(117 117 117 / 100%);
+  --paint-style-ref-m2-gray-gray-50: rgb(158 158 158 / 100%);
+  --paint-style-ref-m2-gray-gray-60: rgb(189 189 189 / 100%);
+  --paint-style-ref-m2-gray-gray-70: rgb(224 224 224 / 100%);
+  --paint-style-ref-m2-gray-gray-80: rgb(238 238 238 / 100%);
+  --paint-style-ref-m2-gray-gray-90: rgb(245 245 245 / 100%);
+  --paint-style-ref-m2-gray-gray-95: rgb(250 250 250 / 100%);
+  --paint-style-ref-expressions-black: rgb(0 0 0 / 100%);
+  --paint-style-ref-expressions-white: rgb(255 255 255 / 100%);
+  --paint-style-ref-expressions-accent-acnt-10: rgb(0 77 51 / 100%);
+  --paint-style-ref-expressions-accent-acnt-20: rgb(2 103 70 / 100%);
+  --paint-style-ref-expressions-accent-acnt-30: rgb(6 128 88 / 100%);
+  --paint-style-ref-expressions-accent-acnt-40: rgb(10 151 105 / 100%);
+  --paint-style-ref-expressions-accent-acnt-50: rgb(16 174 121 / 100%);
+  --paint-style-ref-expressions-accent-acnt-60: rgb(23 195 137 / 100%);
+  --paint-style-ref-expressions-accent-acnt-70: rgb(30 215 152 / 100%);
+  --paint-style-ref-expressions-accent-acnt-80: rgb(118 227 191 / 100%);
+  --paint-style-ref-expressions-accent-acnt-90: rgb(181 238 219 / 100%);
+  --paint-style-ref-expressions-accent-acnt-95: rgb(219 246 236 / 100%);
+  --paint-style-ref-expressions-error-error-2: rgb(33 6 3 / 100%);
+  --paint-style-ref-expressions-error-error-10: rgb(129 25 14 / 100%);
+  --paint-style-ref-expressions-error-error-20: rgb(153 34 21 / 100%);
+  --paint-style-ref-expressions-error-error-30: rgb(184 41 25 / 100%);
+  --paint-style-ref-expressions-error-error-40: rgb(206 48 34 / 100%);
+  --paint-style-ref-expressions-error-error-50: rgb(229 58 46 / 100%);
+  --paint-style-ref-expressions-error-error-60: rgb(245 75 66 / 100%);
+  --paint-style-ref-expressions-error-error-70: rgb(255 100 92 / 100%);
+  --paint-style-ref-expressions-error-error-80: rgb(254 149 144 / 100%);
+  --paint-style-ref-expressions-error-error-90: rgb(254 197 195 / 100%);
+  --paint-style-ref-expressions-error-error-95: rgb(254 226 225 / 100%);
+  --paint-style-ref-expressions-error-error-97: rgb(255 236 235 / 100%);
+  --paint-style-ref-expressions-warning-warn-2: rgb(35 13 1 / 100%);
+  --paint-style-ref-expressions-warning-warn-10: rgb(163 63 5 / 100%);
+  --paint-style-ref-expressions-warning-warn-20: rgb(204 78 15 / 100%);
+  --paint-style-ref-expressions-warning-warn-30: rgb(229 102 11 / 100%);
+  --paint-style-ref-expressions-warning-warn-40: rgb(245 125 5 / 100%);
+  --paint-style-ref-expressions-warning-warn-50: rgb(252 140 3 / 100%);
+  --paint-style-ref-expressions-warning-warn-60: rgb(253 159 18 / 100%);
+  --paint-style-ref-expressions-warning-warn-70: rgb(251 175 68 / 100%);
+  --paint-style-ref-expressions-warning-warn-80: rgb(255 199 120 / 100%);
+  --paint-style-ref-expressions-warning-warn-90: rgb(253 221 176 / 100%);
+  --paint-style-ref-expressions-warning-warn-95: rgb(254 238 215 / 100%);
+  --paint-style-ref-expressions-warning-warn-97: rgb(254 244 230 / 100%);
+  --paint-style-ref-expressions-success-success-2: rgb(1 24 13 / 100%);
+  --paint-style-ref-expressions-success-success-10: rgb(12 95 54 / 100%);
+  --paint-style-ref-expressions-success-success-20: rgb(13 130 67 / 100%);
+  --paint-style-ref-expressions-success-success-30: rgb(18 151 75 / 100%);
+  --paint-style-ref-expressions-success-success-40: rgb(25 184 89 / 100%);
+  --paint-style-ref-expressions-success-success-50: rgb(23 207 96 / 100%);
+  --paint-style-ref-expressions-success-success-60: rgb(67 219 112 / 100%);
+  --paint-style-ref-expressions-success-success-70: rgb(86 230 129 / 100%);
+  --paint-style-ref-expressions-success-success-80: rgb(153 245 179 / 100%);
+  --paint-style-ref-expressions-success-success-90: rgb(195 249 210 / 100%);
+  --paint-style-ref-expressions-success-success-95: rgb(227 252 234 / 100%);
+  --paint-style-ref-expressions-success-success-97: rgb(241 254 245 / 100%);
+  --paint-style-ref-expressions-info-info-2: rgb(1 18 30 / 100%);
+  --paint-style-ref-expressions-info-info-10: rgb(3 70 125 / 100%);
+  --paint-style-ref-expressions-info-info-20: rgb(2 98 167 / 100%);
+  --paint-style-ref-expressions-info-info-30: rgb(3 122 201 / 100%);
+  --paint-style-ref-expressions-info-info-40: rgb(2 138 217 / 100%);
+  --paint-style-ref-expressions-info-info-50: rgb(2 155 237 / 100%);
+  --paint-style-ref-expressions-info-info-60: rgb(30 173 250 / 100%);
+  --paint-style-ref-expressions-info-info-70: rgb(72 190 254 / 100%);
+  --paint-style-ref-expressions-info-info-80: rgb(135 211 253 / 100%);
+  --paint-style-ref-expressions-info-info-90: rgb(191 231 253 / 100%);
+  --paint-style-ref-expressions-info-info-95: rgb(225 244 254 / 100%);
+  --paint-style-ref-expressions-info-info-97: rgb(240 250 255 / 100%);
+  --paint-style-ref-expressions-muted-muted-2: rgb(18 22 23 / 100%);
+  --paint-style-ref-expressions-muted-muted-10: rgb(40 50 52 / 100%);
+  --paint-style-ref-expressions-muted-muted-20: rgb(61 77 80 / 100%);
+  --paint-style-ref-expressions-muted-muted-30: rgb(81 102 107 / 100%);
+  --paint-style-ref-expressions-muted-muted-40: rgb(100 126 131 / 100%);
+  --paint-style-ref-expressions-muted-muted-50: rgb(121 147 153 / 100%);
+  --paint-style-ref-expressions-muted-muted-60: rgb(151 171 175 / 100%);
+  --paint-style-ref-expressions-muted-muted-70: rgb(170 185 188 / 100%);
+  --paint-style-ref-expressions-muted-muted-80: rgb(201 208 209 / 100%);
+  --paint-style-ref-expressions-muted-muted-90: rgb(216 220 221 / 100%);
+  --paint-style-ref-expressions-muted-muted-95: rgb(238 239 237 / 100%);
+  --paint-style-ref-expressions-muted-muted-97: rgb(244 245 246 / 100%);
+  --paint-style-ref-expressions-muted-variant-muted-var-2: rgb(5 22 26 / 100%);
+  --paint-style-ref-expressions-muted-variant-muted-var-10: rgb(7 33 38 / 100%);
+  --paint-style-ref-expressions-muted-variant-muted-var-20: rgb(17 48 55 / 100%);
+  --paint-style-ref-expressions-muted-variant-muted-var-30: rgb(31 72 79 / 100%);
+  --paint-style-ref-expressions-muted-variant-muted-var-40: rgb(47 93 99 / 100%);
+  --paint-style-ref-expressions-muted-variant-muted-var-50: rgb(81 121 126 / 100%);
+  --paint-style-ref-expressions-muted-variant-muted-var-60: rgb(112 147 151 / 100%);
+  --paint-style-ref-expressions-muted-variant-muted-var-70: rgb(142 171 176 / 100%);
+  --paint-style-ref-expressions-muted-variant-muted-var-80: rgb(176 202 207 / 100%);
+  --paint-style-ref-expressions-muted-variant-muted-var-90: rgb(203 223 226 / 100%);
+  --paint-style-ref-expressions-muted-variant-muted-var-95: rgb(224 239 241 / 100%);
+  --paint-style-ref-expressions-muted-variant-muted-var-97: rgb(238 246 247 / 100%);
+  --paint-style-sys-dark-gradients-linear-prim-btn: linear-gradient(90deg, var(--figma-color-gradient-linear-prim-btns-prim-btn-s0) 0%, var(--figma-color-gradient-linear-prim-btns-prim-btn-s100) 100%);
+  --paint-style-key-colors-blue-500: rgb(66 165 245 / 100%);
+  --paint-style-key-colors-blugrey-500: rgb(120 144 156 / 100%);
+  --paint-style-key-colors-cyan-500: rgb(38 198 218 / 100%);
+  --paint-style-key-colors-deepurp-500: rgb(126 87 194 / 100%);
+  --paint-style-key-colors-green-500: rgb(102 187 106 / 100%);
+  --paint-style-key-colors-grey-500: rgb(158 158 158 / 100%);
+  --paint-style-key-colors-indigo-500: rgb(92 107 192 / 100%);
+  --paint-style-key-colors-orange-500: rgb(255 167 38 / 100%);
+  --paint-style-key-colors-red-50: rgb(244 67 54 / 100%);
+  --paint-style-key-colors-teal-500: rgb(38 166 154 / 100%);
+  --paint-style-key-colors-yellow-500: rgb(255 238 88 / 100%);
+  --paint-style-alphas-dark-accents-on-primary-opacity-50: rgb(7 33 38 / 50%);
+  --paint-style-linear-gradients-black: linear-gradient(0deg, var(--figma-color-gradient-linear-grdnt-5-lg4-stop-0) 0%, var(--figma-color-gradient-linear-grdnt-5-lg4-stop-36) 36%, var(--figma-color-gradient-linear-grdnt-5-lg4-stop-100) 100%);
+  --paint-style-linear-gradients-primary-green: linear-gradient(0deg, var(--figma-color-gradient-linear-prim-btns-prim-btn-s0) 0%, var(--figma-color-gradient-linear-prim-btns-prim-btn-s100) 100%);
+  --paint-style-linear-gradients-outline-grey: linear-gradient(0deg, var(--figma-color-gradient-linear-grdnt-6-lg4-stop-0) 0%, var(--figma-color-gradient-linear-grdnt-6-lg4-stop-25) 25%, var(--figma-color-gradient-linear-grdnt-6-lg4-stop-28) 28%, var(--figma-color-gradient-linear-grdnt-6-lg4-stop-100) 100%);
+  --effect-style-dropdown-shadows-grid-header-effect: var(--figma-effect-x-y-values-1) var(--figma-effect-x-y-values-1) var(--figma-effect-blur-4) var(--figma-effect-spread-0) rgb(0 0 0 / 25%);
+}
+
+@utility text-style-display-lg-bold {
+  font-family: var(--figma-type-display-lg-face);
+  font-size: var(--figma-type-display-lg-size);
+  font-weight: var(--figma-type-display-lg-bold);
+  line-height: var(--figma-type-display-lg-leading);
+  letter-spacing: var(--figma-type-display-lg-tracking);
+}
+@utility text-style-display-lg-light {
+  font-family: var(--figma-type-display-lg-face);
+  font-size: var(--figma-type-display-lg-size);
+  font-weight: var(--figma-type-display-lg-lit);
+  line-height: var(--figma-type-display-lg-leading);
+  letter-spacing: var(--figma-type-display-lg-tracking);
+}
+@utility text-style-display-lg-regular {
+  font-family: var(--figma-type-display-lg-face);
+  font-size: var(--figma-type-display-lg-size);
+  font-weight: var(--figma-type-display-lg-reg);
+  line-height: var(--figma-type-display-lg-leading);
+  letter-spacing: var(--figma-type-display-lg-tracking);
+}
+@utility text-style-display-reg-bold {
+  font-family: var(--figma-type-display-reg-face);
+  font-size: var(--figma-type-display-reg-size);
+  font-weight: var(--figma-type-display-reg-bold);
+  line-height: var(--figma-type-display-reg-leading);
+  letter-spacing: var(--figma-type-display-reg-tracking);
+}
+@utility text-style-display-reg-light {
+  font-family: var(--figma-type-display-reg-face);
+  font-size: var(--figma-type-display-reg-size);
+  font-weight: var(--figma-type-display-reg-lit);
+  line-height: var(--figma-type-display-reg-leading);
+  letter-spacing: var(--figma-type-display-reg-tracking);
+}
+@utility text-style-display-reg-regular {
+  font-family: var(--figma-type-display-reg-face);
+  font-size: var(--figma-type-display-reg-size);
+  font-weight: var(--figma-type-display-reg-reg);
+  line-height: var(--figma-type-display-reg-leading);
+  letter-spacing: var(--figma-type-display-reg-tracking);
+}
+@utility text-style-display-sm-bold {
+  font-family: var(--figma-type-display-sm-face);
+  font-size: var(--figma-type-display-sm-size);
+  font-weight: var(--figma-type-display-sm-bold);
+  line-height: var(--figma-type-display-sm-leading);
+  letter-spacing: var(--figma-type-display-sm-tracking);
+}
+@utility text-style-display-sm-light {
+  font-family: var(--figma-type-display-sm-face);
+  font-size: var(--figma-type-display-sm-size);
+  font-weight: var(--figma-type-display-sm-lit);
+  line-height: var(--figma-type-display-sm-leading);
+  letter-spacing: var(--figma-type-display-sm-tracking);
+}
+@utility text-style-display-sm-regular {
+  font-family: var(--figma-type-display-sm-face);
+  font-size: var(--figma-type-display-sm-size);
+  font-weight: var(--figma-type-display-sm-reg);
+  line-height: var(--figma-type-display-sm-leading);
+  letter-spacing: var(--figma-type-display-sm-tracking);
+}
+@utility text-style-headline-lg-emphasized {
+  font-family: var(--figma-type-headline-lg-face);
+  font-size: 40px;
+  font-weight: var(--figma-type-headline-lg-emph);
+  line-height: var(--figma-type-headline-lg-leading);
+  letter-spacing: var(--figma-type-headline-lg-tracking);
+}
+@utility text-style-headline-lg-light {
+  font-family: var(--figma-type-headline-sm-face);
+  font-size: var(--figma-type-headline-lg-size);
+  font-weight: var(--figma-type-headline-lg-lit);
+  line-height: var(--figma-type-headline-lg-leading);
+  letter-spacing: var(--figma-type-headline-lg-tracking);
+}
+@utility text-style-headline-lg-medium {
+  font-family: var(--figma-type-title-lg-face);
+  font-size: var(--figma-type-headline-lg-size);
+  font-weight: var(--figma-type-headline-lg-med);
+  line-height: var(--figma-type-headline-lg-leading);
+  letter-spacing: var(--figma-type-headline-lg-tracking);
+}
+@utility text-style-headline-lg-regular {
+  font-family: var(--figma-type-headline-lg-face);
+  font-size: var(--figma-type-headline-lg-size);
+  font-weight: var(--figma-type-headline-lg-reg);
+  line-height: var(--figma-type-headline-lg-leading);
+  letter-spacing: var(--figma-type-headline-lg-tracking);
+}
+@utility text-style-headline-reg-emphasized {
+  font-family: var(--figma-type-headline-reg-face);
+  font-size: var(--figma-type-headline-reg-size);
+  font-weight: var(--figma-type-headline-reg-emph);
+  line-height: var(--figma-type-headline-reg-leading);
+  letter-spacing: var(--figma-type-headline-reg-tracking);
+}
+@utility text-style-headline-reg-light {
+  font-family: var(--figma-type-headline-reg-face);
+  font-size: var(--figma-type-headline-reg-size);
+  font-weight: var(--figma-type-headline-reg-lit);
+  line-height: var(--figma-type-headline-reg-leading);
+  letter-spacing: var(--figma-type-headline-reg-tracking);
+}
+@utility text-style-headline-reg-medium {
+  font-family: var(--figma-type-title-reg-face);
+  font-size: var(--figma-type-headline-reg-size);
+  font-weight: var(--figma-type-headline-reg-med);
+  line-height: var(--figma-type-headline-reg-leading);
+  letter-spacing: var(--figma-type-headline-reg-tracking);
+}
+@utility text-style-headline-reg-regular {
+  font-family: var(--figma-type-headline-reg-face);
+  font-size: var(--figma-type-headline-reg-size);
+  font-weight: var(--figma-type-headline-reg-reg);
+  line-height: var(--figma-type-headline-reg-leading);
+  letter-spacing: var(--figma-type-headline-reg-tracking);
+}
+@utility text-style-headline-sm-emphasized {
+  font-family: var(--figma-type-headline-sm-face);
+  font-size: var(--figma-type-headline-sm-size);
+  font-weight: var(--figma-type-headline-sm-emph);
+  line-height: var(--figma-type-headline-sm-leading);
+  letter-spacing: var(--figma-type-headline-sm-tracking);
+}
+@utility text-style-headline-sm-light {
+  font-family: var(--figma-type-headline-sm-face);
+  font-size: var(--figma-type-headline-sm-size);
+  font-weight: var(--figma-type-headline-sm-lit);
+  line-height: var(--figma-type-headline-sm-leading);
+  letter-spacing: var(--figma-type-headline-sm-tracking);
+}
+@utility text-style-headline-sm-medium {
+  font-family: var(--figma-type-title-sm-face);
+  font-size: var(--figma-type-headline-sm-size);
+  font-weight: var(--figma-type-headline-sm-med);
+  line-height: var(--figma-type-headline-sm-leading);
+  letter-spacing: var(--figma-type-headline-sm-tracking);
+}
+@utility text-style-headline-sm-regular {
+  font-family: var(--figma-type-headline-sm-face);
+  font-size: var(--figma-type-headline-sm-size);
+  font-weight: var(--figma-type-headline-sm-reg);
+  line-height: var(--figma-type-headline-sm-leading);
+  letter-spacing: var(--figma-type-headline-sm-tracking);
+}
+@utility text-style-title-lg-bold {
+  font-family: var(--figma-type-title-lg-face);
+  font-size: var(--figma-type-title-lg-size);
+  font-weight: var(--figma-type-title-lg-bold);
+  line-height: var(--figma-type-title-lg-leading);
+  letter-spacing: var(--figma-type-title-lg-tracking);
+}
+@utility text-style-title-lg-emphasized {
+  font-family: var(--figma-type-title-lg-face);
+  font-size: var(--figma-type-title-lg-size);
+  font-weight: var(--figma-type-title-lg-emph);
+  line-height: var(--figma-type-title-lg-leading);
+  letter-spacing: var(--figma-type-title-lg-tracking);
+}
+@utility text-style-title-lg-medium {
+  font-family: var(--figma-type-title-lg-face);
+  font-size: var(--figma-type-title-lg-size);
+  font-weight: var(--figma-type-title-lg-med);
+  line-height: var(--figma-type-title-lg-leading);
+  letter-spacing: var(--figma-type-title-lg-tracking);
+}
+@utility text-style-title-lg-regular {
+  font-family: var(--figma-type-title-lg-face);
+  font-size: var(--figma-type-title-lg-size);
+  font-weight: var(--figma-type-title-lg-reg);
+  line-height: var(--figma-type-title-lg-leading);
+  letter-spacing: var(--figma-type-title-lg-tracking);
+}
+@utility text-style-title-reg-bold {
+  font-family: var(--figma-type-title-reg-face);
+  font-size: var(--figma-type-title-reg-size);
+  font-weight: var(--figma-type-title-reg-bold);
+  line-height: var(--figma-type-title-reg-leading);
+  letter-spacing: var(--figma-type-title-reg-tracking);
+}
+@utility text-style-title-reg-emphasized {
+  font-family: var(--figma-type-title-reg-face);
+  font-size: var(--figma-type-title-reg-size);
+  font-weight: var(--figma-type-title-reg-emph);
+  line-height: var(--figma-type-title-reg-leading);
+  letter-spacing: var(--figma-type-title-reg-tracking);
+}
+@utility text-style-title-reg-medium {
+  font-family: var(--figma-type-title-lg-face);
+  font-size: var(--figma-type-title-reg-size);
+  font-weight: var(--figma-type-title-reg-med);
+  line-height: var(--figma-type-title-reg-leading);
+  letter-spacing: var(--figma-type-title-reg-tracking);
+}
+@utility text-style-title-reg-regular {
+  font-family: var(--figma-type-title-reg-face);
+  font-size: var(--figma-type-title-reg-size);
+  font-weight: var(--figma-type-title-reg-reg);
+  line-height: var(--figma-type-title-reg-leading);
+  letter-spacing: var(--figma-type-title-reg-tracking);
+}
+@utility text-style-title-sm-bold {
+  font-family: var(--figma-type-title-sm-face);
+  font-size: var(--figma-type-title-sm-size);
+  font-weight: var(--figma-type-title-sm-bold);
+  line-height: var(--figma-type-title-sm-leading);
+  letter-spacing: var(--figma-type-title-sm-tracking);
+}
+@utility text-style-title-sm-emphasized {
+  font-family: var(--figma-type-title-sm-face);
+  font-size: var(--figma-type-title-sm-size);
+  font-weight: var(--figma-type-title-sm-emph);
+  line-height: var(--figma-type-title-sm-leading);
+  letter-spacing: var(--figma-type-title-sm-tracking);
+}
+@utility text-style-title-sm-medium {
+  font-family: var(--figma-type-title-lg-face);
+  font-size: var(--figma-type-title-sm-size);
+  font-weight: var(--figma-type-title-sm-med);
+  line-height: var(--figma-type-title-sm-leading);
+  letter-spacing: var(--figma-type-title-sm-tracking);
+}
+@utility text-style-title-sm-regular {
+  font-family: var(--figma-type-title-sm-face);
+  font-size: var(--figma-type-title-sm-size);
+  font-weight: var(--figma-type-title-sm-reg);
+  line-height: var(--figma-type-title-sm-leading);
+  letter-spacing: var(--figma-type-title-sm-tracking);
+}
+@utility text-style-subhead-lg-bold {
+  font-family: var(--figma-type-subhead-lg-face);
+  font-size: var(--figma-type-subhead-lg-size);
+  font-weight: var(--figma-type-subhead-lg-bold);
+  line-height: var(--figma-type-subhead-lg-leading);
+  letter-spacing: var(--figma-type-subhead-lg-tracking);
+}
+@utility text-style-subhead-lg-emphasized {
+  font-family: var(--figma-type-subhead-lg-face);
+  font-size: var(--figma-type-subhead-lg-size);
+  font-weight: var(--figma-type-subhead-lg-emph);
+  line-height: var(--figma-type-subhead-lg-leading);
+  letter-spacing: var(--figma-type-subhead-lg-tracking);
+}
+@utility text-style-subhead-lg-medium {
+  font-family: var(--figma-type-subhead-lg-face);
+  font-size: var(--figma-type-subhead-lg-size);
+  font-weight: var(--figma-type-subhead-lg-med);
+  line-height: var(--figma-type-subhead-lg-leading);
+  letter-spacing: var(--figma-type-subhead-lg-tracking);
+}
+@utility text-style-subhead-lg-regular {
+  font-family: var(--figma-type-subhead-lg-face);
+  font-size: var(--figma-type-subhead-lg-size);
+  font-weight: var(--figma-type-subhead-lg-reg);
+  line-height: var(--figma-type-subhead-lg-leading);
+  letter-spacing: var(--figma-type-subhead-lg-tracking);
+}
+@utility text-style-subhead-reg-bold {
+  font-family: var(--figma-type-subhead-reg-face);
+  font-size: var(--figma-type-subhead-reg-size);
+  font-weight: var(--figma-type-subhead-reg-bold);
+  line-height: var(--figma-type-subhead-reg-leading);
+  letter-spacing: var(--figma-type-subhead-reg-tracking);
+}
+@utility text-style-subhead-reg-emphasized {
+  font-family: var(--figma-type-subhead-reg-face);
+  font-size: var(--figma-type-subhead-reg-size);
+  font-weight: var(--figma-type-subhead-reg-emph);
+  line-height: var(--figma-type-subhead-reg-leading);
+  letter-spacing: var(--figma-type-subhead-reg-tracking);
+}
+@utility text-style-subhead-reg-medium {
+  font-family: var(--figma-type-subhead-reg-face);
+  font-size: var(--figma-type-subhead-reg-size);
+  font-weight: var(--figma-type-subhead-reg-med);
+  line-height: var(--figma-type-subhead-reg-leading);
+  letter-spacing: var(--figma-type-subhead-reg-tracking);
+}
+@utility text-style-subhead-reg-regular {
+  font-family: var(--figma-type-subhead-reg-face);
+  font-size: var(--figma-type-subhead-reg-size);
+  font-weight: var(--figma-type-subhead-reg-reg);
+  line-height: var(--figma-type-subhead-reg-leading);
+  letter-spacing: var(--figma-type-subhead-reg-tracking);
+}
+@utility text-style-subhead-sm-bold {
+  font-family: var(--figma-type-subhead-sm-face);
+  font-size: var(--figma-type-subhead-sm-size);
+  font-weight: var(--figma-type-subhead-sm-bold);
+  line-height: var(--figma-type-subhead-sm-leading);
+  letter-spacing: var(--figma-type-subhead-sm-tracking);
+}
+@utility text-style-subhead-sm-emphasized {
+  font-family: var(--figma-type-subhead-sm-face);
+  font-size: var(--figma-type-subhead-sm-size);
+  font-weight: var(--figma-type-subhead-sm-emph);
+  line-height: var(--figma-type-subhead-sm-leading);
+  letter-spacing: var(--figma-type-subhead-sm-tracking);
+}
+@utility text-style-subhead-sm-medium {
+  font-family: var(--figma-type-subhead-sm-face);
+  font-size: var(--figma-type-subhead-sm-size);
+  font-weight: var(--figma-type-subhead-sm-med);
+  line-height: var(--figma-type-subhead-sm-leading);
+  letter-spacing: var(--figma-type-subhead-sm-tracking);
+}
+@utility text-style-subhead-sm-regular {
+  font-family: var(--figma-type-subhead-sm-face);
+  font-size: var(--figma-type-subhead-sm-size);
+  font-weight: var(--figma-type-subhead-sm-reg);
+  line-height: var(--figma-type-subhead-sm-leading);
+  letter-spacing: var(--figma-type-subhead-sm-tracking);
+}
+@utility text-style-body-lg-bold {
+  font-family: var(--figma-type-body-lg-face);
+  font-size: var(--figma-type-body-lg-size);
+  font-weight: var(--figma-type-body-lg-bold);
+  line-height: var(--figma-type-body-lg-leading);
+  letter-spacing: var(--figma-type-body-lg-tracking);
+}
+@utility text-style-body-lg-emphasized {
+  font-family: var(--figma-type-body-lg-face);
+  font-size: var(--figma-type-body-lg-size);
+  font-weight: var(--figma-type-body-lg-emph);
+  line-height: var(--figma-type-body-lg-leading);
+  letter-spacing: var(--figma-type-body-lg-tracking);
+}
+@utility text-style-body-lg-light {
+  font-family: var(--figma-type-body-lg-face);
+  font-size: var(--figma-type-body-lg-size);
+  font-weight: var(--figma-type-body-lg-lit);
+  line-height: var(--figma-type-body-lg-leading);
+  letter-spacing: var(--figma-type-body-lg-tracking);
+}
+@utility text-style-body-lg-medium {
+  font-family: var(--figma-type-body-lg-face);
+  font-size: var(--figma-type-body-lg-size);
+  font-weight: var(--figma-type-body-lg-med);
+  line-height: var(--figma-type-body-lg-leading);
+  letter-spacing: var(--figma-type-body-lg-tracking);
+}
+@utility text-style-body-lg-regular {
+  font-family: var(--figma-type-body-lg-face);
+  font-size: var(--figma-type-body-lg-size);
+  font-weight: var(--figma-type-body-lg-reg);
+  line-height: var(--figma-type-body-lg-leading);
+  letter-spacing: var(--figma-type-body-lg-tracking);
+}
+@utility text-style-body-md-bold {
+  font-family: var(--figma-type-body-md-face);
+  font-size: var(--figma-type-body-md-size);
+  font-weight: var(--figma-type-body-md-bold);
+  line-height: var(--figma-type-body-md-leading);
+  letter-spacing: var(--figma-type-body-md-tracking);
+}
+@utility text-style-body-md-emphasized {
+  font-family: var(--figma-type-body-md-face);
+  font-size: var(--figma-type-body-md-size);
+  font-weight: var(--figma-type-body-md-emph);
+  line-height: var(--figma-type-body-md-leading);
+  letter-spacing: var(--figma-type-body-md-tracking);
+}
+@utility text-style-body-md-light {
+  font-family: var(--figma-type-body-md-face);
+  font-size: var(--figma-type-body-md-size);
+  font-weight: var(--figma-type-body-md-lit);
+  line-height: var(--figma-type-body-md-leading);
+  letter-spacing: var(--figma-type-body-md-tracking);
+}
+@utility text-style-body-md-medium {
+  font-family: var(--figma-type-body-md-face);
+  font-size: var(--figma-type-body-md-size);
+  font-weight: var(--figma-type-body-md-med);
+  line-height: var(--figma-type-body-md-leading);
+  letter-spacing: var(--figma-type-body-md-tracking);
+}
+@utility text-style-body-md-regular {
+  font-family: var(--figma-type-body-md-face);
+  font-size: var(--figma-type-body-md-size);
+  font-weight: var(--figma-type-body-md-reg);
+  line-height: var(--figma-type-body-md-leading);
+  letter-spacing: var(--figma-type-body-md-tracking);
+}
+@utility text-style-body-reg-bold {
+  font-family: var(--figma-type-body-reg-face);
+  font-size: var(--figma-type-body-reg-size);
+  font-weight: var(--figma-type-body-reg-bold);
+  line-height: var(--figma-type-body-reg-leading);
+  letter-spacing: var(--figma-type-body-reg-tracking);
+}
+@utility text-style-body-reg-emphasized {
+  font-family: var(--figma-type-body-reg-face);
+  font-size: var(--figma-type-body-reg-size);
+  font-weight: var(--figma-type-body-reg-emph);
+  line-height: var(--figma-type-body-reg-leading);
+  letter-spacing: var(--figma-type-body-reg-tracking);
+}
+@utility text-style-body-reg-light {
+  font-family: var(--figma-type-body-reg-face);
+  font-size: var(--figma-type-body-reg-size);
+  font-weight: var(--figma-type-body-reg-lit);
+  line-height: var(--figma-type-body-reg-leading);
+  letter-spacing: var(--figma-type-body-reg-tracking);
+}
+@utility text-style-body-reg-medium {
+  font-family: var(--figma-type-body-reg-face);
+  font-size: var(--figma-type-body-reg-size);
+  font-weight: var(--figma-type-body-reg-med);
+  line-height: var(--figma-type-body-reg-leading);
+  letter-spacing: var(--figma-type-body-reg-tracking);
+}
+@utility text-style-body-reg-regular {
+  font-family: var(--figma-type-body-reg-face);
+  font-size: var(--figma-type-body-reg-size);
+  font-weight: var(--figma-type-body-reg-reg);
+  line-height: var(--figma-type-body-reg-leading);
+  letter-spacing: var(--figma-type-body-reg-tracking);
+}
+@utility text-style-body-sm-bold {
+  font-family: var(--figma-type-body-sm-face);
+  font-size: var(--figma-type-body-sm-size);
+  font-weight: var(--figma-type-body-sm-bold);
+  line-height: var(--figma-type-body-sm-leading);
+  letter-spacing: var(--figma-type-body-sm-tracking);
+}
+@utility text-style-body-sm-emphasized {
+  font-family: var(--figma-type-body-sm-face);
+  font-size: var(--figma-type-body-sm-size);
+  font-weight: var(--figma-type-body-sm-emph);
+  line-height: var(--figma-type-body-sm-leading);
+  letter-spacing: var(--figma-type-body-sm-tracking);
+}
+@utility text-style-body-sm-light {
+  font-family: var(--figma-type-body-sm-face);
+  font-size: var(--figma-type-body-sm-size);
+  font-weight: var(--figma-type-body-sm-lit);
+  line-height: var(--figma-type-body-sm-leading);
+  letter-spacing: var(--figma-type-body-sm-tracking);
+}
+@utility text-style-body-sm-medium {
+  font-family: var(--figma-type-body-sm-face);
+  font-size: var(--figma-type-body-sm-size);
+  font-weight: var(--figma-type-body-sm-med);
+  line-height: var(--figma-type-body-sm-leading);
+  letter-spacing: var(--figma-type-body-sm-tracking);
+}
+@utility text-style-body-sm-regular {
+  font-family: var(--figma-type-body-sm-face);
+  font-size: var(--figma-type-body-sm-size);
+  font-weight: var(--figma-type-body-sm-reg);
+  line-height: var(--figma-type-body-sm-leading);
+  letter-spacing: var(--figma-type-body-sm-tracking);
+}
+@utility text-style-caption-reg-bold {
+  font-family: var(--figma-type-caption-reg-face);
+  font-size: var(--figma-type-caption-reg-size);
+  font-weight: var(--figma-type-caption-reg-bold);
+  line-height: var(--figma-type-caption-reg-leading);
+  letter-spacing: var(--figma-type-caption-reg-tracking);
+}
+@utility text-style-caption-reg-emphasized {
+  font-family: var(--figma-type-caption-reg-face);
+  font-size: var(--figma-type-caption-reg-size);
+  font-weight: var(--figma-type-caption-reg-emph);
+  line-height: var(--figma-type-caption-reg-leading);
+  letter-spacing: var(--figma-type-caption-reg-tracking);
+}
+@utility text-style-caption-reg-light {
+  font-family: var(--figma-type-caption-reg-face);
+  font-size: var(--figma-type-caption-reg-size);
+  font-weight: var(--figma-type-caption-reg-lit);
+  line-height: var(--figma-type-caption-reg-leading);
+  letter-spacing: var(--figma-type-caption-reg-tracking);
+}
+@utility text-style-caption-reg-medium {
+  font-family: var(--figma-type-caption-reg-face);
+  font-size: var(--figma-type-caption-reg-size);
+  font-weight: var(--figma-type-caption-reg-med);
+  line-height: var(--figma-type-caption-reg-leading);
+  letter-spacing: var(--figma-type-caption-reg-tracking);
+}
+@utility text-style-caption-reg-regular {
+  font-family: var(--figma-type-caption-reg-face);
+  font-size: var(--figma-type-caption-reg-size);
+  font-weight: var(--figma-type-caption-reg-reg);
+  line-height: var(--figma-type-caption-reg-leading);
+  letter-spacing: var(--figma-type-caption-reg-tracking);
+}
+@utility text-style-caption-sm-bold {
+  font-family: var(--figma-type-caption-sm-face);
+  font-size: var(--figma-type-caption-sm-size);
+  font-weight: var(--figma-type-caption-sm-bold);
+  line-height: var(--figma-type-caption-sm-leading);
+  letter-spacing: var(--figma-type-caption-sm-tracking);
+}
+@utility text-style-caption-sm-emphasized {
+  font-family: var(--figma-type-caption-sm-face);
+  font-size: var(--figma-type-caption-sm-size);
+  font-weight: var(--figma-type-caption-sm-emph);
+  line-height: var(--figma-type-caption-sm-leading);
+  letter-spacing: var(--figma-type-caption-sm-tracking);
+}
+@utility text-style-caption-sm-light {
+  font-family: var(--figma-type-caption-sm-face);
+  font-size: var(--figma-type-caption-sm-size);
+  font-weight: var(--figma-type-caption-sm-lit);
+  line-height: var(--figma-type-caption-sm-leading);
+  letter-spacing: var(--figma-type-caption-sm-tracking);
+}
+@utility text-style-caption-sm-medium {
+  font-family: var(--figma-type-caption-sm-face);
+  font-size: var(--figma-type-caption-sm-size);
+  font-weight: var(--figma-type-caption-sm-med);
+  line-height: var(--figma-type-caption-sm-leading);
+  letter-spacing: var(--figma-type-caption-sm-tracking);
+}
+@utility text-style-caption-sm-regular {
+  font-family: var(--figma-type-caption-sm-face);
+  font-size: var(--figma-type-caption-sm-size);
+  font-weight: var(--figma-type-caption-sm-reg);
+  line-height: var(--figma-type-caption-sm-leading);
+  letter-spacing: var(--figma-type-caption-sm-tracking);
+}
+@utility text-style-byline-reg-bold {
+  font-family: var(--figma-type-byline-reg-face);
+  font-size: var(--figma-type-byline-reg-size);
+  font-weight: var(--figma-type-byline-reg-bold);
+  line-height: var(--figma-type-byline-reg-leading);
+  letter-spacing: var(--figma-type-byline-reg-tracking);
+}
+@utility text-style-byline-reg-emphasized {
+  font-family: var(--figma-type-byline-reg-face);
+  font-size: var(--figma-type-byline-reg-size);
+  font-weight: var(--figma-type-byline-reg-emph);
+  line-height: var(--figma-type-byline-reg-leading);
+  letter-spacing: var(--figma-type-byline-reg-tracking);
+}
+@utility text-style-byline-reg-light {
+  font-family: var(--figma-type-byline-reg-face);
+  font-size: var(--figma-type-byline-reg-size);
+  font-weight: var(--figma-type-byline-reg-lit);
+  line-height: var(--figma-type-byline-reg-leading);
+  letter-spacing: var(--figma-type-byline-reg-tracking);
+}
+@utility text-style-byline-reg-medium {
+  font-family: var(--figma-type-byline-reg-face);
+  font-size: var(--figma-type-byline-reg-size);
+  font-weight: var(--figma-type-byline-reg-med);
+  line-height: var(--figma-type-byline-reg-leading);
+  letter-spacing: var(--figma-type-byline-reg-tracking);
+}
+@utility text-style-byline-reg-regular {
+  font-family: var(--figma-type-byline-reg-face);
+  font-size: var(--figma-type-byline-reg-size);
+  font-weight: var(--figma-type-byline-reg-reg);
+  line-height: var(--figma-type-byline-reg-leading);
+  letter-spacing: var(--figma-type-byline-reg-tracking);
+}
+@utility text-style-byline-sm-bold {
+  font-family: var(--figma-type-byline-sm-face);
+  font-size: var(--figma-type-byline-sm-size);
+  font-weight: var(--figma-type-byline-sm-bold);
+  line-height: var(--figma-type-byline-sm-leading);
+  letter-spacing: var(--figma-type-byline-sm-tracking);
+}
+@utility text-style-byline-sm-emphasized {
+  font-family: var(--figma-type-byline-sm-face);
+  font-size: var(--figma-type-byline-sm-size);
+  font-weight: var(--figma-type-byline-sm-emph);
+  line-height: var(--figma-type-byline-sm-leading);
+  letter-spacing: var(--figma-type-byline-sm-tracking);
+}
+@utility text-style-byline-sm-light {
+  font-family: var(--figma-type-byline-sm-face);
+  font-size: var(--figma-type-byline-sm-size);
+  font-weight: var(--figma-type-byline-sm-lit);
+  line-height: var(--figma-type-byline-sm-leading);
+  letter-spacing: var(--figma-type-byline-sm-tracking);
+}
+@utility text-style-byline-sm-medium {
+  font-family: var(--figma-type-byline-sm-face);
+  font-size: var(--figma-type-byline-sm-size);
+  font-weight: var(--figma-type-byline-sm-med);
+  line-height: var(--figma-type-byline-sm-leading);
+  letter-spacing: var(--figma-type-byline-sm-tracking);
+}
+@utility text-style-byline-sm-regular {
+  font-family: var(--figma-type-byline-sm-face);
+  font-size: var(--figma-type-byline-sm-size);
+  font-weight: var(--figma-type-byline-sm-reg);
+  line-height: var(--figma-type-byline-sm-leading);
+  letter-spacing: var(--figma-type-byline-sm-tracking);
+}
+@utility text-style-cta-lg-emphasized {
+  font-family: var(--figma-type-cta-lg-face);
+  font-size: var(--figma-type-cta-lg-size);
+  font-weight: var(--figma-type-cta-lg-emph);
+  line-height: var(--figma-type-cta-lg-leading);
+  letter-spacing: var(--figma-type-cta-lg-tracking);
+}
+@utility text-style-cta-lg-medium {
+  font-family: var(--figma-type-cta-lg-face);
+  font-size: var(--figma-type-cta-lg-size);
+  font-weight: var(--figma-type-cta-lg-med);
+  line-height: var(--figma-type-cta-lg-leading);
+  letter-spacing: var(--figma-type-cta-lg-tracking);
+}
+@utility text-style-cta-lg-regular {
+  font-family: var(--figma-type-cta-lg-face);
+  font-size: var(--figma-type-cta-lg-size);
+  font-weight: var(--figma-type-cta-lg-reg);
+  line-height: var(--figma-type-cta-lg-leading);
+  letter-spacing: var(--figma-type-cta-lg-tracking);
+}
+@utility text-style-cta-lg-bold {
+  font-family: var(--figma-type-cta-lg-face);
+  font-size: var(--figma-type-cta-lg-size);
+  font-weight: var(--figma-type-cta-lg-bold);
+  line-height: var(--figma-type-cta-lg-leading);
+  letter-spacing: var(--figma-type-cta-lg-tracking);
+}
+@utility text-style-cta-md-bold {
+  font-family: var(--figma-type-cta-md-face);
+  font-size: var(--figma-type-cta-md-size);
+  font-weight: var(--figma-type-cta-md-bold);
+  line-height: var(--figma-type-cta-md-leading);
+  letter-spacing: var(--figma-type-cta-md-tracking);
+}
+@utility text-style-cta-md-emphasized {
+  font-family: var(--figma-type-cta-md-face);
+  font-size: var(--figma-type-cta-md-size);
+  font-weight: var(--figma-type-cta-md-emph);
+  line-height: var(--figma-type-cta-md-leading);
+  letter-spacing: var(--figma-type-cta-md-tracking);
+}
+@utility text-style-cta-md-medium {
+  font-family: var(--figma-type-cta-md-face);
+  font-size: var(--figma-type-cta-md-size);
+  font-weight: var(--figma-type-cta-md-med);
+  line-height: var(--figma-type-cta-md-leading);
+  letter-spacing: var(--figma-type-cta-md-tracking);
+}
+@utility text-style-cta-md-regular {
+  font-family: var(--figma-type-cta-md-face);
+  font-size: var(--figma-type-cta-md-size);
+  font-weight: var(--figma-type-cta-md-reg);
+  line-height: var(--figma-type-cta-md-leading);
+  letter-spacing: var(--figma-type-cta-md-tracking);
+}
+@utility text-style-cta-reg-bold {
+  font-family: var(--figma-type-cta-reg-face);
+  font-size: var(--figma-type-cta-reg-size);
+  font-weight: var(--figma-type-cta-reg-bold);
+  line-height: var(--figma-type-cta-reg-leading);
+  letter-spacing: var(--figma-type-cta-reg-tracking);
+}
+@utility text-style-cta-reg-emphasized {
+  font-family: var(--figma-type-cta-reg-face);
+  font-size: var(--figma-type-cta-reg-size);
+  font-weight: var(--figma-type-cta-reg-emph);
+  line-height: var(--figma-type-cta-reg-leading);
+  letter-spacing: var(--figma-type-cta-reg-tracking);
+}
+@utility text-style-cta-reg-medium {
+  font-family: var(--figma-type-cta-reg-face);
+  font-size: var(--figma-type-cta-reg-size);
+  font-weight: var(--figma-type-cta-reg-med);
+  line-height: var(--figma-type-cta-reg-leading);
+  letter-spacing: var(--figma-type-cta-reg-tracking);
+}
+@utility text-style-cta-reg-regular {
+  font-family: var(--figma-type-cta-reg-face);
+  font-size: var(--figma-type-cta-reg-size);
+  font-weight: var(--figma-type-cta-reg-reg);
+  line-height: var(--figma-type-cta-reg-leading);
+  letter-spacing: var(--figma-type-cta-reg-tracking);
+}
+@utility text-style-cta-sm-bold {
+  font-family: var(--figma-type-cta-sm-face);
+  font-size: var(--figma-type-cta-sm-size);
+  font-weight: var(--figma-type-cta-sm-bold);
+  line-height: var(--figma-type-cta-sm-leading);
+  letter-spacing: var(--figma-type-cta-sm-tracking);
+}
+@utility text-style-cta-sm-emphasized {
+  font-family: var(--figma-type-cta-sm-face);
+  font-size: var(--figma-type-cta-sm-size);
+  font-weight: var(--figma-type-cta-sm-emph);
+  line-height: var(--figma-type-cta-sm-leading);
+  letter-spacing: var(--figma-type-cta-sm-tracking);
+}
+@utility text-style-cta-sm-medium {
+  font-family: var(--figma-type-cta-sm-face);
+  font-size: var(--figma-type-cta-sm-size);
+  font-weight: var(--figma-type-cta-sm-med);
+  line-height: var(--figma-type-cta-sm-leading);
+  letter-spacing: var(--figma-type-cta-sm-tracking);
+}
+@utility text-style-cta-sm-regular {
+  font-family: var(--figma-type-cta-sm-face);
+  font-size: var(--figma-type-cta-sm-size);
+  font-weight: var(--figma-type-cta-sm-reg);
+  line-height: var(--figma-type-cta-sm-leading);
+  letter-spacing: var(--figma-type-cta-sm-tracking);
+}
+@utility text-style-cta-xs-bold {
+  font-family: var(--figma-type-cta-xs-face);
+  font-size: var(--figma-type-cta-xs-size);
+  font-weight: var(--figma-type-cta-xs-bold);
+  line-height: var(--figma-type-cta-xs-leading);
+  letter-spacing: var(--figma-type-cta-xs-tracking);
+}
+@utility text-style-cta-xs-emphasized {
+  font-family: var(--figma-type-cta-xs-face);
+  font-size: var(--figma-type-cta-xs-size);
+  font-weight: var(--figma-type-cta-xs-emph);
+  line-height: var(--figma-type-cta-xs-leading);
+  letter-spacing: var(--figma-type-cta-xs-tracking);
+}
+@utility text-style-cta-xs-medium {
+  font-family: var(--figma-type-cta-xs-face);
+  font-size: var(--figma-type-cta-xs-size);
+  font-weight: var(--figma-type-cta-xs-med);
+  line-height: var(--figma-type-cta-xs-leading);
+  letter-spacing: var(--figma-type-cta-xs-tracking);
+}
+@utility text-style-cta-xs-regular {
+  font-family: var(--figma-type-cta-xs-face);
+  font-size: var(--figma-type-cta-xs-size);
+  font-weight: var(--figma-type-cta-xs-reg);
+  line-height: var(--figma-type-cta-xs-leading);
+  letter-spacing: var(--figma-type-cta-xs-tracking);
+}
+@utility paint-style-brand-dark-green-1 {
+  background-color: var(--paint-style-brand-dark-green-1);
+}
+@utility paint-style-brand-dark-green-2 {
+  background-color: var(--paint-style-brand-dark-green-2);
+}
+@utility paint-style-brand-dark-green-3 {
+  background-color: var(--paint-style-brand-dark-green-3);
+}
+@utility paint-style-brand-grey-1 {
+  background-color: var(--paint-style-brand-grey-1);
+}
+@utility paint-style-brand-grey-2 {
+  background-color: var(--paint-style-brand-grey-2);
+}
+@utility paint-style-brand-grey-3 {
+  background-color: var(--paint-style-brand-grey-3);
+}
+@utility paint-style-brand-beige-1 {
+  background-color: var(--paint-style-brand-beige-1);
+}
+@utility paint-style-brand-beige-2 {
+  background-color: var(--paint-style-brand-beige-2);
+}
+@utility paint-style-ref-brand-prim-prim-2 {
+  background-color: var(--paint-style-ref-brand-prim-prim-2);
+}
+@utility paint-style-ref-brand-prim-prim-10 {
+  background-color: var(--paint-style-ref-brand-prim-prim-10);
+}
+@utility paint-style-ref-brand-prim-prim-20 {
+  background-color: var(--paint-style-ref-brand-prim-prim-20);
+}
+@utility paint-style-ref-brand-prim-prim-30 {
+  background-color: var(--paint-style-ref-brand-prim-prim-30);
+}
+@utility paint-style-ref-brand-prim-prim-40 {
+  background-color: var(--paint-style-ref-brand-prim-prim-40);
+}
+@utility paint-style-ref-brand-prim-prim-50 {
+  background-color: var(--paint-style-ref-brand-prim-prim-50);
+}
+@utility paint-style-ref-brand-prim-prim-60 {
+  background-color: var(--paint-style-ref-brand-prim-prim-60);
+}
+@utility paint-style-ref-brand-prim-prim-70 {
+  background-color: var(--paint-style-ref-brand-prim-prim-70);
+}
+@utility paint-style-ref-brand-prim-prim-80 {
+  background-color: var(--paint-style-ref-brand-prim-prim-80);
+}
+@utility paint-style-ref-brand-prim-prim-90 {
+  background-color: var(--paint-style-ref-brand-prim-prim-90);
+}
+@utility paint-style-ref-brand-prim-prim-95 {
+  background-color: var(--paint-style-ref-brand-prim-prim-95);
+}
+@utility paint-style-ref-brand-prim-prim-97 {
+  background-color: var(--paint-style-ref-brand-prim-prim-97);
+}
+@utility paint-style-ref-brand-scnd-scnd-2 {
+  background-color: var(--paint-style-ref-brand-scnd-scnd-2);
+}
+@utility paint-style-ref-brand-scnd-scnd-10 {
+  background-color: var(--paint-style-ref-brand-scnd-scnd-10);
+}
+@utility paint-style-ref-brand-scnd-scnd-20 {
+  background-color: var(--paint-style-ref-brand-scnd-scnd-20);
+}
+@utility paint-style-ref-brand-scnd-scnd-30 {
+  background-color: var(--paint-style-ref-brand-scnd-scnd-30);
+}
+@utility paint-style-ref-brand-scnd-scnd-40 {
+  background-color: var(--paint-style-ref-brand-scnd-scnd-40);
+}
+@utility paint-style-ref-brand-scnd-scnd-50 {
+  background-color: var(--paint-style-ref-brand-scnd-scnd-50);
+}
+@utility paint-style-ref-brand-scnd-scnd-60 {
+  background-color: var(--paint-style-ref-brand-scnd-scnd-60);
+}
+@utility paint-style-ref-brand-scnd-scnd-70 {
+  background-color: var(--paint-style-ref-brand-scnd-scnd-70);
+}
+@utility paint-style-ref-brand-scnd-scnd-80 {
+  background-color: var(--paint-style-ref-brand-scnd-scnd-80);
+}
+@utility paint-style-ref-brand-scnd-scnd-90 {
+  background-color: var(--paint-style-ref-brand-scnd-scnd-90);
+}
+@utility paint-style-ref-brand-scnd-scnd-95 {
+  background-color: var(--paint-style-ref-brand-scnd-scnd-95);
+}
+@utility paint-style-ref-brand-scnd-scnd-97 {
+  background-color: var(--paint-style-ref-brand-scnd-scnd-97);
+}
+@utility paint-style-ref-m2-red-red-10 {
+  background-color: var(--paint-style-ref-m2-red-red-10);
+}
+@utility paint-style-ref-m2-red-red-20 {
+  background-color: var(--paint-style-ref-m2-red-red-20);
+}
+@utility paint-style-ref-m2-red-red-30 {
+  background-color: var(--paint-style-ref-m2-red-red-30);
+}
+@utility paint-style-ref-m2-red-red-40 {
+  background-color: var(--paint-style-ref-m2-red-red-40);
+}
+@utility paint-style-ref-m2-red-red-50 {
+  background-color: var(--paint-style-ref-m2-red-red-50);
+}
+@utility paint-style-ref-m2-red-red-60 {
+  background-color: var(--paint-style-ref-m2-red-red-60);
+}
+@utility paint-style-ref-m2-red-red-70 {
+  background-color: var(--paint-style-ref-m2-red-red-70);
+}
+@utility paint-style-ref-m2-red-red-80 {
+  background-color: var(--paint-style-ref-m2-red-red-80);
+}
+@utility paint-style-ref-m2-red-red-90 {
+  background-color: var(--paint-style-ref-m2-red-red-90);
+}
+@utility paint-style-ref-m2-red-red-95 {
+  background-color: var(--paint-style-ref-m2-red-red-95);
+}
+@utility paint-style-ref-m2-red-red-a-90 {
+  background-color: var(--paint-style-ref-m2-red-red-a-90);
+}
+@utility paint-style-ref-m2-red-red-a-80 {
+  background-color: var(--paint-style-ref-m2-red-red-a-80);
+}
+@utility paint-style-ref-m2-red-red-a-60 {
+  background-color: var(--paint-style-ref-m2-red-red-a-60);
+}
+@utility paint-style-ref-m2-red-red-a-30 {
+  background-color: var(--paint-style-ref-m2-red-red-a-30);
+}
+@utility paint-style-ref-m2-pink-pink-10 {
+  background-color: var(--paint-style-ref-m2-pink-pink-10);
+}
+@utility paint-style-ref-m2-pink-pink-20 {
+  background-color: var(--paint-style-ref-m2-pink-pink-20);
+}
+@utility paint-style-ref-m2-pink-pink-30 {
+  background-color: var(--paint-style-ref-m2-pink-pink-30);
+}
+@utility paint-style-ref-m2-pink-pink-40 {
+  background-color: var(--paint-style-ref-m2-pink-pink-40);
+}
+@utility paint-style-ref-m2-pink-pink-50 {
+  background-color: var(--paint-style-ref-m2-pink-pink-50);
+}
+@utility paint-style-ref-m2-pink-pink-60 {
+  background-color: var(--paint-style-ref-m2-pink-pink-60);
+}
+@utility paint-style-ref-m2-pink-pink-70 {
+  background-color: var(--paint-style-ref-m2-pink-pink-70);
+}
+@utility paint-style-ref-m2-pink-pink-80 {
+  background-color: var(--paint-style-ref-m2-pink-pink-80);
+}
+@utility paint-style-ref-m2-pink-pink-90 {
+  background-color: var(--paint-style-ref-m2-pink-pink-90);
+}
+@utility paint-style-ref-m2-pink-pink-95 {
+  background-color: var(--paint-style-ref-m2-pink-pink-95);
+}
+@utility paint-style-ref-m2-pink-pink-a-90 {
+  background-color: var(--paint-style-ref-m2-pink-pink-a-90);
+}
+@utility paint-style-ref-m2-pink-pink-a-80 {
+  background-color: var(--paint-style-ref-m2-pink-pink-a-80);
+}
+@utility paint-style-ref-m2-pink-pink-a-60 {
+  background-color: var(--paint-style-ref-m2-pink-pink-a-60);
+}
+@utility paint-style-ref-m2-pink-pink-a-30 {
+  background-color: var(--paint-style-ref-m2-pink-pink-a-30);
+}
+@utility paint-style-ref-m2-purple-purple-10 {
+  background-color: var(--paint-style-ref-m2-purple-purple-10);
+}
+@utility paint-style-ref-m2-purple-purple-20 {
+  background-color: var(--paint-style-ref-m2-purple-purple-20);
+}
+@utility paint-style-ref-m2-purple-purple-30 {
+  background-color: var(--paint-style-ref-m2-purple-purple-30);
+}
+@utility paint-style-ref-m2-purple-purple-40 {
+  background-color: var(--paint-style-ref-m2-purple-purple-40);
+}
+@utility paint-style-ref-m2-purple-purple-50 {
+  background-color: var(--paint-style-ref-m2-purple-purple-50);
+}
+@utility paint-style-ref-m2-purple-purple-60 {
+  background-color: var(--paint-style-ref-m2-purple-purple-60);
+}
+@utility paint-style-ref-m2-purple-purple-70 {
+  background-color: var(--paint-style-ref-m2-purple-purple-70);
+}
+@utility paint-style-ref-m2-purple-purple-80 {
+  background-color: var(--paint-style-ref-m2-purple-purple-80);
+}
+@utility paint-style-ref-m2-purple-purple-90 {
+  background-color: var(--paint-style-ref-m2-purple-purple-90);
+}
+@utility paint-style-ref-m2-purple-purple-95 {
+  background-color: var(--paint-style-ref-m2-purple-purple-95);
+}
+@utility paint-style-ref-m2-purple-purple-a-90 {
+  background-color: var(--paint-style-ref-m2-purple-purple-a-90);
+}
+@utility paint-style-ref-m2-purple-purple-a-80 {
+  background-color: var(--paint-style-ref-m2-purple-purple-a-80);
+}
+@utility paint-style-ref-m2-purple-purple-a-60 {
+  background-color: var(--paint-style-ref-m2-purple-purple-a-60);
+}
+@utility paint-style-ref-m2-purple-purple-a-30 {
+  background-color: var(--paint-style-ref-m2-purple-purple-a-30);
+}
+@utility paint-style-ref-m2-deep-purple-dp-purple-10 {
+  background-color: var(--paint-style-ref-m2-deep-purple-dp-purple-10);
+}
+@utility paint-style-ref-m2-deep-purple-dp-purple-20 {
+  background-color: var(--paint-style-ref-m2-deep-purple-dp-purple-20);
+}
+@utility paint-style-ref-m2-deep-purple-dp-purple-30 {
+  background-color: var(--paint-style-ref-m2-deep-purple-dp-purple-30);
+}
+@utility paint-style-ref-m2-deep-purple-dp-purple-40 {
+  background-color: var(--paint-style-ref-m2-deep-purple-dp-purple-40);
+}
+@utility paint-style-ref-m2-deep-purple-dp-purple-50 {
+  background-color: var(--paint-style-ref-m2-deep-purple-dp-purple-50);
+}
+@utility paint-style-ref-m2-deep-purple-dp-purple-60 {
+  background-color: var(--paint-style-ref-m2-deep-purple-dp-purple-60);
+}
+@utility paint-style-ref-m2-deep-purple-dp-purple-70 {
+  background-color: var(--paint-style-ref-m2-deep-purple-dp-purple-70);
+}
+@utility paint-style-ref-m2-deep-purple-dp-purple-80 {
+  background-color: var(--paint-style-ref-m2-deep-purple-dp-purple-80);
+}
+@utility paint-style-ref-m2-deep-purple-dp-purple-90 {
+  background-color: var(--paint-style-ref-m2-deep-purple-dp-purple-90);
+}
+@utility paint-style-ref-m2-deep-purple-dp-purple-95 {
+  background-color: var(--paint-style-ref-m2-deep-purple-dp-purple-95);
+}
+@utility paint-style-ref-m2-deep-purple-dp-purple-a-90 {
+  background-color: var(--paint-style-ref-m2-deep-purple-dp-purple-a-90);
+}
+@utility paint-style-ref-m2-deep-purple-dp-purple-a-80 {
+  background-color: var(--paint-style-ref-m2-deep-purple-dp-purple-a-80);
+}
+@utility paint-style-ref-m2-deep-purple-dp-purple-a-60 {
+  background-color: var(--paint-style-ref-m2-deep-purple-dp-purple-a-60);
+}
+@utility paint-style-ref-m2-deep-purple-dp-purple-a-30 {
+  background-color: var(--paint-style-ref-m2-deep-purple-dp-purple-a-30);
+}
+@utility paint-style-ref-m2-indigo-indgo-10 {
+  background-color: var(--paint-style-ref-m2-indigo-indgo-10);
+}
+@utility paint-style-ref-m2-indigo-indgo-20 {
+  background-color: var(--paint-style-ref-m2-indigo-indgo-20);
+}
+@utility paint-style-ref-m2-indigo-indgo-30 {
+  background-color: var(--paint-style-ref-m2-indigo-indgo-30);
+}
+@utility paint-style-ref-m2-indigo-indgo-40 {
+  background-color: var(--paint-style-ref-m2-indigo-indgo-40);
+}
+@utility paint-style-ref-m2-indigo-indgo-50 {
+  background-color: var(--paint-style-ref-m2-indigo-indgo-50);
+}
+@utility paint-style-ref-m2-indigo-indgo-60 {
+  background-color: var(--paint-style-ref-m2-indigo-indgo-60);
+}
+@utility paint-style-ref-m2-indigo-indgo-70 {
+  background-color: var(--paint-style-ref-m2-indigo-indgo-70);
+}
+@utility paint-style-ref-m2-indigo-indgo-80 {
+  background-color: var(--paint-style-ref-m2-indigo-indgo-80);
+}
+@utility paint-style-ref-m2-indigo-indgo-90 {
+  background-color: var(--paint-style-ref-m2-indigo-indgo-90);
+}
+@utility paint-style-ref-m2-indigo-indgo-95 {
+  background-color: var(--paint-style-ref-m2-indigo-indgo-95);
+}
+@utility paint-style-ref-m2-indigo-indgo-a-30 {
+  background-color: var(--paint-style-ref-m2-indigo-indgo-a-30);
+}
+@utility paint-style-ref-m2-indigo-indgo-a-60 {
+  background-color: var(--paint-style-ref-m2-indigo-indgo-a-60);
+}
+@utility paint-style-ref-m2-indigo-indgo-a-80 {
+  background-color: var(--paint-style-ref-m2-indigo-indgo-a-80);
+}
+@utility paint-style-ref-m2-indigo-indgo-a-90 {
+  background-color: var(--paint-style-ref-m2-indigo-indgo-a-90);
+}
+@utility paint-style-ref-m2-blue-blue-10 {
+  background-color: var(--paint-style-ref-m2-blue-blue-10);
+}
+@utility paint-style-ref-m2-blue-blue-20 {
+  background-color: var(--paint-style-ref-m2-blue-blue-20);
+}
+@utility paint-style-ref-m2-blue-blue-30 {
+  background-color: var(--paint-style-ref-m2-blue-blue-30);
+}
+@utility paint-style-ref-m2-blue-blue-40 {
+  background-color: var(--paint-style-ref-m2-blue-blue-40);
+}
+@utility paint-style-ref-m2-blue-blue-50 {
+  background-color: var(--paint-style-ref-m2-blue-blue-50);
+}
+@utility paint-style-ref-m2-blue-blue-60 {
+  background-color: var(--paint-style-ref-m2-blue-blue-60);
+}
+@utility paint-style-ref-m2-blue-blue-70 {
+  background-color: var(--paint-style-ref-m2-blue-blue-70);
+}
+@utility paint-style-ref-m2-blue-blue-80 {
+  background-color: var(--paint-style-ref-m2-blue-blue-80);
+}
+@utility paint-style-ref-m2-blue-blue-90 {
+  background-color: var(--paint-style-ref-m2-blue-blue-90);
+}
+@utility paint-style-ref-m2-blue-blue-95 {
+  background-color: var(--paint-style-ref-m2-blue-blue-95);
+}
+@utility paint-style-ref-m2-blue-blue-a-90 {
+  background-color: var(--paint-style-ref-m2-blue-blue-a-90);
+}
+@utility paint-style-ref-m2-blue-blue-a-80 {
+  background-color: var(--paint-style-ref-m2-blue-blue-a-80);
+}
+@utility paint-style-ref-m2-blue-blue-a-60 {
+  background-color: var(--paint-style-ref-m2-blue-blue-a-60);
+}
+@utility paint-style-ref-m2-blue-blue-a-30 {
+  background-color: var(--paint-style-ref-m2-blue-blue-a-30);
+}
+@utility paint-style-ref-m2-light-blue-lt-blue-10 {
+  background-color: var(--paint-style-ref-m2-light-blue-lt-blue-10);
+}
+@utility paint-style-ref-m2-light-blue-lt-blue-20 {
+  background-color: var(--paint-style-ref-m2-light-blue-lt-blue-20);
+}
+@utility paint-style-ref-m2-light-blue-lt-blue-30 {
+  background-color: var(--paint-style-ref-m2-light-blue-lt-blue-30);
+}
+@utility paint-style-ref-m2-light-blue-lt-blue-40 {
+  background-color: var(--paint-style-ref-m2-light-blue-lt-blue-40);
+}
+@utility paint-style-ref-m2-light-blue-lt-blue-50 {
+  background-color: var(--paint-style-ref-m2-light-blue-lt-blue-50);
+}
+@utility paint-style-ref-m2-light-blue-lt-blue-60 {
+  background-color: var(--paint-style-ref-m2-light-blue-lt-blue-60);
+}
+@utility paint-style-ref-m2-light-blue-lt-blue-70 {
+  background-color: var(--paint-style-ref-m2-light-blue-lt-blue-70);
+}
+@utility paint-style-ref-m2-light-blue-lt-blue-80 {
+  background-color: var(--paint-style-ref-m2-light-blue-lt-blue-80);
+}
+@utility paint-style-ref-m2-light-blue-lt-blue-90 {
+  background-color: var(--paint-style-ref-m2-light-blue-lt-blue-90);
+}
+@utility paint-style-ref-m2-light-blue-lt-blue-95 {
+  background-color: var(--paint-style-ref-m2-light-blue-lt-blue-95);
+}
+@utility paint-style-ref-m2-light-blue-lt-blue-a-30 {
+  background-color: var(--paint-style-ref-m2-light-blue-lt-blue-a-30);
+}
+@utility paint-style-ref-m2-light-blue-lt-blue-a-60 {
+  background-color: var(--paint-style-ref-m2-light-blue-lt-blue-a-60);
+}
+@utility paint-style-ref-m2-light-blue-lt-blue-a-80 {
+  background-color: var(--paint-style-ref-m2-light-blue-lt-blue-a-80);
+}
+@utility paint-style-ref-m2-light-blue-lt-blue-a-90 {
+  background-color: var(--paint-style-ref-m2-light-blue-lt-blue-a-90);
+}
+@utility paint-style-ref-m2-cyan-cyan-10 {
+  background-color: var(--paint-style-ref-m2-cyan-cyan-10);
+}
+@utility paint-style-ref-m2-cyan-cyan-20 {
+  background-color: var(--paint-style-ref-m2-cyan-cyan-20);
+}
+@utility paint-style-ref-m2-cyan-cyan-30 {
+  background-color: var(--paint-style-ref-m2-cyan-cyan-30);
+}
+@utility paint-style-ref-m2-cyan-cyan-40 {
+  background-color: var(--paint-style-ref-m2-cyan-cyan-40);
+}
+@utility paint-style-ref-m2-cyan-cyan-50 {
+  background-color: var(--paint-style-ref-m2-cyan-cyan-50);
+}
+@utility paint-style-ref-m2-cyan-cyan-60 {
+  background-color: var(--paint-style-ref-m2-cyan-cyan-60);
+}
+@utility paint-style-ref-m2-cyan-cyan-70 {
+  background-color: var(--paint-style-ref-m2-cyan-cyan-70);
+}
+@utility paint-style-ref-m2-cyan-cyan-80 {
+  background-color: var(--paint-style-ref-m2-cyan-cyan-80);
+}
+@utility paint-style-ref-m2-cyan-cyan-90 {
+  background-color: var(--paint-style-ref-m2-cyan-cyan-90);
+}
+@utility paint-style-ref-m2-cyan-cyan-95 {
+  background-color: var(--paint-style-ref-m2-cyan-cyan-95);
+}
+@utility paint-style-ref-m2-cyan-cyan-a-90 {
+  background-color: var(--paint-style-ref-m2-cyan-cyan-a-90);
+}
+@utility paint-style-ref-m2-cyan-cyan-a-80 {
+  background-color: var(--paint-style-ref-m2-cyan-cyan-a-80);
+}
+@utility paint-style-ref-m2-cyan-cyan-a-60 {
+  background-color: var(--paint-style-ref-m2-cyan-cyan-a-60);
+}
+@utility paint-style-ref-m2-cyan-cyan-a-30 {
+  background-color: var(--paint-style-ref-m2-cyan-cyan-a-30);
+}
+@utility paint-style-ref-m2-teal-teal-10 {
+  background-color: var(--paint-style-ref-m2-teal-teal-10);
+}
+@utility paint-style-ref-m2-teal-teal-20 {
+  background-color: var(--paint-style-ref-m2-teal-teal-20);
+}
+@utility paint-style-ref-m2-teal-teal-30 {
+  background-color: var(--paint-style-ref-m2-teal-teal-30);
+}
+@utility paint-style-ref-m2-teal-teal-40 {
+  background-color: var(--paint-style-ref-m2-teal-teal-40);
+}
+@utility paint-style-ref-m2-teal-teal-50 {
+  background-color: var(--paint-style-ref-m2-teal-teal-50);
+}
+@utility paint-style-ref-m2-teal-teal-60 {
+  background-color: var(--paint-style-ref-m2-teal-teal-60);
+}
+@utility paint-style-ref-m2-teal-teal-70 {
+  background-color: var(--paint-style-ref-m2-teal-teal-70);
+}
+@utility paint-style-ref-m2-teal-teal-80 {
+  background-color: var(--paint-style-ref-m2-teal-teal-80);
+}
+@utility paint-style-ref-m2-teal-teal-90 {
+  background-color: var(--paint-style-ref-m2-teal-teal-90);
+}
+@utility paint-style-ref-m2-teal-teal-95 {
+  background-color: var(--paint-style-ref-m2-teal-teal-95);
+}
+@utility paint-style-ref-m2-teal-teal-a-90 {
+  background-color: var(--paint-style-ref-m2-teal-teal-a-90);
+}
+@utility paint-style-ref-m2-teal-teal-a-80 {
+  background-color: var(--paint-style-ref-m2-teal-teal-a-80);
+}
+@utility paint-style-ref-m2-teal-teal-a-60 {
+  background-color: var(--paint-style-ref-m2-teal-teal-a-60);
+}
+@utility paint-style-ref-m2-teal-teal-a-30 {
+  background-color: var(--paint-style-ref-m2-teal-teal-a-30);
+}
+@utility paint-style-ref-m2-green-green-10 {
+  background-color: var(--paint-style-ref-m2-green-green-10);
+}
+@utility paint-style-ref-m2-green-green-20 {
+  background-color: var(--paint-style-ref-m2-green-green-20);
+}
+@utility paint-style-ref-m2-green-green-30 {
+  background-color: var(--paint-style-ref-m2-green-green-30);
+}
+@utility paint-style-ref-m2-green-green-40 {
+  background-color: var(--paint-style-ref-m2-green-green-40);
+}
+@utility paint-style-ref-m2-green-green-50 {
+  background-color: var(--paint-style-ref-m2-green-green-50);
+}
+@utility paint-style-ref-m2-green-green-60 {
+  background-color: var(--paint-style-ref-m2-green-green-60);
+}
+@utility paint-style-ref-m2-green-green-70 {
+  background-color: var(--paint-style-ref-m2-green-green-70);
+}
+@utility paint-style-ref-m2-green-green-80 {
+  background-color: var(--paint-style-ref-m2-green-green-80);
+}
+@utility paint-style-ref-m2-green-green-90 {
+  background-color: var(--paint-style-ref-m2-green-green-90);
+}
+@utility paint-style-ref-m2-green-green-95 {
+  background-color: var(--paint-style-ref-m2-green-green-95);
+}
+@utility paint-style-ref-m2-green-green-a-90 {
+  background-color: var(--paint-style-ref-m2-green-green-a-90);
+}
+@utility paint-style-ref-m2-green-green-a-80 {
+  background-color: var(--paint-style-ref-m2-green-green-a-80);
+}
+@utility paint-style-ref-m2-green-green-a-60 {
+  background-color: var(--paint-style-ref-m2-green-green-a-60);
+}
+@utility paint-style-ref-m2-green-green-a-30 {
+  background-color: var(--paint-style-ref-m2-green-green-a-30);
+}
+@utility paint-style-ref-m2-light-green-lt-green-10 {
+  background-color: var(--paint-style-ref-m2-light-green-lt-green-10);
+}
+@utility paint-style-ref-m2-light-green-lt-green-20 {
+  background-color: var(--paint-style-ref-m2-light-green-lt-green-20);
+}
+@utility paint-style-ref-m2-light-green-lt-green-30 {
+  background-color: var(--paint-style-ref-m2-light-green-lt-green-30);
+}
+@utility paint-style-ref-m2-light-green-lt-green-40 {
+  background-color: var(--paint-style-ref-m2-light-green-lt-green-40);
+}
+@utility paint-style-ref-m2-light-green-lt-green-50 {
+  background-color: var(--paint-style-ref-m2-light-green-lt-green-50);
+}
+@utility paint-style-ref-m2-light-green-lt-green-60 {
+  background-color: var(--paint-style-ref-m2-light-green-lt-green-60);
+}
+@utility paint-style-ref-m2-light-green-lt-green-70 {
+  background-color: var(--paint-style-ref-m2-light-green-lt-green-70);
+}
+@utility paint-style-ref-m2-light-green-lt-green-80 {
+  background-color: var(--paint-style-ref-m2-light-green-lt-green-80);
+}
+@utility paint-style-ref-m2-light-green-lt-green-90 {
+  background-color: var(--paint-style-ref-m2-light-green-lt-green-90);
+}
+@utility paint-style-ref-m2-light-green-lt-green-95 {
+  background-color: var(--paint-style-ref-m2-light-green-lt-green-95);
+}
+@utility paint-style-ref-m2-light-green-lt-green-a-90 {
+  background-color: var(--paint-style-ref-m2-light-green-lt-green-a-90);
+}
+@utility paint-style-ref-m2-light-green-lt-green-a-80 {
+  background-color: var(--paint-style-ref-m2-light-green-lt-green-a-80);
+}
+@utility paint-style-ref-m2-light-green-lt-green-a-60 {
+  background-color: var(--paint-style-ref-m2-light-green-lt-green-a-60);
+}
+@utility paint-style-ref-m2-light-green-lt-green-a-30 {
+  background-color: var(--paint-style-ref-m2-light-green-lt-green-a-30);
+}
+@utility paint-style-ref-m2-lime-lime-10 {
+  background-color: var(--paint-style-ref-m2-lime-lime-10);
+}
+@utility paint-style-ref-m2-lime-lime-20 {
+  background-color: var(--paint-style-ref-m2-lime-lime-20);
+}
+@utility paint-style-ref-m2-lime-lime-30 {
+  background-color: var(--paint-style-ref-m2-lime-lime-30);
+}
+@utility paint-style-ref-m2-lime-lime-40 {
+  background-color: var(--paint-style-ref-m2-lime-lime-40);
+}
+@utility paint-style-ref-m2-lime-lime-50 {
+  background-color: var(--paint-style-ref-m2-lime-lime-50);
+}
+@utility paint-style-ref-m2-lime-lime-60 {
+  background-color: var(--paint-style-ref-m2-lime-lime-60);
+}
+@utility paint-style-ref-m2-lime-lime-70 {
+  background-color: var(--paint-style-ref-m2-lime-lime-70);
+}
+@utility paint-style-ref-m2-lime-lime-80 {
+  background-color: var(--paint-style-ref-m2-lime-lime-80);
+}
+@utility paint-style-ref-m2-lime-lime-90 {
+  background-color: var(--paint-style-ref-m2-lime-lime-90);
+}
+@utility paint-style-ref-m2-lime-lime-95 {
+  background-color: var(--paint-style-ref-m2-lime-lime-95);
+}
+@utility paint-style-ref-m2-lime-lime-a-90 {
+  background-color: var(--paint-style-ref-m2-lime-lime-a-90);
+}
+@utility paint-style-ref-m2-lime-lime-a-80 {
+  background-color: var(--paint-style-ref-m2-lime-lime-a-80);
+}
+@utility paint-style-ref-m2-lime-lime-a-60 {
+  background-color: var(--paint-style-ref-m2-lime-lime-a-60);
+}
+@utility paint-style-ref-m2-lime-lime-a-30 {
+  background-color: var(--paint-style-ref-m2-lime-lime-a-30);
+}
+@utility paint-style-ref-m2-yellow-yellow-10 {
+  background-color: var(--paint-style-ref-m2-yellow-yellow-10);
+}
+@utility paint-style-ref-m2-yellow-yellow-20 {
+  background-color: var(--paint-style-ref-m2-yellow-yellow-20);
+}
+@utility paint-style-ref-m2-yellow-yellow-30 {
+  background-color: var(--paint-style-ref-m2-yellow-yellow-30);
+}
+@utility paint-style-ref-m2-yellow-yellow-40 {
+  background-color: var(--paint-style-ref-m2-yellow-yellow-40);
+}
+@utility paint-style-ref-m2-yellow-yellow-50 {
+  background-color: var(--paint-style-ref-m2-yellow-yellow-50);
+}
+@utility paint-style-ref-m2-yellow-yellow-60 {
+  background-color: var(--paint-style-ref-m2-yellow-yellow-60);
+}
+@utility paint-style-ref-m2-yellow-yellow-70 {
+  background-color: var(--paint-style-ref-m2-yellow-yellow-70);
+}
+@utility paint-style-ref-m2-yellow-yellow-80 {
+  background-color: var(--paint-style-ref-m2-yellow-yellow-80);
+}
+@utility paint-style-ref-m2-yellow-yellow-90 {
+  background-color: var(--paint-style-ref-m2-yellow-yellow-90);
+}
+@utility paint-style-ref-m2-yellow-yellow-95 {
+  background-color: var(--paint-style-ref-m2-yellow-yellow-95);
+}
+@utility paint-style-ref-m2-yellow-yellow-a-90 {
+  background-color: var(--paint-style-ref-m2-yellow-yellow-a-90);
+}
+@utility paint-style-ref-m2-yellow-yellow-a-80 {
+  background-color: var(--paint-style-ref-m2-yellow-yellow-a-80);
+}
+@utility paint-style-ref-m2-yellow-yellow-a-60 {
+  background-color: var(--paint-style-ref-m2-yellow-yellow-a-60);
+}
+@utility paint-style-ref-m2-yellow-yellow-a-30 {
+  background-color: var(--paint-style-ref-m2-yellow-yellow-a-30);
+}
+@utility paint-style-ref-m2-amber-amber-10 {
+  background-color: var(--paint-style-ref-m2-amber-amber-10);
+}
+@utility paint-style-ref-m2-amber-amber-20 {
+  background-color: var(--paint-style-ref-m2-amber-amber-20);
+}
+@utility paint-style-ref-m2-amber-amber-30 {
+  background-color: var(--paint-style-ref-m2-amber-amber-30);
+}
+@utility paint-style-ref-m2-amber-amber-40 {
+  background-color: var(--paint-style-ref-m2-amber-amber-40);
+}
+@utility paint-style-ref-m2-amber-amber-50 {
+  background-color: var(--paint-style-ref-m2-amber-amber-50);
+}
+@utility paint-style-ref-m2-amber-amber-60 {
+  background-color: var(--paint-style-ref-m2-amber-amber-60);
+}
+@utility paint-style-ref-m2-amber-amber-70 {
+  background-color: var(--paint-style-ref-m2-amber-amber-70);
+}
+@utility paint-style-ref-m2-amber-amber-80 {
+  background-color: var(--paint-style-ref-m2-amber-amber-80);
+}
+@utility paint-style-ref-m2-amber-amber-90 {
+  background-color: var(--paint-style-ref-m2-amber-amber-90);
+}
+@utility paint-style-ref-m2-amber-amber-95 {
+  background-color: var(--paint-style-ref-m2-amber-amber-95);
+}
+@utility paint-style-ref-m2-amber-amber-a-90 {
+  background-color: var(--paint-style-ref-m2-amber-amber-a-90);
+}
+@utility paint-style-ref-m2-amber-amber-a-80 {
+  background-color: var(--paint-style-ref-m2-amber-amber-a-80);
+}
+@utility paint-style-ref-m2-amber-amber-a-60 {
+  background-color: var(--paint-style-ref-m2-amber-amber-a-60);
+}
+@utility paint-style-ref-m2-amber-amber-a-30 {
+  background-color: var(--paint-style-ref-m2-amber-amber-a-30);
+}
+@utility paint-style-ref-m2-orange-orange-10 {
+  background-color: var(--paint-style-ref-m2-orange-orange-10);
+}
+@utility paint-style-ref-m2-orange-orange-20 {
+  background-color: var(--paint-style-ref-m2-orange-orange-20);
+}
+@utility paint-style-ref-m2-orange-orange-30 {
+  background-color: var(--paint-style-ref-m2-orange-orange-30);
+}
+@utility paint-style-ref-m2-orange-orange-40 {
+  background-color: var(--paint-style-ref-m2-orange-orange-40);
+}
+@utility paint-style-ref-m2-orange-orange-50 {
+  background-color: var(--paint-style-ref-m2-orange-orange-50);
+}
+@utility paint-style-ref-m2-orange-orange-60 {
+  background-color: var(--paint-style-ref-m2-orange-orange-60);
+}
+@utility paint-style-ref-m2-orange-orange-70 {
+  background-color: var(--paint-style-ref-m2-orange-orange-70);
+}
+@utility paint-style-ref-m2-orange-orange-80 {
+  background-color: var(--paint-style-ref-m2-orange-orange-80);
+}
+@utility paint-style-ref-m2-orange-orange-90 {
+  background-color: var(--paint-style-ref-m2-orange-orange-90);
+}
+@utility paint-style-ref-m2-orange-orange-95 {
+  background-color: var(--paint-style-ref-m2-orange-orange-95);
+}
+@utility paint-style-ref-m2-orange-orange-a-90 {
+  background-color: var(--paint-style-ref-m2-orange-orange-a-90);
+}
+@utility paint-style-ref-m2-orange-orange-a-80 {
+  background-color: var(--paint-style-ref-m2-orange-orange-a-80);
+}
+@utility paint-style-ref-m2-orange-orange-a-60 {
+  background-color: var(--paint-style-ref-m2-orange-orange-a-60);
+}
+@utility paint-style-ref-m2-orange-orange-a-30 {
+  background-color: var(--paint-style-ref-m2-orange-orange-a-30);
+}
+@utility paint-style-ref-m2-deep-orange-dp-orange-10 {
+  background-color: var(--paint-style-ref-m2-deep-orange-dp-orange-10);
+}
+@utility paint-style-ref-m2-deep-orange-dp-orange-20 {
+  background-color: var(--paint-style-ref-m2-deep-orange-dp-orange-20);
+}
+@utility paint-style-ref-m2-deep-orange-dp-orange-30 {
+  background-color: var(--paint-style-ref-m2-deep-orange-dp-orange-30);
+}
+@utility paint-style-ref-m2-deep-orange-dp-orange-40 {
+  background-color: var(--paint-style-ref-m2-deep-orange-dp-orange-40);
+}
+@utility paint-style-ref-m2-deep-orange-dp-orange-50 {
+  background-color: var(--paint-style-ref-m2-deep-orange-dp-orange-50);
+}
+@utility paint-style-ref-m2-deep-orange-dp-orange-60 {
+  background-color: var(--paint-style-ref-m2-deep-orange-dp-orange-60);
+}
+@utility paint-style-ref-m2-deep-orange-dp-orange-70 {
+  background-color: var(--paint-style-ref-m2-deep-orange-dp-orange-70);
+}
+@utility paint-style-ref-m2-deep-orange-dp-orange-80 {
+  background-color: var(--paint-style-ref-m2-deep-orange-dp-orange-80);
+}
+@utility paint-style-ref-m2-deep-orange-dp-orange-90 {
+  background-color: var(--paint-style-ref-m2-deep-orange-dp-orange-90);
+}
+@utility paint-style-ref-m2-deep-orange-dp-orange-95 {
+  background-color: var(--paint-style-ref-m2-deep-orange-dp-orange-95);
+}
+@utility paint-style-ref-m2-deep-orange-dp-orange-a-30 {
+  background-color: var(--paint-style-ref-m2-deep-orange-dp-orange-a-30);
+}
+@utility paint-style-ref-m2-deep-orange-dp-orange-a-60 {
+  background-color: var(--paint-style-ref-m2-deep-orange-dp-orange-a-60);
+}
+@utility paint-style-ref-m2-deep-orange-dp-orange-a-80 {
+  background-color: var(--paint-style-ref-m2-deep-orange-dp-orange-a-80);
+}
+@utility paint-style-ref-m2-deep-orange-dp-orange-a-90 {
+  background-color: var(--paint-style-ref-m2-deep-orange-dp-orange-a-90);
+}
+@utility paint-style-ref-m2-brown-brown-10 {
+  background-color: var(--paint-style-ref-m2-brown-brown-10);
+}
+@utility paint-style-ref-m2-brown-brown-20 {
+  background-color: var(--paint-style-ref-m2-brown-brown-20);
+}
+@utility paint-style-ref-m2-brown-brown-30 {
+  background-color: var(--paint-style-ref-m2-brown-brown-30);
+}
+@utility paint-style-ref-m2-brown-brown-40 {
+  background-color: var(--paint-style-ref-m2-brown-brown-40);
+}
+@utility paint-style-ref-m2-brown-browne-50 {
+  background-color: var(--paint-style-ref-m2-brown-browne-50);
+}
+@utility paint-style-ref-m2-brown-brown-60 {
+  background-color: var(--paint-style-ref-m2-brown-brown-60);
+}
+@utility paint-style-ref-m2-brown-brown-70 {
+  background-color: var(--paint-style-ref-m2-brown-brown-70);
+}
+@utility paint-style-ref-m2-brown-brown-80 {
+  background-color: var(--paint-style-ref-m2-brown-brown-80);
+}
+@utility paint-style-ref-m2-brown-brown-90 {
+  background-color: var(--paint-style-ref-m2-brown-brown-90);
+}
+@utility paint-style-ref-m2-brown-brown-95 {
+  background-color: var(--paint-style-ref-m2-brown-brown-95);
+}
+@utility paint-style-ref-m2-blue-gray-bl-gray-10 {
+  background-color: var(--paint-style-ref-m2-blue-gray-bl-gray-10);
+}
+@utility paint-style-ref-m2-blue-gray-bl-gray-20 {
+  background-color: var(--paint-style-ref-m2-blue-gray-bl-gray-20);
+}
+@utility paint-style-ref-m2-blue-gray-bl-gray-30 {
+  background-color: var(--paint-style-ref-m2-blue-gray-bl-gray-30);
+}
+@utility paint-style-ref-m2-blue-gray-bl-gray-40 {
+  background-color: var(--paint-style-ref-m2-blue-gray-bl-gray-40);
+}
+@utility paint-style-ref-m2-blue-gray-bl-gray-50 {
+  background-color: var(--paint-style-ref-m2-blue-gray-bl-gray-50);
+}
+@utility paint-style-ref-m2-blue-gray-bl-gray-60 {
+  background-color: var(--paint-style-ref-m2-blue-gray-bl-gray-60);
+}
+@utility paint-style-ref-m2-blue-gray-bl-gray-70 {
+  background-color: var(--paint-style-ref-m2-blue-gray-bl-gray-70);
+}
+@utility paint-style-ref-m2-blue-gray-bl-gray-80 {
+  background-color: var(--paint-style-ref-m2-blue-gray-bl-gray-80);
+}
+@utility paint-style-ref-m2-blue-gray-bl-gray-90 {
+  background-color: var(--paint-style-ref-m2-blue-gray-bl-gray-90);
+}
+@utility paint-style-ref-m2-blue-gray-bl-gray-95 {
+  background-color: var(--paint-style-ref-m2-blue-gray-bl-gray-95);
+}
+@utility paint-style-ref-m2-gray-gray-10 {
+  background-color: var(--paint-style-ref-m2-gray-gray-10);
+}
+@utility paint-style-ref-m2-gray-gray-20 {
+  background-color: var(--paint-style-ref-m2-gray-gray-20);
+}
+@utility paint-style-ref-m2-gray-gray-30 {
+  background-color: var(--paint-style-ref-m2-gray-gray-30);
+}
+@utility paint-style-ref-m2-gray-gray-40 {
+  background-color: var(--paint-style-ref-m2-gray-gray-40);
+}
+@utility paint-style-ref-m2-gray-gray-50 {
+  background-color: var(--paint-style-ref-m2-gray-gray-50);
+}
+@utility paint-style-ref-m2-gray-gray-60 {
+  background-color: var(--paint-style-ref-m2-gray-gray-60);
+}
+@utility paint-style-ref-m2-gray-gray-70 {
+  background-color: var(--paint-style-ref-m2-gray-gray-70);
+}
+@utility paint-style-ref-m2-gray-gray-80 {
+  background-color: var(--paint-style-ref-m2-gray-gray-80);
+}
+@utility paint-style-ref-m2-gray-gray-90 {
+  background-color: var(--paint-style-ref-m2-gray-gray-90);
+}
+@utility paint-style-ref-m2-gray-gray-95 {
+  background-color: var(--paint-style-ref-m2-gray-gray-95);
+}
+@utility paint-style-ref-expressions-black {
+  background-color: var(--paint-style-ref-expressions-black);
+}
+@utility paint-style-ref-expressions-white {
+  background-color: var(--paint-style-ref-expressions-white);
+}
+@utility paint-style-ref-expressions-accent-acnt-10 {
+  background-color: var(--paint-style-ref-expressions-accent-acnt-10);
+}
+@utility paint-style-ref-expressions-accent-acnt-20 {
+  background-color: var(--paint-style-ref-expressions-accent-acnt-20);
+}
+@utility paint-style-ref-expressions-accent-acnt-30 {
+  background-color: var(--paint-style-ref-expressions-accent-acnt-30);
+}
+@utility paint-style-ref-expressions-accent-acnt-40 {
+  background-color: var(--paint-style-ref-expressions-accent-acnt-40);
+}
+@utility paint-style-ref-expressions-accent-acnt-50 {
+  background-color: var(--paint-style-ref-expressions-accent-acnt-50);
+}
+@utility paint-style-ref-expressions-accent-acnt-60 {
+  background-color: var(--paint-style-ref-expressions-accent-acnt-60);
+}
+@utility paint-style-ref-expressions-accent-acnt-70 {
+  background-color: var(--paint-style-ref-expressions-accent-acnt-70);
+}
+@utility paint-style-ref-expressions-accent-acnt-80 {
+  background-color: var(--paint-style-ref-expressions-accent-acnt-80);
+}
+@utility paint-style-ref-expressions-accent-acnt-90 {
+  background-color: var(--paint-style-ref-expressions-accent-acnt-90);
+}
+@utility paint-style-ref-expressions-accent-acnt-95 {
+  background-color: var(--paint-style-ref-expressions-accent-acnt-95);
+}
+@utility paint-style-ref-expressions-error-error-2 {
+  background-color: var(--paint-style-ref-expressions-error-error-2);
+}
+@utility paint-style-ref-expressions-error-error-10 {
+  background-color: var(--paint-style-ref-expressions-error-error-10);
+}
+@utility paint-style-ref-expressions-error-error-20 {
+  background-color: var(--paint-style-ref-expressions-error-error-20);
+}
+@utility paint-style-ref-expressions-error-error-30 {
+  background-color: var(--paint-style-ref-expressions-error-error-30);
+}
+@utility paint-style-ref-expressions-error-error-40 {
+  background-color: var(--paint-style-ref-expressions-error-error-40);
+}
+@utility paint-style-ref-expressions-error-error-50 {
+  background-color: var(--paint-style-ref-expressions-error-error-50);
+}
+@utility paint-style-ref-expressions-error-error-60 {
+  background-color: var(--paint-style-ref-expressions-error-error-60);
+}
+@utility paint-style-ref-expressions-error-error-70 {
+  background-color: var(--paint-style-ref-expressions-error-error-70);
+}
+@utility paint-style-ref-expressions-error-error-80 {
+  background-color: var(--paint-style-ref-expressions-error-error-80);
+}
+@utility paint-style-ref-expressions-error-error-90 {
+  background-color: var(--paint-style-ref-expressions-error-error-90);
+}
+@utility paint-style-ref-expressions-error-error-95 {
+  background-color: var(--paint-style-ref-expressions-error-error-95);
+}
+@utility paint-style-ref-expressions-error-error-97 {
+  background-color: var(--paint-style-ref-expressions-error-error-97);
+}
+@utility paint-style-ref-expressions-warning-warn-2 {
+  background-color: var(--paint-style-ref-expressions-warning-warn-2);
+}
+@utility paint-style-ref-expressions-warning-warn-10 {
+  background-color: var(--paint-style-ref-expressions-warning-warn-10);
+}
+@utility paint-style-ref-expressions-warning-warn-20 {
+  background-color: var(--paint-style-ref-expressions-warning-warn-20);
+}
+@utility paint-style-ref-expressions-warning-warn-30 {
+  background-color: var(--paint-style-ref-expressions-warning-warn-30);
+}
+@utility paint-style-ref-expressions-warning-warn-40 {
+  background-color: var(--paint-style-ref-expressions-warning-warn-40);
+}
+@utility paint-style-ref-expressions-warning-warn-50 {
+  background-color: var(--paint-style-ref-expressions-warning-warn-50);
+}
+@utility paint-style-ref-expressions-warning-warn-60 {
+  background-color: var(--paint-style-ref-expressions-warning-warn-60);
+}
+@utility paint-style-ref-expressions-warning-warn-70 {
+  background-color: var(--paint-style-ref-expressions-warning-warn-70);
+}
+@utility paint-style-ref-expressions-warning-warn-80 {
+  background-color: var(--paint-style-ref-expressions-warning-warn-80);
+}
+@utility paint-style-ref-expressions-warning-warn-90 {
+  background-color: var(--paint-style-ref-expressions-warning-warn-90);
+}
+@utility paint-style-ref-expressions-warning-warn-95 {
+  background-color: var(--paint-style-ref-expressions-warning-warn-95);
+}
+@utility paint-style-ref-expressions-warning-warn-97 {
+  background-color: var(--paint-style-ref-expressions-warning-warn-97);
+}
+@utility paint-style-ref-expressions-success-success-2 {
+  background-color: var(--paint-style-ref-expressions-success-success-2);
+}
+@utility paint-style-ref-expressions-success-success-10 {
+  background-color: var(--paint-style-ref-expressions-success-success-10);
+}
+@utility paint-style-ref-expressions-success-success-20 {
+  background-color: var(--paint-style-ref-expressions-success-success-20);
+}
+@utility paint-style-ref-expressions-success-success-30 {
+  background-color: var(--paint-style-ref-expressions-success-success-30);
+}
+@utility paint-style-ref-expressions-success-success-40 {
+  background-color: var(--paint-style-ref-expressions-success-success-40);
+}
+@utility paint-style-ref-expressions-success-success-50 {
+  background-color: var(--paint-style-ref-expressions-success-success-50);
+}
+@utility paint-style-ref-expressions-success-success-60 {
+  background-color: var(--paint-style-ref-expressions-success-success-60);
+}
+@utility paint-style-ref-expressions-success-success-70 {
+  background-color: var(--paint-style-ref-expressions-success-success-70);
+}
+@utility paint-style-ref-expressions-success-success-80 {
+  background-color: var(--paint-style-ref-expressions-success-success-80);
+}
+@utility paint-style-ref-expressions-success-success-90 {
+  background-color: var(--paint-style-ref-expressions-success-success-90);
+}
+@utility paint-style-ref-expressions-success-success-95 {
+  background-color: var(--paint-style-ref-expressions-success-success-95);
+}
+@utility paint-style-ref-expressions-success-success-97 {
+  background-color: var(--paint-style-ref-expressions-success-success-97);
+}
+@utility paint-style-ref-expressions-info-info-2 {
+  background-color: var(--paint-style-ref-expressions-info-info-2);
+}
+@utility paint-style-ref-expressions-info-info-10 {
+  background-color: var(--paint-style-ref-expressions-info-info-10);
+}
+@utility paint-style-ref-expressions-info-info-20 {
+  background-color: var(--paint-style-ref-expressions-info-info-20);
+}
+@utility paint-style-ref-expressions-info-info-30 {
+  background-color: var(--paint-style-ref-expressions-info-info-30);
+}
+@utility paint-style-ref-expressions-info-info-40 {
+  background-color: var(--paint-style-ref-expressions-info-info-40);
+}
+@utility paint-style-ref-expressions-info-info-50 {
+  background-color: var(--paint-style-ref-expressions-info-info-50);
+}
+@utility paint-style-ref-expressions-info-info-60 {
+  background-color: var(--paint-style-ref-expressions-info-info-60);
+}
+@utility paint-style-ref-expressions-info-info-70 {
+  background-color: var(--paint-style-ref-expressions-info-info-70);
+}
+@utility paint-style-ref-expressions-info-info-80 {
+  background-color: var(--paint-style-ref-expressions-info-info-80);
+}
+@utility paint-style-ref-expressions-info-info-90 {
+  background-color: var(--paint-style-ref-expressions-info-info-90);
+}
+@utility paint-style-ref-expressions-info-info-95 {
+  background-color: var(--paint-style-ref-expressions-info-info-95);
+}
+@utility paint-style-ref-expressions-info-info-97 {
+  background-color: var(--paint-style-ref-expressions-info-info-97);
+}
+@utility paint-style-ref-expressions-muted-muted-2 {
+  background-color: var(--paint-style-ref-expressions-muted-muted-2);
+}
+@utility paint-style-ref-expressions-muted-muted-10 {
+  background-color: var(--paint-style-ref-expressions-muted-muted-10);
+}
+@utility paint-style-ref-expressions-muted-muted-20 {
+  background-color: var(--paint-style-ref-expressions-muted-muted-20);
+}
+@utility paint-style-ref-expressions-muted-muted-30 {
+  background-color: var(--paint-style-ref-expressions-muted-muted-30);
+}
+@utility paint-style-ref-expressions-muted-muted-40 {
+  background-color: var(--paint-style-ref-expressions-muted-muted-40);
+}
+@utility paint-style-ref-expressions-muted-muted-50 {
+  background-color: var(--paint-style-ref-expressions-muted-muted-50);
+}
+@utility paint-style-ref-expressions-muted-muted-60 {
+  background-color: var(--paint-style-ref-expressions-muted-muted-60);
+}
+@utility paint-style-ref-expressions-muted-muted-70 {
+  background-color: var(--paint-style-ref-expressions-muted-muted-70);
+}
+@utility paint-style-ref-expressions-muted-muted-80 {
+  background-color: var(--paint-style-ref-expressions-muted-muted-80);
+}
+@utility paint-style-ref-expressions-muted-muted-90 {
+  background-color: var(--paint-style-ref-expressions-muted-muted-90);
+}
+@utility paint-style-ref-expressions-muted-muted-95 {
+  background-color: var(--paint-style-ref-expressions-muted-muted-95);
+}
+@utility paint-style-ref-expressions-muted-muted-97 {
+  background-color: var(--paint-style-ref-expressions-muted-muted-97);
+}
+@utility paint-style-ref-expressions-muted-variant-muted-var-2 {
+  background-color: var(--paint-style-ref-expressions-muted-variant-muted-var-2);
+}
+@utility paint-style-ref-expressions-muted-variant-muted-var-10 {
+  background-color: var(--paint-style-ref-expressions-muted-variant-muted-var-10);
+}
+@utility paint-style-ref-expressions-muted-variant-muted-var-20 {
+  background-color: var(--paint-style-ref-expressions-muted-variant-muted-var-20);
+}
+@utility paint-style-ref-expressions-muted-variant-muted-var-30 {
+  background-color: var(--paint-style-ref-expressions-muted-variant-muted-var-30);
+}
+@utility paint-style-ref-expressions-muted-variant-muted-var-40 {
+  background-color: var(--paint-style-ref-expressions-muted-variant-muted-var-40);
+}
+@utility paint-style-ref-expressions-muted-variant-muted-var-50 {
+  background-color: var(--paint-style-ref-expressions-muted-variant-muted-var-50);
+}
+@utility paint-style-ref-expressions-muted-variant-muted-var-60 {
+  background-color: var(--paint-style-ref-expressions-muted-variant-muted-var-60);
+}
+@utility paint-style-ref-expressions-muted-variant-muted-var-70 {
+  background-color: var(--paint-style-ref-expressions-muted-variant-muted-var-70);
+}
+@utility paint-style-ref-expressions-muted-variant-muted-var-80 {
+  background-color: var(--paint-style-ref-expressions-muted-variant-muted-var-80);
+}
+@utility paint-style-ref-expressions-muted-variant-muted-var-90 {
+  background-color: var(--paint-style-ref-expressions-muted-variant-muted-var-90);
+}
+@utility paint-style-ref-expressions-muted-variant-muted-var-95 {
+  background-color: var(--paint-style-ref-expressions-muted-variant-muted-var-95);
+}
+@utility paint-style-ref-expressions-muted-variant-muted-var-97 {
+  background-color: var(--paint-style-ref-expressions-muted-variant-muted-var-97);
+}
+@utility paint-style-sys-dark-gradients-linear-prim-btn {
+  background-image: var(--paint-style-sys-dark-gradients-linear-prim-btn);
+}
+@utility paint-style-key-colors-blue-500 {
+  background-color: var(--paint-style-key-colors-blue-500);
+}
+@utility paint-style-key-colors-blugrey-500 {
+  background-color: var(--paint-style-key-colors-blugrey-500);
+}
+@utility paint-style-key-colors-cyan-500 {
+  background-color: var(--paint-style-key-colors-cyan-500);
+}
+@utility paint-style-key-colors-deepurp-500 {
+  background-color: var(--paint-style-key-colors-deepurp-500);
+}
+@utility paint-style-key-colors-green-500 {
+  background-color: var(--paint-style-key-colors-green-500);
+}
+@utility paint-style-key-colors-grey-500 {
+  background-color: var(--paint-style-key-colors-grey-500);
+}
+@utility paint-style-key-colors-indigo-500 {
+  background-color: var(--paint-style-key-colors-indigo-500);
+}
+@utility paint-style-key-colors-orange-500 {
+  background-color: var(--paint-style-key-colors-orange-500);
+}
+@utility paint-style-key-colors-red-50 {
+  background-color: var(--paint-style-key-colors-red-50);
+}
+@utility paint-style-key-colors-teal-500 {
+  background-color: var(--paint-style-key-colors-teal-500);
+}
+@utility paint-style-key-colors-yellow-500 {
+  background-color: var(--paint-style-key-colors-yellow-500);
+}
+@utility paint-style-alphas-dark-accents-on-primary-opacity-50 {
+  background-color: var(--paint-style-alphas-dark-accents-on-primary-opacity-50);
+}
+@utility paint-style-linear-gradients-black {
+  background-image: var(--paint-style-linear-gradients-black);
+}
+@utility paint-style-linear-gradients-primary-green {
+  background-image: var(--paint-style-linear-gradients-primary-green);
+}
+@utility paint-style-linear-gradients-outline-grey {
+  background-image: var(--paint-style-linear-gradients-outline-grey);
+}
+@utility effect-style-dropdown-shadows-grid-header-effect {
+  box-shadow: var(--effect-style-dropdown-shadows-grid-header-effect);
+}

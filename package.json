@@ -12,10 +12,14 @@
     "test": "node --import ./test/setup.mjs --test test/*.test.mjs",
     "typecheck": "next typegen && tsc --noEmit",
     "performance:analyze": "node scripts/analyze-performance.mjs",
-    "performance:capture": "mkdir -p .performance-logs && npm run dev 2>&1 | tee .performance-logs/capture-$(date +%Y%m%d-%H%M%S).jsonl"
+    "performance:capture": "mkdir -p .performance-logs && npm run dev 2>&1 | tee .performance-logs/capture-$(date +%Y%m%d-%H%M%S).jsonl",
+    "tokens:generate": "node scripts/generate-design-system.mts",
+    "tokens:check": "node scripts/check-design-system.mts",
+    "tokens:report": "node scripts/report-design-system.mts"
   },
   "dependencies": {
     "better-sqlite3": "^11.8.1",
+    "material-symbols": "^0.45.8",
     "next": "^16.2.11",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
@@ -30,10 +34,12 @@
     "better-sqlite3@11.10.0": true
   },
   "devDependencies": {
+    "@tailwindcss/postcss": "^4.3.3",
     "@types/better-sqlite3": "^7.6.13",
     "@types/node": "^24.13.3",
     "@types/react": "^18.3.31",
     "@types/react-dom": "^18.3.7",
+    "tailwindcss": "^4.3.3",
     "typescript": "^5.9.3"
   }
 }

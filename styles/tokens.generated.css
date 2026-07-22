@@ -1,0 +1,767 @@
+/**
+ * GENERATED FILE — do not hand-edit.
+ * Source: Adalfi Design Tokens (schema 1.1, exported 2026-07-22T18:47:34.002Z)
+ * Produced by scripts/generate-design-system.mts from design-tokens/adalfi-design-tokens.json
+ */
+
+:root {
+  /* font-theme */
+  --figma-font-fonts-primary: "Inter"; /* Primary font family */
+  --figma-font-tracking-normal: 0px;
+  --figma-font-tracking-sm-wide: 0.02px;
+  --figma-font-tracking-sm-tight: -0.02px;
+  --figma-font-fonts-secondary: "Inter";
+  --figma-font-weights-thin: 100; /* Font weight for Thin */
+  --figma-font-weights-extra-light: 200; /* Font weight for ExtraLight */
+  --figma-font-weights-light: 300; /* Font weight for Light */
+  --figma-font-weights-regular: 400; /* Font weight for Regular */
+  --figma-font-weights-medium: 500; /* Font weight for Medium */
+  --figma-font-weights-semi-bold: 600; /* Font weight for SemiBold */
+  --figma-font-weights-bold: 700; /* Font weight for Bold */
+  --figma-font-weights-extra-bold: 800; /* Font weight for ExtraBold */
+  --figma-font-weights-black: 900; /* Font weight for Black */
+  --figma-font-weights-super: 1000; /* Font weight for Black */
+  /* border-scale */
+  --figma-border-stroke-none: 0px;
+  --figma-border-stroke-base: 1px;
+  --figma-border-stroke-emph: 2px;
+  --figma-border-stroke-med: 3px;
+  --figma-border-stroke-bold: 4px;
+  --figma-border-radius-global-full: 1000px;
+  --figma-border-radius-global-none: 0px;
+  --figma-border-radius-global-xxxs: 2px;
+  --figma-border-radius-global-xxs: 4px;
+  --figma-border-radius-global-xs: 8px;
+  --figma-border-radius-global-sm: 10px;
+  --figma-border-radius-global-reg: 12px;
+  --figma-border-radius-global-md: 16px;
+  --figma-border-radius-global-lg: 18px;
+  --figma-border-radius-global-xl: 20px;
+  --figma-border-radius-global-xxl: 24px;
+  --figma-border-radius-global-xxxl: 32px;
+  --figma-border-radius-cta-sm: 4px;
+  --figma-border-radius-cta-base: 8px;
+  --figma-border-radius-cta-md: 12px;
+  --figma-border-radius-cta-lg: 16px;
+  /* layout-scale */
+  --figma-layout-grid-gutter: 16px;
+  --figma-layout-4-scale-xxs: 4px; /* Radius value for 6 (number) */
+  --figma-layout-4-scale-xs: 12px; /* Radius value for 16 (number) */
+  --figma-layout-4-scale-sm: 20px; /* Radius value for 16 (number) */
+  --figma-layout-4-scale-base: 28px; /* Radius value for 24 (number) */
+  --figma-layout-4-scale-lg: 36px; /* Radius value for 32 (number) */
+  --figma-layout-4-scale-xl: 44px; /* Radius value for 32 (number) */
+  --figma-layout-4-scale-xxl: 52px; /* Radius value for 48 (number) */
+  --figma-layout-4-scale-xxxl: 60px; /* Radius value for 48 (number) */
+  --figma-layout-8-scale-xxs: 8px; /* Radius value for 6 (number) */
+  --figma-layout-negative-sm: -1px; /* Spacing value for zero (tshirt) */
+  --figma-layout-negative-md: -2px; /* Spacing value for zero (tshirt) */
+  --figma-layout-negative-lg: -3px; /* Spacing value for zero (tshirt) */
+  --figma-layout-negative-xl: -4px; /* Spacing value for zero (tshirt) */
+  --figma-layout-tiny-sm: 1px; /* Spacing value for zero (tshirt) */
+  --figma-layout-tiny-md: 2px; /* Spacing value for zero (tshirt) */
+  --figma-layout-tiny-lg: 3px; /* Spacing value for zero (tshirt) */
+  --figma-layout-8-scale-xs: 16px; /* Radius value for 16 (number) */
+  --figma-layout-8-scale-sm: 24px; /* Radius value for 16 (number) */
+  --figma-layout-8-scale-base: 32px; /* Radius value for 24 (number) */
+  --figma-layout-8-scale-lg: 40px; /* Radius value for 32 (number) */
+  --figma-layout-8-scale-xl: 48px; /* Radius value for 32 (number) */
+  --figma-layout-8-scale-xxl: 56px; /* Radius value for 48 (number) */
+  --figma-layout-8-scale-xxxl: 64px; /* Radius value for 48 (number) */
+  --figma-layout-grid-gut-half: 8px;
+  --figma-layout-grid-col: 16px;
+  --figma-layout-grid-row: 16px;
+  --figma-layout-aux-xs: 6px; /* Spacing value for zero (tshirt) */
+  --figma-layout-aux-sm: 9px; /* Spacing value for zero (tshirt) */
+  --figma-layout-aux-md: 10px; /* Spacing value for xs (tshirt) */
+  --figma-layout-aux-lg: 14px;
+  --figma-layout-aux-xl: 18px;
+  --figma-layout-aux-xxl: 22px; /* Spacing value for zero (tshirt) */
+  /* effects */
+  --figma-effect-blur-0: 0px;
+  --figma-effect-blur-2: 2px; /* Spacing value for xxs (tshirt) */
+  --figma-effect-blur-4: 4px; /* Spacing value for xs (tshirt) */
+  --figma-effect-blur-8: 8px; /* Spacing value for sm (tshirt) */
+  --figma-effect-blur-12: 12px; /* Spacing value for base (tshirt) */
+  --figma-effect-blur-16: 16px; /* Spacing value for lg (tshirt) */
+  --figma-effect-blur-20: 20px; /* Spacing value for xl (tshirt) */
+  --figma-effect-blur-24: 24px; /* Spacing value for 2xl (tshirt) */
+  --figma-effect-blur-32: 32px; /* Spacing value for 3xl (tshirt) */
+  --figma-effect-blur-40: 40px; /* Spacing value for 4xl (tshirt) */
+  --figma-effect-blur-48: 48px; /* Spacing value for 5xl (tshirt) */
+  --figma-effect-spread-0: 0px;
+  --figma-effect-spread-2: 2px; /* Spacing value for xxs (tshirt) */
+  --figma-effect-spread-4: 4px; /* Spacing value for xs (tshirt) */
+  --figma-effect-spread-8: 8px; /* Spacing value for sm (tshirt) */
+  --figma-effect-spread-12: 12px; /* Spacing value for base (tshirt) */
+  --figma-effect-spread-16: 16px; /* Spacing value for lg (tshirt) */
+  --figma-effect-spread-20: 20px; /* Spacing value for xl (tshirt) */
+  --figma-effect-spread-24: 24px; /* Spacing value for 2xl (tshirt) */
+  --figma-effect-spread-32: 32px; /* Spacing value for 3xl (tshirt) */
+  --figma-effect-spread-40: 40px; /* Spacing value for 4xl (tshirt) */
+  --figma-effect-spread-48: 48px; /* Spacing value for 5xl (tshirt) */
+  --figma-effect-opacity-10: 10px;
+  --figma-effect-opacity-15: 15px; /* Spacing value for xxs (tshirt) */
+  --figma-effect-opacity-20: 20px; /* Spacing value for xxs (tshirt) */
+  --figma-effect-opacity-25: 25px; /* Spacing value for xxs (tshirt) */
+  --figma-effect-opacity-30: 30px; /* Spacing value for xxs (tshirt) */
+  --figma-effect-opacity-35: 35px; /* Spacing value for xxs (tshirt) */
+  --figma-effect-opacity-40: 40px; /* Spacing value for xxs (tshirt) */
+  --figma-effect-opacity-45: 45px; /* Spacing value for xxs (tshirt) */
+  --figma-effect-opacity-50: 50px; /* Spacing value for xxs (tshirt) */
+  --figma-effect-x-y-values-0: 0px;
+  --figma-effect-x-y-values-1: 1px;
+  --figma-effect-x-y-values-2: 2px; /* Spacing value for xxs (tshirt) */
+  --figma-effect-x-y-values-3: 3px; /* Spacing value for xs (tshirt) */
+  --figma-effect-x-y-values-4: 4px; /* Spacing value for sm (tshirt) */
+  --figma-effect-x-y-values-5: 5px; /* Spacing value for base (tshirt) */
+  --figma-effect-x-y-values-6: 6px; /* Spacing value for lg (tshirt) */
+  --figma-effect-x-y-values-7: 7px; /* Spacing value for xl (tshirt) */
+  --figma-effect-x-y-values-8: 8px; /* Spacing value for 2xl (tshirt) */
+  --figma-effect-x-y-values-9: 9px; /* Spacing value for 3xl (tshirt) */
+  --figma-effect-x-y-values-10: 10px; /* Spacing value for 4xl (tshirt) */
+  --figma-effect-x-y-values-11: 11px; /* Spacing value for 5xl (tshirt) */
+  --figma-effect-x-y-values-12: 12px; /* Spacing value for 5xl (tshirt) */
+  --figma-effect-x-y-values-13: 13px; /* Spacing value for 5xl (tshirt) */
+  --figma-effect-x-y-values-14: 14px; /* Spacing value for 5xl (tshirt) */
+  --figma-effect-x-y-values-15: 15px; /* Spacing value for 5xl (tshirt) */
+  /* cta-scale */
+  --figma-cta-large-cta-size: 48px;
+  --figma-cta-large-cta-ic-size: 24;
+  --figma-cta-large-cta-stroke: var(--figma-border-stroke-base);
+  --figma-cta-large-cta-round: var(--figma-border-radius-cta-base);
+  --figma-cta-large-cta-dft-pad: 20px;
+  --figma-cta-large-cta-dft-gap: 10px;
+  --figma-cta-large-cta-eql-spc: 12px;
+  --figma-cta-medium-cta-size: 40px;
+  --figma-cta-medium-cta-ic-size: 20;
+  --figma-cta-medium-cta-stroke: var(--figma-border-stroke-base);
+  --figma-cta-medium-cta-round: var(--figma-border-radius-cta-base);
+  --figma-cta-regular-cta-size: 32px;
+  --figma-cta-medium-cta-dft-pad: 16px;
+  --figma-cta-medium-cta-dft-gap: 8px;
+  --figma-cta-medium-cta-eql-spc: 10px;
+  --figma-cta-small-cta-size: 24;
+  --figma-cta-tiny-cta-size: 20px;
+  --figma-cta-tiny-cta-ic-size: 14;
+  --figma-cta-tiny-cta-stroke: var(--figma-border-stroke-base);
+  --figma-cta-tiny-cta-round: var(--figma-border-radius-cta-sm);
+  --figma-cta-tiny-cta-dft-pad: 6px;
+  --figma-cta-tiny-cta-dft-gap: 3px;
+  --figma-cta-tiny-cta-eql-spc: 3px;
+  --figma-cta-small-cta-ic-size: 16;
+  --figma-cta-small-cta-stroke: var(--figma-border-stroke-base);
+  --figma-cta-small-cta-round: var(--figma-border-radius-cta-sm);
+  --figma-cta-small-cta-dft-pad: 10px;
+  --figma-cta-small-cta-dft-gap: 4px;
+  --figma-cta-regular-cta-ic-size: 20;
+  --figma-cta-small-cta-eql-spc: 4px;
+  --figma-cta-regular-cta-stroke: var(--figma-border-stroke-base);
+  --figma-cta-regular-cta-round: var(--figma-border-radius-cta-base);
+  --figma-cta-regular-cta-dft-pad: 12px;
+  --figma-cta-regular-cta-dft-gap: 4px;
+  --figma-cta-regular-cta-eql-spc: 6px;
+  /* type-scale */
+  --figma-type-display-lg-face: var(--figma-font-fonts-primary);
+  --figma-type-display-lg-lit: var(--figma-font-weights-light);
+  --figma-type-display-lg-reg: var(--figma-font-weights-regular);
+  --figma-type-display-lg-bold: var(--figma-font-weights-bold);
+  --figma-type-display-lg-size: 104px;
+  --figma-type-display-lg-leading: 120px;
+  --figma-type-display-lg-tracking: var(--figma-font-tracking-normal);
+  --figma-type-display-reg-face: var(--figma-font-fonts-primary);
+  --figma-type-display-reg-lit: var(--figma-font-weights-light);
+  --figma-type-display-reg-reg: var(--figma-font-weights-regular);
+  --figma-type-display-reg-bold: var(--figma-font-weights-bold);
+  --figma-type-display-reg-size: 72px;
+  --figma-type-display-reg-leading: 80px;
+  --figma-type-display-reg-tracking: var(--figma-font-tracking-normal);
+  --figma-type-display-sm-face: var(--figma-font-fonts-primary);
+  --figma-type-display-sm-lit: var(--figma-font-weights-light);
+  --figma-type-display-sm-reg: var(--figma-font-weights-regular);
+  --figma-type-display-sm-bold: var(--figma-font-weights-bold);
+  --figma-type-display-sm-size: 44px;
+  --figma-type-display-sm-leading: 48px;
+  --figma-type-display-sm-tracking: var(--figma-font-tracking-sm-tight);
+  --figma-type-headline-lg-face: var(--figma-font-fonts-primary);
+  --figma-type-headline-lg-lit: var(--figma-font-weights-light);
+  --figma-type-headline-lg-reg: var(--figma-font-weights-regular);
+  --figma-type-headline-lg-med: var(--figma-font-weights-medium);
+  --figma-type-headline-lg-emph: var(--figma-font-weights-semi-bold);
+  --figma-type-headline-lg-size: 40px;
+  --figma-type-headline-lg-leading: 48px;
+  --figma-type-headline-lg-tracking: var(--figma-font-tracking-sm-tight);
+  --figma-type-headline-reg-face: var(--figma-font-fonts-primary);
+  --figma-type-headline-reg-lit: var(--figma-font-weights-light);
+  --figma-type-headline-reg-reg: var(--figma-font-weights-regular);
+  --figma-type-headline-reg-med: var(--figma-font-weights-medium);
+  --figma-type-headline-reg-emph: var(--figma-font-weights-semi-bold);
+  --figma-type-headline-reg-size: 32px;
+  --figma-type-headline-reg-leading: 40px;
+  --figma-type-headline-reg-tracking: var(--figma-font-tracking-sm-tight);
+  --figma-type-headline-sm-face: var(--figma-font-fonts-primary);
+  --figma-type-headline-sm-lit: var(--figma-font-weights-light);
+  --figma-type-headline-sm-reg: var(--figma-font-weights-regular);
+  --figma-type-headline-sm-med: var(--figma-font-weights-medium);
+  --figma-type-headline-sm-emph: var(--figma-font-weights-semi-bold);
+  --figma-type-headline-sm-size: 24px;
+  --figma-type-headline-sm-leading: 36px;
+  --figma-type-headline-sm-tracking: var(--figma-font-tracking-sm-tight);
+  --figma-type-title-lg-face: var(--figma-font-fonts-primary);
+  --figma-type-title-lg-reg: var(--figma-font-weights-regular);
+  --figma-type-title-lg-med: var(--figma-font-weights-medium);
+  --figma-type-title-lg-emph: var(--figma-font-weights-semi-bold);
+  --figma-type-title-lg-bold: var(--figma-font-weights-bold);
+  --figma-type-title-lg-size: 22px;
+  --figma-type-title-lg-leading: 32px;
+  --figma-type-title-lg-tracking: var(--figma-font-tracking-normal);
+  --figma-type-title-reg-face: var(--figma-font-fonts-primary);
+  --figma-type-title-reg-reg: var(--figma-font-weights-regular);
+  --figma-type-title-reg-med: var(--figma-font-weights-medium);
+  --figma-type-title-reg-emph: var(--figma-font-weights-semi-bold);
+  --figma-type-title-reg-bold: var(--figma-font-weights-bold);
+  --figma-type-title-reg-size: 20px;
+  --figma-type-title-reg-leading: 28px;
+  --figma-type-title-reg-tracking: var(--figma-font-tracking-normal);
+  --figma-type-title-sm-face: var(--figma-font-fonts-primary);
+  --figma-type-title-sm-reg: var(--figma-font-weights-regular);
+  --figma-type-title-sm-med: var(--figma-font-weights-medium);
+  --figma-type-title-sm-emph: var(--figma-font-weights-semi-bold);
+  --figma-type-title-sm-bold: var(--figma-font-weights-bold);
+  --figma-type-title-sm-size: 18px;
+  --figma-type-title-sm-leading: 24px;
+  --figma-type-title-sm-tracking: var(--figma-font-tracking-sm-wide);
+  --figma-type-subhead-lg-face: var(--figma-font-fonts-primary);
+  --figma-type-subhead-lg-reg: var(--figma-font-weights-regular);
+  --figma-type-subhead-lg-med: var(--figma-font-weights-medium);
+  --figma-type-subhead-lg-emph: var(--figma-font-weights-semi-bold);
+  --figma-type-subhead-lg-bold: var(--figma-font-weights-bold);
+  --figma-type-subhead-lg-size: 16px;
+  --figma-type-subhead-lg-leading: 20px;
+  --figma-type-subhead-lg-tracking: var(--figma-font-tracking-normal);
+  --figma-type-subhead-reg-face: var(--figma-font-fonts-primary);
+  --figma-type-subhead-reg-reg: var(--figma-font-weights-regular);
+  --figma-type-subhead-reg-med: var(--figma-font-weights-medium);
+  --figma-type-subhead-reg-emph: var(--figma-font-weights-semi-bold);
+  --figma-type-subhead-reg-bold: var(--figma-font-weights-bold);
+  --figma-type-subhead-reg-size: 14px;
+  --figma-type-subhead-reg-leading: 18px;
+  --figma-type-subhead-reg-tracking: var(--figma-font-tracking-sm-wide);
+  --figma-type-subhead-sm-face: var(--figma-font-fonts-primary);
+  --figma-type-subhead-sm-reg: var(--figma-font-weights-regular);
+  --figma-type-subhead-sm-med: var(--figma-font-weights-medium);
+  --figma-type-subhead-sm-emph: var(--figma-font-weights-semi-bold);
+  --figma-type-subhead-sm-bold: var(--figma-font-weights-bold);
+  --figma-type-subhead-sm-size: 12px;
+  --figma-type-subhead-sm-leading: 16px;
+  --figma-type-subhead-sm-tracking: var(--figma-font-tracking-sm-wide);
+  --figma-type-body-lg-face: var(--figma-font-fonts-primary);
+  --figma-type-body-md-face: var(--figma-font-fonts-primary);
+  --figma-type-body-md-lit: var(--figma-font-weights-light);
+  --figma-type-body-md-reg: var(--figma-font-weights-regular);
+  --figma-type-body-md-med: var(--figma-font-weights-medium);
+  --figma-type-body-md-emph: var(--figma-font-weights-semi-bold);
+  --figma-type-body-md-bold: var(--figma-font-weights-bold);
+  --figma-type-body-md-size: 16px;
+  --figma-type-body-md-leading: 20px;
+  --figma-type-body-md-tracking: var(--figma-font-tracking-normal);
+  --figma-type-body-lg-lit: var(--figma-font-weights-light);
+  --figma-type-body-lg-reg: var(--figma-font-weights-regular);
+  --figma-type-body-lg-med: var(--figma-font-weights-medium);
+  --figma-type-body-lg-emph: var(--figma-font-weights-semi-bold);
+  --figma-type-body-lg-bold: var(--figma-font-weights-bold);
+  --figma-type-body-lg-size: 18px;
+  --figma-type-body-lg-leading: 24px;
+  --figma-type-body-lg-tracking: var(--figma-font-tracking-normal);
+  --figma-type-body-reg-face: var(--figma-font-fonts-primary);
+  --figma-type-body-reg-lit: var(--figma-font-weights-light);
+  --figma-type-body-reg-reg: var(--figma-font-weights-regular);
+  --figma-type-body-reg-med: var(--figma-font-weights-medium);
+  --figma-type-body-reg-emph: var(--figma-font-weights-semi-bold);
+  --figma-type-body-reg-bold: var(--figma-font-weights-bold);
+  --figma-type-body-reg-size: 14px;
+  --figma-type-body-reg-leading: 18px;
+  --figma-type-body-reg-tracking: var(--figma-font-tracking-sm-wide);
+  --figma-type-body-sm-face: var(--figma-font-fonts-primary);
+  --figma-type-body-sm-lit: var(--figma-font-weights-light);
+  --figma-type-body-sm-reg: var(--figma-font-weights-regular);
+  --figma-type-body-sm-med: var(--figma-font-weights-medium);
+  --figma-type-body-sm-emph: var(--figma-font-weights-semi-bold);
+  --figma-type-body-sm-bold: var(--figma-font-weights-bold);
+  --figma-type-body-sm-size: 12px;
+  --figma-type-body-sm-leading: 16px;
+  --figma-type-body-sm-tracking: var(--figma-font-tracking-sm-wide);
+  --figma-type-caption-reg-face: var(--figma-font-fonts-primary);
+  --figma-type-caption-reg-lit: var(--figma-font-weights-light);
+  --figma-type-caption-reg-reg: var(--figma-font-weights-regular);
+  --figma-type-caption-reg-med: var(--figma-font-weights-medium);
+  --figma-type-caption-reg-emph: var(--figma-font-weights-semi-bold);
+  --figma-type-caption-reg-bold: var(--figma-font-weights-bold);
+  --figma-type-caption-reg-size: 13px;
+  --figma-type-caption-reg-leading: 17px;
+  --figma-type-caption-reg-tracking: var(--figma-font-tracking-sm-wide);
+  --figma-type-caption-sm-face: var(--figma-font-fonts-primary);
+  --figma-type-caption-sm-lit: var(--figma-font-weights-light);
+  --figma-type-caption-sm-reg: var(--figma-font-weights-regular);
+  --figma-type-caption-sm-med: var(--figma-font-weights-medium);
+  --figma-type-caption-sm-emph: var(--figma-font-weights-semi-bold);
+  --figma-type-caption-sm-bold: var(--figma-font-weights-bold);
+  --figma-type-caption-sm-size: 11px;
+  --figma-type-caption-sm-leading: 15px;
+  --figma-type-caption-sm-tracking: var(--figma-font-tracking-sm-wide);
+  --figma-type-byline-reg-face: var(--figma-font-fonts-primary);
+  --figma-type-byline-reg-lit: var(--figma-font-weights-light);
+  --figma-type-byline-reg-reg: var(--figma-font-weights-regular);
+  --figma-type-byline-reg-med: var(--figma-font-weights-medium);
+  --figma-type-byline-reg-emph: var(--figma-font-weights-semi-bold);
+  --figma-type-byline-reg-bold: var(--figma-font-weights-bold);
+  --figma-type-byline-reg-size: 10px;
+  --figma-type-byline-reg-leading: 14px;
+  --figma-type-byline-reg-tracking: var(--figma-font-tracking-sm-wide);
+  --figma-type-byline-sm-face: var(--figma-font-fonts-primary);
+  --figma-type-byline-sm-lit: var(--figma-font-weights-light);
+  --figma-type-byline-sm-reg: var(--figma-font-weights-regular);
+  --figma-type-byline-sm-med: var(--figma-font-weights-medium);
+  --figma-type-byline-sm-emph: var(--figma-font-weights-semi-bold);
+  --figma-type-byline-sm-bold: var(--figma-font-weights-bold);
+  --figma-type-byline-sm-size: 9px;
+  --figma-type-byline-sm-leading: 13px;
+  --figma-type-byline-sm-tracking: var(--figma-font-tracking-sm-wide);
+  --figma-type-cta-lg-face: var(--figma-font-fonts-primary);
+  --figma-type-cta-md-face: var(--figma-font-fonts-primary);
+  --figma-type-cta-md-reg: var(--figma-font-weights-regular);
+  --figma-type-cta-md-med: var(--figma-font-weights-medium);
+  --figma-type-cta-md-emph: var(--figma-font-weights-semi-bold);
+  --figma-type-cta-md-bold: var(--figma-font-weights-bold);
+  --figma-type-cta-md-size: 14px;
+  --figma-type-cta-md-leading: 20px;
+  --figma-type-cta-md-tracking: var(--figma-font-tracking-sm-wide);
+  --figma-type-cta-lg-reg: var(--figma-font-weights-regular);
+  --figma-type-cta-lg-med: var(--figma-font-weights-medium);
+  --figma-type-cta-lg-emph: var(--figma-font-weights-semi-bold);
+  --figma-type-cta-lg-bold: var(--figma-font-weights-bold);
+  --figma-type-cta-lg-size: 16px;
+  --figma-type-cta-lg-leading: 24px;
+  --figma-type-cta-lg-tracking: var(--figma-font-tracking-normal);
+  --figma-type-cta-reg-face: var(--figma-font-fonts-primary);
+  --figma-type-cta-reg-reg: var(--figma-font-weights-regular);
+  --figma-type-cta-reg-med: var(--figma-font-weights-medium);
+  --figma-type-cta-reg-emph: var(--figma-font-weights-semi-bold);
+  --figma-type-cta-reg-bold: var(--figma-font-weights-bold);
+  --figma-type-cta-reg-size: 14px;
+  --figma-type-cta-reg-leading: 20px;
+  --figma-type-cta-reg-tracking: var(--figma-font-tracking-sm-wide);
+  --figma-type-cta-sm-face: var(--figma-font-fonts-primary);
+  --figma-type-cta-sm-reg: var(--figma-font-weights-regular);
+  --figma-type-cta-sm-med: var(--figma-font-weights-medium);
+  --figma-type-cta-sm-emph: var(--figma-font-weights-semi-bold);
+  --figma-type-cta-sm-bold: var(--figma-font-weights-bold);
+  --figma-type-cta-sm-size: 12px;
+  --figma-type-cta-sm-leading: 16px;
+  --figma-type-cta-sm-tracking: var(--figma-font-tracking-sm-wide);
+  --figma-type-cta-xs-face: var(--figma-font-fonts-primary);
+  --figma-type-cta-xs-reg: var(--figma-font-weights-regular);
+  --figma-type-cta-xs-med: var(--figma-font-weights-medium);
+  --figma-type-cta-xs-emph: var(--figma-font-weights-semi-bold);
+  --figma-type-cta-xs-bold: var(--figma-font-weights-bold);
+  --figma-type-cta-xs-size: 10px;
+  --figma-type-cta-xs-leading: 14px;
+  --figma-type-cta-xs-tracking: var(--figma-font-tracking-sm-wide);
+}
+
+/* colors: Dark (source-declared default) */
+:root,
+[data-theme="dark"] {
+  --figma-color-alphas-primary-opacity-6: rgb(30 215 152 / 6%); /* Generated from Material Color System */
+  --figma-color-system-scrim: rgb(0 0 0 / 70%);
+  --figma-color-system-accents-primary: rgb(30 215 152 / 100%); /* Generated from Material Color System */
+  --figma-color-system-accents-on-primary: rgb(7 33 38 / 100%); /* Generated from Material Color System */
+  --figma-color-system-accents-secondary: rgb(231 226 214 / 100%); /* Generated from Material Color System */
+  --figma-color-system-accents-on-secondary: rgb(24 21 12 / 100%); /* Generated from Material Color System */
+  --figma-color-system-accents-tertiary: rgb(7 33 38 / 100%); /* Generated from Material Color System */
+  --figma-color-system-accents-on-tertiary: rgb(30 215 152 / 100%); /* Generated from Material Color System */
+  --figma-color-system-expressions-success: rgb(67 219 112 / 100%); /* Generated from Material Color System */
+  --figma-color-system-expressions-on-success: rgb(1 24 13 / 100%); /* Generated from Material Color System */
+  --figma-color-system-expressions-info: rgb(72 190 254 / 100%); /* Generated from Material Color System */
+  --figma-color-system-expressions-on-info: rgb(1 18 30 / 100%); /* Generated from Material Color System */
+  --figma-color-system-expressions-error: rgb(255 100 92 / 100%); /* Generated from Material Color System */
+  --figma-color-system-expressions-on-error: rgb(33 6 3 / 100%); /* Generated from Material Color System */
+  --figma-color-system-expressions-warning: rgb(251 175 68 / 100%); /* Generated from Material Color System */
+  --figma-color-system-expressions-on-warning: rgb(35 13 1 / 100%); /* Generated from Material Color System */
+  --figma-color-system-background-bg: rgb(7 33 38 / 100%);
+  --figma-color-system-background-on-bg: rgb(201 208 209 / 100%);
+  --figma-color-system-background-on-bg-dim: rgb(151 171 175 / 100%);
+  --figma-color-system-containers-primary-container: rgb(8 68 58 / 100%);
+  --figma-color-system-containers-on-primary-container: rgb(30 215 152 / 100%);
+  --figma-color-system-containers-secondary-container: rgb(4 20 23 / 100%);
+  --figma-color-system-containers-on-secondary-container: rgb(231 226 214 / 100%);
+  --figma-color-system-surfaces-surface: rgb(7 33 38 / 100%);
+  --figma-color-system-surfaces-on-surface: rgb(201 208 209 / 100%);
+  --figma-color-system-surfaces-on-surface-dim: rgb(142 171 176 / 100%);
+  --figma-color-system-surfaces-surface-variant: rgb(17 48 55 / 100%);
+  --figma-color-system-surfaces-on-surface-variant: rgb(255 255 255 / 100%);
+  --figma-color-system-surfaces-on-surface-variant-dim: rgb(151 171 175 / 100%);
+  --figma-color-system-outlines-outline: rgb(47 93 99 / 100%); /* Generated from Material Color System */
+  --figma-color-system-outlines-outline-primary: rgb(30 215 152 / 100%); /* Generated from Material Color System */
+  --figma-color-alphas-primary-opacity-8: rgb(30 215 152 / 8%); /* Generated from Material Color System */
+  --figma-color-alphas-primary-opacity-10: rgb(30 215 152 / 10%); /* Generated from Material Color System */
+  --figma-color-alphas-primary-opacity-15: rgb(30 215 152 / 15%); /* Generated from Material Color System */
+  --figma-color-alphas-primary-opacity-20: rgb(30 215 152 / 20%); /* Generated from Material Color System */
+  --figma-color-alphas-primary-opacity-30: rgb(30 215 152 / 30%);
+  --figma-color-alphas-primary-opacity-40: rgb(30 215 152 / 40%); /* Generated from Material Color System */
+  --figma-color-alphas-primary-opacity-50: rgb(30 215 152 / 50%); /* Generated from Material Color System */
+  --figma-color-alphas-primary-opacity-60: rgb(30 215 152 / 60%); /* Generated from Material Color System */
+  --figma-color-alphas-primary-opacity-70: rgb(30 215 152 / 70%); /* Generated from Material Color System */
+  --figma-color-gradient-radial-grdnt-1-rg1-stop-0: rgb(255 255 255 / 100%);
+  --figma-color-gradient-radial-grdnt-1-rg1-stop-37: rgb(23 195 137 / 100%);
+  --figma-color-gradient-radial-grdnt-1-rg1-stop-100: rgb(7 33 38 / 100%);
+  --figma-color-gradient-linear-prim-btns-prim-btn-s0: rgb(30 215 152 / 100%);
+  --figma-color-gradient-linear-prim-btns-prim-btn-s100: rgb(78 255 195 / 100%);
+  --figma-color-gradient-linear-grdnt-3-lg3-stop-0: rgb(57 77 81 / 100%);
+  --figma-color-gradient-linear-grdnt-3-lg3-stop-100: rgb(7 33 38 / 100%);
+  --figma-color-gradient-linear-grdnt-4-lg4-stop-0: rgb(255 255 255 / 100%);
+  --figma-color-gradient-linear-grdnt-4-lg4-stop-100: rgb(118 227 191 / 100%);
+  --figma-color-alphas-on-primary-opacity-6: rgb(7 33 38 / 6%); /* Generated from Material Color System */
+  --figma-color-alphas-on-primary-opacity-8: rgb(7 33 38 / 8%); /* Generated from Material Color System */
+  --figma-color-alphas-on-primary-opacity-10: rgb(7 33 38 / 10%); /* Generated from Material Color System */
+  --figma-color-alphas-secondary-opacity-6: rgb(231 226 214 / 6%); /* Generated from Material Color System */
+  --figma-color-alphas-secondary-opacity-8: rgb(231 226 214 / 8%); /* Generated from Material Color System */
+  --figma-color-alphas-secondary-opacity-10: rgb(231 226 214 / 10%); /* Generated from Material Color System */
+  --figma-color-alphas-on-secondary-opacity-6: rgb(24 21 12 / 6%); /* Generated from Material Color System */
+  --figma-color-alphas-on-secondary-opacity-8: rgb(24 21 12 / 8%); /* Generated from Material Color System */
+  --figma-color-alphas-on-secondary-opacity-10: rgb(24 21 12 / 10%); /* Generated from Material Color System */
+  --figma-color-alphas-on-secondary-opacity-15: rgb(24 21 12 / 15%); /* Generated from Material Color System */
+  --figma-color-alphas-on-secondary-opacity-20: rgb(24 21 12 / 20%); /* Generated from Material Color System */
+  --figma-color-alphas-on-secondary-opacity-30: rgb(24 21 12 / 30%); /* Generated from Material Color System */
+  --figma-color-alphas-on-secondary-opacity-40: rgb(24 21 12 / 40%); /* Generated from Material Color System */
+  --figma-color-alphas-on-secondary-opacity-50: rgb(24 21 12 / 50%); /* Generated from Material Color System */
+  --figma-color-alphas-on-secondary-opacity-60: rgb(24 21 12 / 60%); /* Generated from Material Color System */
+  --figma-color-alphas-on-secondary-opacity-70: rgb(24 21 12 / 70%); /* Generated from Material Color System */
+  --figma-color-alphas-secondary-opacity-15: rgb(231 226 214 / 15%); /* Generated from Material Color System */
+  --figma-color-alphas-secondary-opacity-20: rgb(231 226 214 / 20%); /* Generated from Material Color System */
+  --figma-color-alphas-secondary-opacity-30: rgb(231 226 214 / 30%); /* Generated from Material Color System */
+  --figma-color-alphas-secondary-opacity-40: rgb(231 226 214 / 40%); /* Generated from Material Color System */
+  --figma-color-alphas-secondary-opacity-50: rgb(231 226 214 / 50%); /* Generated from Material Color System */
+  --figma-color-alphas-secondary-opacity-60: rgb(231 226 214 / 60%); /* Generated from Material Color System */
+  --figma-color-alphas-secondary-opacity-70: rgb(231 226 214 / 70%); /* Generated from Material Color System */
+  --figma-color-alphas-on-primary-opacity-15: rgb(7 33 38 / 15%); /* Generated from Material Color System */
+  --figma-color-alphas-on-primary-opacity-20: rgb(7 33 38 / 20%); /* Generated from Material Color System */
+  --figma-color-alphas-on-primary-opacity-30: rgb(7 33 38 / 30%); /* Generated from Material Color System */
+  --figma-color-alphas-on-primary-opacity-40: rgb(7 33 38 / 40%); /* Generated from Material Color System */
+  --figma-color-alphas-on-primary-opacity-50: rgb(7 33 38 / 50%); /* Generated from Material Color System */
+  --figma-color-alphas-on-primary-opacity-60: rgb(7 33 38 / 60%); /* Generated from Material Color System */
+  --figma-color-alphas-on-primary-opacity-70: rgb(7 33 38 / 70%); /* Generated from Material Color System */
+  --figma-color-alphas-tertiary-opacity-10: rgb(7 33 38 / 10%);
+  --figma-color-alphas-tertiary-opacity-25: rgb(7 33 38 / 25%);
+  --figma-color-alphas-tertiary-opacity-40: rgb(7 33 38 / 40%);
+  --figma-color-alphas-on-tertiary-opacity-10: rgb(30 215 152 / 10%);
+  --figma-color-alphas-on-tertiary-opacity-25: rgb(30 215 152 / 25%);
+  --figma-color-alphas-on-tertiary-opacity-40: rgb(30 215 152 / 40%);
+  --figma-color-alphas-error-opacity-6: rgb(255 100 92 / 6%);
+  --figma-color-alphas-error-opacity-8: rgb(255 100 92 / 8%);
+  --figma-color-alphas-error-opacity-10: rgb(255 100 92 / 10%);
+  --figma-color-alphas-error-opacity-15: rgb(255 100 92 / 15%);
+  --figma-color-alphas-error-opacity-20: rgb(255 100 92 / 20%);
+  --figma-color-alphas-error-opacity-30: rgb(255 100 92 / 30%);
+  --figma-color-alphas-warning-opacity-6: rgb(251 175 68 / 6%);
+  --figma-color-alphas-error-opacity-40: rgb(255 100 92 / 40%);
+  --figma-color-alphas-warning-opacity-8: rgb(251 175 68 / 8%);
+  --figma-color-alphas-error-opacity-50: rgb(255 100 92 / 50%);
+  --figma-color-alphas-error-opacity-60: rgb(255 100 92 / 60%);
+  --figma-color-alphas-error-opacity-70: rgb(255 100 92 / 70%);
+  --figma-color-alphas-warning-opacity-10: rgb(251 175 68 / 10%);
+  --figma-color-alphas-warning-opacity-15: rgb(251 175 68 / 15%);
+  --figma-color-alphas-warning-opacity-20: rgb(251 175 68 / 20%);
+  --figma-color-alphas-warning-opacity-30: rgb(251 175 68 / 30%);
+  --figma-color-alphas-success-opacity-6: rgb(67 219 112 / 6%);
+  --figma-color-alphas-success-opacity-8: rgb(67 219 112 / 8%);
+  --figma-color-alphas-warning-opacity-40: rgb(251 175 68 / 40%);
+  --figma-color-alphas-warning-opacity-50: rgb(251 175 68 / 50%);
+  --figma-color-alphas-warning-opacity-60: rgb(251 175 68 / 60%);
+  --figma-color-alphas-warning-opacity-70: rgb(251 175 68 / 70%);
+  --figma-color-alphas-success-opacity-10: rgb(67 219 112 / 10%);
+  --figma-color-alphas-success-opacity-15: rgb(67 219 112 / 15%);
+  --figma-color-alphas-info-opacity-6: rgb(72 190 254 / 6%);
+  --figma-color-alphas-success-opacity-20: rgb(67 219 112 / 20%);
+  --figma-color-alphas-info-opacity-8: rgb(72 190 254 / 8%);
+  --figma-color-alphas-success-opacity-30: rgb(67 219 112 / 30%);
+  --figma-color-alphas-success-opacity-40: rgb(67 219 112 / 40%);
+  --figma-color-alphas-success-opacity-50: rgb(67 219 112 / 50%);
+  --figma-color-alphas-success-opacity-60: rgb(67 219 112 / 60%);
+  --figma-color-alphas-success-opacity-70: rgb(67 219 112 / 70%);
+  --figma-color-alphas-info-opacity-10: rgb(72 190 254 / 10%);
+  --figma-color-alphas-info-opacity-15: rgb(72 190 254 / 15%);
+  --figma-color-alphas-info-opacity-20: rgb(72 190 254 / 20%);
+  --figma-color-alphas-info-opacity-30: rgb(72 190 254 / 30%);
+  --figma-color-alphas-info-opacity-40: rgb(72 190 254 / 40%);
+  --figma-color-alphas-info-opacity-50: rgb(72 190 254 / 50%);
+  --figma-color-alphas-info-opacity-60: rgb(72 190 254 / 60%);
+  --figma-color-alphas-info-opacity-70: rgb(72 190 254 / 70%);
+  --figma-color-alphas-outline-opacity-6: rgb(47 93 99 / 6%);
+  --figma-color-alphas-outline-opacity-8: rgb(47 93 99 / 8%);
+  --figma-color-alphas-outline-opacity-10: rgb(47 93 99 / 10%);
+  --figma-color-alphas-outline-opacity-15: rgb(47 93 99 / 15%);
+  --figma-color-alphas-outline-opacity-20: rgb(47 93 99 / 20%);
+  --figma-color-alphas-outline-opacity-30: rgb(47 93 99 / 30%);
+  --figma-color-alphas-outline-opacity-40: rgb(47 93 99 / 40%);
+  --figma-color-alphas-outline-opacity-50: rgb(47 93 99 / 50%);
+  --figma-color-alphas-outline-opacity-60: rgb(47 93 99 / 60%);
+  --figma-color-alphas-outline-opacity-70: rgb(47 93 99 / 70%);
+  --figma-color-alphas-on-surface-dim-opacity-6: rgb(142 171 176 / 6%);
+  --figma-color-alphas-on-surface-dim-opacity-8: rgb(142 171 176 / 8%);
+  --figma-color-alphas-on-surface-dim-opacity-10: rgb(142 171 176 / 10%);
+  --figma-color-alphas-on-surface-dim-opacity-15: rgb(142 171 176 / 15%);
+  --figma-color-alphas-on-surface-dim-opacity-20: rgb(142 171 176 / 20%);
+  --figma-color-alphas-on-surface-dim-opacity-30: rgb(142 171 176 / 30%);
+  --figma-color-alphas-on-surface-dim-opacity-40: rgb(142 171 176 / 40%);
+  --figma-color-alphas-on-surface-dim-opacity-50: rgb(142 171 176 / 50%);
+  --figma-color-alphas-on-surface-dim-opacity-60: rgb(142 171 176 / 60%);
+  --figma-color-alphas-on-surface-dim-opacity-70: rgb(142 171 176 / 70%);
+  --figma-color-alphas-primary-container-opacity-6: rgb(8 68 58 / 6%);
+  --figma-color-alphas-primary-container-opacity-8: rgb(8 68 58 / 8%);
+  --figma-color-alphas-primary-container-opacity-10: rgb(8 68 58 / 10%);
+  --figma-color-alphas-primary-container-opacity-15: rgb(8 68 58 / 15%);
+  --figma-color-alphas-primary-container-opacity-20: rgb(8 68 58 / 20%);
+  --figma-color-alphas-primary-container-opacity-30: rgb(8 68 58 / 30%);
+  --figma-color-alphas-primary-container-opacity-40: rgb(8 68 58 / 40%);
+  --figma-color-alphas-primary-container-opacity-50: rgb(8 68 58 / 50%);
+  --figma-color-alphas-primary-container-opacity-60: rgb(8 68 58 / 60%);
+  --figma-color-alphas-primary-container-opacity-70: rgb(8 68 58 / 70%);
+  --figma-color-alphas-on-primary-container-opacity-6: rgb(30 215 152 / 6%);
+  --figma-color-alphas-on-primary-container-opacity-8: rgb(30 215 152 / 8%);
+  --figma-color-alphas-on-primary-container-opacity-10: rgb(30 215 152 / 10%);
+  --figma-color-alphas-on-primary-container-opacity-15: rgb(30 215 152 / 15%);
+  --figma-color-alphas-on-primary-container-opacity-20: rgb(30 215 152 / 20%);
+  --figma-color-alphas-on-primary-container-opacity-30: rgb(30 215 152 / 30%);
+  --figma-color-alphas-on-primary-container-opacity-40: rgb(30 215 152 / 40%);
+  --figma-color-alphas-on-primary-container-opacity-50: rgb(30 215 152 / 50%);
+  --figma-color-alphas-on-primary-container-opacity-60: rgb(30 215 152 / 60%);
+  --figma-color-alphas-on-primary-container-opacity-70: rgb(30 215 152 / 70%);
+  --figma-color-alphas-secondary-container-opacity-6: rgb(4 20 23 / 6%);
+  --figma-color-alphas-secondary-container-opacity-8: rgb(4 20 23 / 8%);
+  --figma-color-alphas-secondary-container-opacity-10: rgb(4 20 23 / 10%);
+  --figma-color-alphas-secondary-container-opacity-15: rgb(4 20 23 / 15%);
+  --figma-color-alphas-secondary-container-opacity-20: rgb(4 20 23 / 20%);
+  --figma-color-alphas-secondary-container-opacity-30: rgb(4 20 23 / 30%);
+  --figma-color-alphas-secondary-container-opacity-40: rgb(4 20 23 / 40%);
+  --figma-color-alphas-secondary-container-opacity-50: rgb(4 20 23 / 50%);
+  --figma-color-alphas-secondary-container-opacity-60: rgb(4 20 23 / 60%);
+  --figma-color-alphas-secondary-container-opacity-70: rgb(4 20 23 / 70%);
+  --figma-color-alphas-on-secondary-container-opacity-6: rgb(231 226 214 / 6%);
+  --figma-color-alphas-on-secondary-container-opacity-8: rgb(231 226 214 / 8%);
+  --figma-color-alphas-on-secondary-container-opacity-10: rgb(231 226 214 / 10%);
+  --figma-color-alphas-on-secondary-container-opacity-15: rgb(231 226 214 / 15%);
+  --figma-color-alphas-on-secondary-container-opacity-20: rgb(231 226 214 / 20%);
+  --figma-color-alphas-on-secondary-container-opacity-30: rgb(231 226 214 / 30%);
+  --figma-color-alphas-on-secondary-container-opacity-40: rgb(231 226 214 / 40%);
+  --figma-color-alphas-on-secondary-container-opacity-50: rgb(231 226 214 / 50%);
+  --figma-color-alphas-on-secondary-container-opacity-60: rgb(231 226 214 / 60%);
+  --figma-color-alphas-on-secondary-container-opacity-70: rgb(231 226 214 / 70%);
+  --figma-color-gradient-linear-grdnt-5-lg4-stop-0: rgb(7 33 38 / 100%);
+  --figma-color-gradient-linear-grdnt-5-lg4-stop-36: rgb(17 48 55 / 100%);
+  --figma-color-gradient-linear-grdnt-5-lg4-stop-100: rgb(47 93 99 / 100%);
+  --figma-color-gradient-linear-grdnt-6-lg4-stop-0: var(--figma-color-alphas-outline-opacity-50);
+  --figma-color-gradient-linear-grdnt-6-lg4-stop-25: var(--figma-color-alphas-outline-opacity-50);
+  --figma-color-gradient-linear-grdnt-6-lg4-stop-28: var(--figma-color-alphas-outline-opacity-50);
+  --figma-color-gradient-linear-grdnt-6-lg4-stop-100: var(--figma-color-alphas-outline-opacity-50);
+  --figma-color-system-neutral-white: rgb(255 255 255 / 100%);
+  --figma-color-system-neutral-black: rgb(0 0 0 / 100%);
+}
+
+/* colors: Light */
+[data-theme="light"] {
+  --figma-color-alphas-primary-opacity-6: rgb(15 168 122 / 6%); /* Generated from Material Color System */
+  --figma-color-system-scrim: rgb(0 0 0 / 70%);
+  --figma-color-system-accents-primary: rgb(15 168 122 / 100%); /* Generated from Material Color System */
+  --figma-color-system-accents-on-primary: rgb(7 33 38 / 100%); /* Generated from Material Color System */
+  --figma-color-system-accents-secondary: rgb(7 33 38 / 100%); /* Generated from Material Color System */
+  --figma-color-system-accents-on-secondary: rgb(245 243 239 / 100%); /* Generated from Material Color System */
+  --figma-color-system-accents-tertiary: rgb(7 33 38 / 100%); /* Generated from Material Color System */
+  --figma-color-system-accents-on-tertiary: rgb(30 215 152 / 100%); /* Generated from Material Color System */
+  --figma-color-system-expressions-success: rgb(23 207 96 / 100%); /* Generated from Material Color System */
+  --figma-color-system-expressions-on-success: rgb(255 255 255 / 100%); /* Generated from Material Color System */
+  --figma-color-system-expressions-info: rgb(2 155 237 / 100%); /* Generated from Material Color System */
+  --figma-color-system-expressions-on-info: rgb(255 255 255 / 100%); /* Generated from Material Color System */
+  --figma-color-system-expressions-error: rgb(245 75 66 / 100%); /* Generated from Material Color System */
+  --figma-color-system-expressions-on-error: rgb(255 255 255 / 100%); /* Generated from Material Color System */
+  --figma-color-system-expressions-warning: rgb(252 140 3 / 100%); /* Generated from Material Color System */
+  --figma-color-system-expressions-on-warning: rgb(255 255 255 / 100%); /* Generated from Material Color System */
+  --figma-color-system-background-bg: rgb(245 243 239 / 100%);
+  --figma-color-system-background-on-bg: rgb(7 33 38 / 100%);
+  --figma-color-system-background-on-bg-dim: rgb(151 171 175 / 100%);
+  --figma-color-system-containers-primary-container: rgb(163 245 218 / 100%);
+  --figma-color-system-containers-on-primary-container: rgb(1 70 54 / 100%);
+  --figma-color-system-containers-secondary-container: rgb(163 245 218 / 100%);
+  --figma-color-system-containers-on-secondary-container: rgb(1 70 54 / 100%);
+  --figma-color-system-surfaces-surface: rgb(245 243 239 / 100%);
+  --figma-color-system-surfaces-on-surface: rgb(7 33 38 / 100%);
+  --figma-color-system-surfaces-on-surface-dim: rgb(112 147 151 / 100%);
+  --figma-color-system-surfaces-surface-variant: rgb(245 243 239 / 100%);
+  --figma-color-system-surfaces-on-surface-variant: rgb(7 33 38 / 100%);
+  --figma-color-system-surfaces-on-surface-variant-dim: rgb(142 171 176 / 100%);
+  --figma-color-system-outlines-outline: rgb(158 158 158 / 100%); /* Generated from Material Color System */
+  --figma-color-system-outlines-outline-primary: rgb(15 168 122 / 100%); /* Generated from Material Color System */
+  --figma-color-alphas-primary-opacity-8: rgb(15 168 122 / 8%); /* Generated from Material Color System */
+  --figma-color-alphas-primary-opacity-10: rgb(15 168 122 / 10%); /* Generated from Material Color System */
+  --figma-color-alphas-primary-opacity-15: rgb(15 168 122 / 15%); /* Generated from Material Color System */
+  --figma-color-alphas-primary-opacity-20: rgb(15 168 122 / 20%); /* Generated from Material Color System */
+  --figma-color-alphas-primary-opacity-30: rgb(15 168 122 / 30%);
+  --figma-color-alphas-primary-opacity-40: rgb(15 168 122 / 40%); /* Generated from Material Color System */
+  --figma-color-alphas-primary-opacity-50: rgb(15 168 122 / 50%); /* Generated from Material Color System */
+  --figma-color-alphas-primary-opacity-60: rgb(15 168 122 / 60%); /* Generated from Material Color System */
+  --figma-color-alphas-primary-opacity-70: rgb(15 168 122 / 70%); /* Generated from Material Color System */
+  --figma-color-gradient-radial-grdnt-1-rg1-stop-0: rgb(255 255 255 / 100%);
+  --figma-color-gradient-radial-grdnt-1-rg1-stop-37: rgb(23 195 137 / 100%);
+  --figma-color-gradient-radial-grdnt-1-rg1-stop-100: rgb(7 33 38 / 100%);
+  --figma-color-gradient-linear-prim-btns-prim-btn-s0: rgb(255 255 255 / 100%);
+  --figma-color-gradient-linear-prim-btns-prim-btn-s100: rgb(231 226 214 / 100%);
+  --figma-color-gradient-linear-grdnt-3-lg3-stop-0: rgb(57 77 81 / 100%);
+  --figma-color-gradient-linear-grdnt-3-lg3-stop-100: rgb(7 33 38 / 100%);
+  --figma-color-gradient-linear-grdnt-4-lg4-stop-0: rgb(255 255 255 / 100%);
+  --figma-color-gradient-linear-grdnt-4-lg4-stop-100: rgb(118 227 191 / 100%);
+  --figma-color-alphas-on-primary-opacity-6: rgb(7 33 38 / 6%); /* Generated from Material Color System */
+  --figma-color-alphas-on-primary-opacity-8: rgb(7 33 38 / 8%); /* Generated from Material Color System */
+  --figma-color-alphas-on-primary-opacity-10: rgb(7 33 38 / 10%); /* Generated from Material Color System */
+  --figma-color-alphas-secondary-opacity-6: rgb(231 226 214 / 6%); /* Generated from Material Color System */
+  --figma-color-alphas-secondary-opacity-8: rgb(231 226 214 / 8%); /* Generated from Material Color System */
+  --figma-color-alphas-secondary-opacity-10: rgb(231 226 214 / 10%); /* Generated from Material Color System */
+  --figma-color-alphas-on-secondary-opacity-6: rgb(7 33 38 / 6%); /* Generated from Material Color System */
+  --figma-color-alphas-on-secondary-opacity-8: rgb(7 33 38 / 8%); /* Generated from Material Color System */
+  --figma-color-alphas-on-secondary-opacity-10: rgb(7 33 38 / 10%); /* Generated from Material Color System */
+  --figma-color-alphas-on-secondary-opacity-15: rgb(7 33 38 / 25%); /* Generated from Material Color System */
+  --figma-color-alphas-on-secondary-opacity-20: rgb(7 33 38 / 25%); /* Generated from Material Color System */
+  --figma-color-alphas-on-secondary-opacity-30: rgb(7 33 38 / 25%); /* Generated from Material Color System */
+  --figma-color-alphas-on-secondary-opacity-40: rgb(7 33 38 / 25%); /* Generated from Material Color System */
+  --figma-color-alphas-on-secondary-opacity-50: rgb(7 33 38 / 40%); /* Generated from Material Color System */
+  --figma-color-alphas-on-secondary-opacity-60: rgb(7 33 38 / 60%); /* Generated from Material Color System */
+  --figma-color-alphas-on-secondary-opacity-70: rgb(7 33 38 / 70%); /* Generated from Material Color System */
+  --figma-color-alphas-secondary-opacity-15: rgb(231 226 214 / 25%); /* Generated from Material Color System */
+  --figma-color-alphas-secondary-opacity-20: rgb(231 226 214 / 25%); /* Generated from Material Color System */
+  --figma-color-alphas-secondary-opacity-30: rgb(231 226 214 / 25%); /* Generated from Material Color System */
+  --figma-color-alphas-secondary-opacity-40: rgb(231 226 214 / 40%); /* Generated from Material Color System */
+  --figma-color-alphas-secondary-opacity-50: rgb(231 226 214 / 40%); /* Generated from Material Color System */
+  --figma-color-alphas-secondary-opacity-60: rgb(231 226 214 / 60%); /* Generated from Material Color System */
+  --figma-color-alphas-secondary-opacity-70: rgb(231 226 214 / 70%); /* Generated from Material Color System */
+  --figma-color-alphas-on-primary-opacity-15: rgb(7 33 38 / 25%); /* Generated from Material Color System */
+  --figma-color-alphas-on-primary-opacity-20: rgb(7 33 38 / 40%); /* Generated from Material Color System */
+  --figma-color-alphas-on-primary-opacity-30: rgb(7 33 38 / 40%); /* Generated from Material Color System */
+  --figma-color-alphas-on-primary-opacity-40: rgb(7 33 38 / 40%); /* Generated from Material Color System */
+  --figma-color-alphas-on-primary-opacity-50: rgb(7 33 38 / 0%); /* Generated from Material Color System */
+  --figma-color-alphas-on-primary-opacity-60: rgb(7 33 38 / 60%); /* Generated from Material Color System */
+  --figma-color-alphas-on-primary-opacity-70: rgb(7 33 38 / 70%); /* Generated from Material Color System */
+  --figma-color-alphas-tertiary-opacity-10: rgb(7 33 38 / 10%);
+  --figma-color-alphas-tertiary-opacity-25: rgb(7 33 38 / 25%);
+  --figma-color-alphas-tertiary-opacity-40: rgb(7 33 38 / 40%);
+  --figma-color-alphas-on-tertiary-opacity-10: rgb(30 215 152 / 10%);
+  --figma-color-alphas-on-tertiary-opacity-25: rgb(30 215 152 / 25%);
+  --figma-color-alphas-on-tertiary-opacity-40: rgb(30 215 152 / 40%);
+  --figma-color-alphas-error-opacity-6: rgb(229 58 46 / 6%);
+  --figma-color-alphas-error-opacity-8: rgb(229 58 46 / 8%);
+  --figma-color-alphas-error-opacity-10: rgb(229 58 46 / 10%);
+  --figma-color-alphas-error-opacity-15: rgb(229 58 46 / 25%);
+  --figma-color-alphas-error-opacity-20: rgb(229 58 46 / 25%);
+  --figma-color-alphas-error-opacity-30: rgb(229 58 46 / 30%);
+  --figma-color-alphas-warning-opacity-6: rgb(252 140 3 / 6%);
+  --figma-color-alphas-error-opacity-40: rgb(229 58 46 / 40%);
+  --figma-color-alphas-warning-opacity-8: rgb(252 140 3 / 8%);
+  --figma-color-alphas-error-opacity-50: rgb(229 58 46 / 50%);
+  --figma-color-alphas-error-opacity-60: rgb(229 58 46 / 60%);
+  --figma-color-alphas-error-opacity-70: rgb(229 58 46 / 70%);
+  --figma-color-alphas-warning-opacity-10: rgb(252 140 3 / 10%);
+  --figma-color-alphas-warning-opacity-15: rgb(252 140 3 / 15%);
+  --figma-color-alphas-warning-opacity-20: rgb(252 140 3 / 20%);
+  --figma-color-alphas-warning-opacity-30: rgb(252 140 3 / 30%);
+  --figma-color-alphas-success-opacity-6: rgb(23 207 96 / 6%);
+  --figma-color-alphas-success-opacity-8: rgb(23 207 96 / 8%);
+  --figma-color-alphas-warning-opacity-40: rgb(252 140 3 / 40%);
+  --figma-color-alphas-warning-opacity-50: rgb(252 140 3 / 50%);
+  --figma-color-alphas-warning-opacity-60: rgb(252 140 3 / 60%);
+  --figma-color-alphas-warning-opacity-70: rgb(252 140 3 / 70%);
+  --figma-color-alphas-success-opacity-10: rgb(23 207 96 / 10%);
+  --figma-color-alphas-success-opacity-15: rgb(23 207 96 / 15%);
+  --figma-color-alphas-info-opacity-6: rgb(2 155 237 / 6%);
+  --figma-color-alphas-success-opacity-20: rgb(23 207 96 / 20%);
+  --figma-color-alphas-info-opacity-8: rgb(2 155 237 / 8%);
+  --figma-color-alphas-success-opacity-30: rgb(23 207 96 / 30%);
+  --figma-color-alphas-success-opacity-40: rgb(23 207 96 / 40%);
+  --figma-color-alphas-success-opacity-50: rgb(23 207 96 / 50%);
+  --figma-color-alphas-success-opacity-60: rgb(23 207 96 / 60%);
+  --figma-color-alphas-success-opacity-70: rgb(23 207 96 / 70%);
+  --figma-color-alphas-info-opacity-10: rgb(2 155 237 / 10%);
+  --figma-color-alphas-info-opacity-15: rgb(2 155 237 / 15%);
+  --figma-color-alphas-info-opacity-20: rgb(2 155 237 / 20%);
+  --figma-color-alphas-info-opacity-30: rgb(2 155 237 / 30%);
+  --figma-color-alphas-info-opacity-40: rgb(2 155 237 / 40%);
+  --figma-color-alphas-info-opacity-50: rgb(2 155 237 / 50%);
+  --figma-color-alphas-info-opacity-60: rgb(2 155 237 / 60%);
+  --figma-color-alphas-info-opacity-70: rgb(2 155 237 / 70%);
+  --figma-color-alphas-outline-opacity-6: rgb(231 226 214 / 6%);
+  --figma-color-alphas-outline-opacity-8: rgb(231 226 214 / 8%);
+  --figma-color-alphas-outline-opacity-10: rgb(231 226 214 / 10%);
+  --figma-color-alphas-outline-opacity-15: rgb(231 226 214 / 15%);
+  --figma-color-alphas-outline-opacity-20: rgb(231 226 214 / 20%);
+  --figma-color-alphas-outline-opacity-30: rgb(231 226 214 / 30%);
+  --figma-color-alphas-outline-opacity-40: rgb(231 226 214 / 40%);
+  --figma-color-alphas-outline-opacity-50: rgb(231 226 214 / 50%);
+  --figma-color-alphas-outline-opacity-60: rgb(231 226 214 / 60%);
+  --figma-color-alphas-outline-opacity-70: rgb(231 226 214 / 70%);
+  --figma-color-alphas-on-surface-dim-opacity-6: rgb(112 147 151 / 6%);
+  --figma-color-alphas-on-surface-dim-opacity-8: rgb(112 147 151 / 8%);
+  --figma-color-alphas-on-surface-dim-opacity-10: rgb(112 147 151 / 10%);
+  --figma-color-alphas-on-surface-dim-opacity-15: rgb(112 147 151 / 15%);
+  --figma-color-alphas-on-surface-dim-opacity-20: rgb(112 147 151 / 20%);
+  --figma-color-alphas-on-surface-dim-opacity-30: rgb(112 147 151 / 30%);
+  --figma-color-alphas-on-surface-dim-opacity-40: rgb(112 147 151 / 40%);
+  --figma-color-alphas-on-surface-dim-opacity-50: rgb(112 147 151 / 50%);
+  --figma-color-alphas-on-surface-dim-opacity-60: rgb(112 147 151 / 60%);
+  --figma-color-alphas-on-surface-dim-opacity-70: rgb(112 147 151 / 70%);
+  --figma-color-alphas-primary-container-opacity-6: rgb(231 226 214 / 6%);
+  --figma-color-alphas-primary-container-opacity-8: rgb(231 226 214 / 8%);
+  --figma-color-alphas-primary-container-opacity-10: rgb(231 226 214 / 10%);
+  --figma-color-alphas-primary-container-opacity-15: rgb(231 226 214 / 15%);
+  --figma-color-alphas-primary-container-opacity-20: rgb(231 226 214 / 20%);
+  --figma-color-alphas-primary-container-opacity-30: rgb(231 226 214 / 30%);
+  --figma-color-alphas-primary-container-opacity-40: rgb(231 226 214 / 40%);
+  --figma-color-alphas-primary-container-opacity-50: rgb(231 226 214 / 50%);
+  --figma-color-alphas-primary-container-opacity-60: rgb(231 226 214 / 60%);
+  --figma-color-alphas-primary-container-opacity-70: rgb(231 226 214 / 70%);
+  --figma-color-alphas-on-primary-container-opacity-6: rgb(1 70 54 / 6%);
+  --figma-color-alphas-on-primary-container-opacity-8: rgb(1 70 54 / 8%);
+  --figma-color-alphas-on-primary-container-opacity-10: rgb(1 70 54 / 10%);
+  --figma-color-alphas-on-primary-container-opacity-15: rgb(1 70 54 / 15%);
+  --figma-color-alphas-on-primary-container-opacity-20: rgb(1 70 54 / 20%);
+  --figma-color-alphas-on-primary-container-opacity-30: rgb(1 70 54 / 30%);
+  --figma-color-alphas-on-primary-container-opacity-40: rgb(1 70 54 / 40%);
+  --figma-color-alphas-on-primary-container-opacity-50: rgb(1 70 54 / 50%);
+  --figma-color-alphas-on-primary-container-opacity-60: rgb(1 70 54 / 60%);
+  --figma-color-alphas-on-primary-container-opacity-70: rgb(1 70 54 / 70%);
+  --figma-color-alphas-secondary-container-opacity-6: rgb(231 226 214 / 6%);
+  --figma-color-alphas-secondary-container-opacity-8: rgb(231 226 214 / 8%);
+  --figma-color-alphas-secondary-container-opacity-10: rgb(231 226 214 / 10%);
+  --figma-color-alphas-secondary-container-opacity-15: rgb(231 226 214 / 15%);
+  --figma-color-alphas-secondary-container-opacity-20: rgb(231 226 214 / 20%);
+  --figma-color-alphas-secondary-container-opacity-30: rgb(231 226 214 / 30%);
+  --figma-color-alphas-secondary-container-opacity-40: rgb(231 226 214 / 40%);
+  --figma-color-alphas-secondary-container-opacity-50: rgb(231 226 214 / 50%);
+  --figma-color-alphas-secondary-container-opacity-60: rgb(231 226 214 / 60%);
+  --figma-color-alphas-secondary-container-opacity-70: rgb(231 226 214 / 70%);
+  --figma-color-alphas-on-secondary-container-opacity-6: rgb(231 226 214 / 6%);
+  --figma-color-alphas-on-secondary-container-opacity-8: rgb(231 226 214 / 8%);
+  --figma-color-alphas-on-secondary-container-opacity-10: rgb(231 226 214 / 10%);
+  --figma-color-alphas-on-secondary-container-opacity-15: rgb(231 226 214 / 15%);
+  --figma-color-alphas-on-secondary-container-opacity-20: rgb(231 226 214 / 20%);
+  --figma-color-alphas-on-secondary-container-opacity-30: rgb(231 226 214 / 30%);
+  --figma-color-alphas-on-secondary-container-opacity-40: rgb(231 226 214 / 40%);
+  --figma-color-alphas-on-secondary-container-opacity-50: rgb(231 226 214 / 50%);
+  --figma-color-alphas-on-secondary-container-opacity-60: rgb(231 226 214 / 60%);
+  --figma-color-alphas-on-secondary-container-opacity-70: rgb(231 226 214 / 70%);
+  --figma-color-gradient-linear-grdnt-5-lg4-stop-0: rgb(255 255 255 / 100%);
+  --figma-color-gradient-linear-grdnt-5-lg4-stop-36: rgb(118 227 191 / 100%);
+  --figma-color-gradient-linear-grdnt-5-lg4-stop-100: rgb(118 227 191 / 100%);
+  --figma-color-gradient-linear-grdnt-6-lg4-stop-0: var(--figma-color-alphas-secondary-opacity-50);
+  --figma-color-gradient-linear-grdnt-6-lg4-stop-25: var(--figma-color-alphas-secondary-opacity-50);
+  --figma-color-gradient-linear-grdnt-6-lg4-stop-28: var(--figma-color-alphas-secondary-opacity-50);
+  --figma-color-gradient-linear-grdnt-6-lg4-stop-100: var(--figma-color-alphas-secondary-opacity-50);
+  --figma-color-system-neutral-white: rgb(255 255 255 / 100%);
+  --figma-color-system-neutral-black: rgb(0 0 0 / 100%);
+}

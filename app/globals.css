@@ -1,3 +1,25 @@
+/*
+ * Tailwind is wired in deliberately without its default theme (`tailwindcss/theme`) —
+ * that file ships Tailwind's own color/font/spacing/radius scale (red-50, amber-500, ...),
+ * which would be exactly the "unrelated second design system" this project's design-system
+ * migration is required to avoid. Only preflight (reset) + the utility engine are imported;
+ * every utility Tailwind can generate comes from the @theme block in styles/theme.css,
+ * which is sourced from the generated Figma tokens below.
+ */
+@layer theme, base, components, utilities;
+@import "tailwindcss/preflight" layer(base);
+@import "tailwindcss/utilities" layer(utilities);
+
+@import "../styles/tokens.generated.css";
+@import "../styles/recipes.generated.css";
+@import "../styles/theme.css";
+
+/* Material Symbols Rounded: self-hosted variable icon font (font-display: block is set
+   by this package already, to avoid a flash of raw ligature text like "home" on load). */
+@import "material-symbols/rounded.css";
+
+/* --- pre-Tailwind legacy rules below: migration debt, not touched in this phase --- */
+
 * { box-sizing: border-box; }
 html, body { margin: 0; padding: 0; height: 100%; }
 body {
