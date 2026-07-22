@@ -16,8 +16,8 @@ process.env.SQLITE_DB_PATH = join(tempDir, 'sessions-test.db');
 delete globalThis.__adalfiDb;
 
 // Dynamic imports after env setup.
-const { GET: listRoute, POST: createRoute } = await import('../app/api/sessions/route.js');
-const { GET: getRoute, PATCH: patchRoute, DELETE: deleteRoute } = await import('../app/api/sessions/[id]/route.js');
+const { GET: listRoute, POST: createRoute } = await import('../app/api/sessions/route.ts');
+const { GET: getRoute, PATCH: patchRoute, DELETE: deleteRoute } = await import('../app/api/sessions/[id]/route.ts');
 const dbMod = await import('../lib/db.ts');
 const { default: db, addMessage, createRun, getMessage } = dbMod;
 
@@ -125,6 +125,20 @@ test('PATCH /sessions/:id with no title field returns 400', async () => {
 test('PATCH /sessions/:id returns 404 for missing session', async () => {
   const res = await patchRoute(makeIdRequest('PATCH', 'ghost', { title: 'X' }), params('ghost'));
   assert.strictEqual(res.status, 404);
+});
+
+test('PATCH /sessions/:id with a valid-JSON non-object body returns 400, not a 500 crash', async () => {
+  // Regression check: a bare JSON number/string/array previously reached a bare
+  // `"title" in body` check and threw an uncaught TypeError instead of returning 400.
+  const createRes = await createRoute(makeRequest('POST', { title: 'Non-object body test' }));
+  const { session } = await createRes.json();
+
+  for (const body of [5, 'just a string', ['array'], true]) {
+    const res = await patchRoute(makeIdRequest('PATCH', session.id, body), params(session.id));
+    assert.strictEqual(res.status, 400, `expected 400 for body ${JSON.stringify(body)}`);
+    const resBody = await res.json();
+    assert.strictEqual(resBody.error, 'No supported fields provided');
+  }
 });
 
 test('DELETE /sessions/:id deletes the session', async () => {

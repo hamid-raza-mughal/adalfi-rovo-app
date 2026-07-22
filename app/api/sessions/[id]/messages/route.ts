@@ -14,12 +14,16 @@ import { fireRovo } from "@/lib/rovo";
 import { getPublicBaseUrl, isLocalHost, TUNNEL_NOT_READY } from "@/lib/publicUrl";
 import { decodeAgentText } from "@/lib/textDecode.v2";
 import { logEvent } from "@/lib/instrumentation";
+import { isRecord, type FireRovoPayload } from "@/lib/rovoContracts";
 
 export const runtime = "nodejs";
 
 const TIMEOUT = Number(process.env.PHASE_TIMEOUT_SECONDS || 180);
 
-export async function GET(request, { params }) {
+export async function GET(
+  request: Request,
+  { params }: { params: Promise<{ id: string }> }
+): Promise<Response> {
   const { id } = await params;
   failStaleRuns(TIMEOUT); // mark any pending run that never got a callback as failed
   const session = getSession(id);
@@ -31,21 +35,24 @@ export async function GET(request, { params }) {
   return Response.json({ messages });
 }
 
-export async function POST(request, { params }) {
+export async function POST(
+  request: Request,
+  { params }: { params: Promise<{ id: string }> }
+): Promise<Response> {
   const serverReceivedAt = Date.now();
   const { id } = await params;
 
   const session = getSession(id);
   if (!session) return Response.json({ error: "not found" }, { status: 404 });
 
-  const body = await request.json().catch(() => ({}));
-  const content = typeof body?.content === "string" ? body.content.trim() : "";
+  const body: unknown = await request.json().catch(() => ({}));
+  const content = isRecord(body) && typeof body.content === "string" ? body.content.trim() : "";
   if (!content) return Response.json({ error: "content required" }, { status: 400 });
 
   // clientRequestId is generated in the browser before submission and echoed here so that
   // server_prompt_received is linkable to the client events even before any DB record exists.
   // It is safe, optional, and not forwarded to Rovo.
-  const clientRequestId = typeof body.clientRequestId === 'string' ? body.clientRequestId : undefined;
+  const clientRequestId = isRecord(body) && typeof body.clientRequestId === "string" ? body.clientRequestId : undefined;
 
   // Log as soon as we have a validated, actionable request — before any DB writes.
   logEvent('server_prompt_received', { clientRequestId, sessionId: id });
@@ -74,7 +81,7 @@ export async function POST(request, { params }) {
   // 2) correlation id = the pending assistant message id (what the callback matches on)
   const correlationId = assistantMessage.id;
   const messageId = assistantMessage.id; // same value; named separately for log clarity
-  const payload = { sessionId: id, correlationId, prompt: content, callbackUrl };
+  const payload: FireRovoPayload = { sessionId: id, correlationId, prompt: content, callbackUrl };
 
   const runId = createRun({
     sessionId: id,
@@ -123,6 +130,7 @@ export async function POST(request, { params }) {
       status: 'success',
     });
   } catch (err) {
+    const message = err instanceof Error ? err.message : String(err);
     logEvent('rovo_request_failed', {
       clientRequestId,
       correlationId,
@@ -137,12 +145,12 @@ export async function POST(request, { params }) {
     completeRunByCorrelation({
       correlationId,
       ok: false,
-      content: `Could not reach the agent: ${err.message}`,
+      content: `Could not reach the agent: ${message}`,
       rawPayload: String(err),
     });
     const messages = getMessages(id);
     return Response.json(
-      { userMessage, assistantMessage: messages.find((m) => m.id === assistantMessage.id), error: err.message },
+      { userMessage, assistantMessage: messages.find((m) => m.id === assistantMessage.id), error: message },
       { status: 200 }
     );
   }

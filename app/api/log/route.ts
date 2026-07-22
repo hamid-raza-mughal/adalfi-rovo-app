@@ -3,6 +3,7 @@
 // This endpoint is local-only; no auth token is required because it writes no data and
 // carries no side effects — a rejected or ignored call is harmless.
 import { logEvent } from "@/lib/instrumentation";
+import { isRecord } from "@/lib/rovoContracts";
 
 export const runtime = "nodejs";
 
@@ -13,10 +14,10 @@ const VALID_CLIENT_EVENTS = new Set([
   'client_poll_failed',
 ]);
 
-export async function POST(request) {
+export async function POST(request: Request): Promise<Response> {
   try {
-    const body = await request.json().catch(() => null);
-    if (!body || !VALID_CLIENT_EVENTS.has(body.event)) {
+    const body: unknown = await request.json().catch(() => null);
+    if (!isRecord(body) || typeof body.event !== "string" || !VALID_CLIENT_EVENTS.has(body.event)) {
       return Response.json({ ok: false }, { status: 400 });
     }
     logEvent(body.event, {

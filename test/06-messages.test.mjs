@@ -24,8 +24,8 @@ delete process.env.PUBLIC_BASE_URL;
 delete globalThis.__adalfiDb;
 
 // Dynamic imports after env setup.
-const { POST: messagesPost } = await import('../app/api/sessions/[id]/messages/route.js');
-const { GET: sessionsGet, POST: sessionsCreate } = await import('../app/api/sessions/route.js');
+const { POST: messagesPost } = await import('../app/api/sessions/[id]/messages/route.ts');
+const { GET: sessionsGet, POST: sessionsCreate } = await import('../app/api/sessions/route.ts');
 const dbMod = await import('../lib/db.ts');
 const { default: db, createSession, addMessage, getMessages, getMessage } = dbMod;
 

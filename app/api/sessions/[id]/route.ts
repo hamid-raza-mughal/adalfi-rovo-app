@@ -3,10 +3,14 @@
 // DELETE /api/sessions/:id  -> delete the session and all associated records
 
 import { getSession, getMessages, renameSession, deleteSession } from "@/lib/db";
+import { isRecord } from "@/lib/rovoContracts";
 
 export const runtime = "nodejs";
 
-export async function GET(request, { params }) {
+export async function GET(
+  request: Request,
+  { params }: { params: Promise<{ id: string }> }
+): Promise<Response> {
   const { id } = await params;
   const session = getSession(id);
   if (!session) return Response.json({ error: "Session not found" }, { status: 404 });
@@ -14,19 +18,27 @@ export async function GET(request, { params }) {
   return Response.json({ session, messages });
 }
 
-export async function PATCH(request, { params }) {
+export async function PATCH(
+  request: Request,
+  { params }: { params: Promise<{ id: string }> }
+): Promise<Response> {
   const { id } = await params;
   const session = getSession(id);
   if (!session) return Response.json({ error: "Session not found" }, { status: 404 });
 
-  let body;
+  let body: unknown;
   try {
     body = await request.json();
   } catch {
     return Response.json({ error: "Invalid request body" }, { status: 400 });
   }
 
-  if (!("title" in body)) {
+  // isRecord guard is a correction, not just a type-narrowing formality: a valid-JSON but
+  // non-object body (e.g. a bare number or string) previously reached the bare `"title" in
+  // body` check and threw an uncaught TypeError ("in" requires an object operand) instead of
+  // the same 400 this line already returns for an object body missing the field. No test or
+  // documented flow relied on that crash - see the "invalid JSON body shape" test below.
+  if (!isRecord(body) || !("title" in body)) {
     return Response.json({ error: "No supported fields provided" }, { status: 400 });
   }
 
@@ -46,7 +58,10 @@ export async function PATCH(request, { params }) {
   }
 }
 
-export async function DELETE(request, { params }) {
+export async function DELETE(
+  request: Request,
+  { params }: { params: Promise<{ id: string }> }
+): Promise<Response> {
   const { id } = await params;
   const session = getSession(id);
   if (!session) return Response.json({ error: "Session not found" }, { status: 404 });

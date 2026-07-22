@@ -30,7 +30,10 @@ export interface ParsedRovoCallback {
  *  not a programmer error. */
 export type ParseResult<T> = { valid: true; data: T } | { valid: false; reason: string };
 
-function isRecord(value: unknown): value is Record<string, unknown> {
+/** General-purpose guard: narrows an `unknown` value to a plain object so its properties
+ *  can be safely accessed. Shared across route request-body parsing (not Rovo-specific)
+ *  to avoid every route redefining the same check. */
+export function isRecord(value: unknown): value is Record<string, unknown> {
   return typeof value === "object" && value !== null && !Array.isArray(value);
 }
 
