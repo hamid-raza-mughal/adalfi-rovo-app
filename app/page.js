@@ -113,9 +113,16 @@ export default function Home() {
 
   async function newChat() {
     const res = await fetch("/api/sessions", { method: "POST" });
-    const data = await res.json();
-    setSessions((s) => [data.session, ...s]);
-    setActiveId(data.session.id);
+    const data = await res.json().catch(() => null);
+    const session = data?.session;
+    const validSession =
+      res.ok && typeof session === "object" && session !== null && typeof session.id === "string" && session.id.length > 0;
+    if (!validSession) {
+      logClientEvent('new_chat_failed', { status: 'failed' });
+      return;
+    }
+    setSessions((s) => [session, ...s]);
+    setActiveId(session.id);
     setMessages([]);
   }
 
