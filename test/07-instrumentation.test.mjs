@@ -29,7 +29,7 @@ const { logEvent } = await import('../lib/instrumentation.js');
 const { POST: messagesPost } = await import('../app/api/sessions/[id]/messages/route.js');
 const { POST: callbackPost } = await import('../app/api/webhook/callback/route.ts');
 const { POST: logPost } = await import('../app/api/log/route.js');
-const dbMod = await import('../lib/db.js');
+const dbMod = await import('../lib/db.ts');
 const { default: db, createSession, addMessage, createRun, getRunByCorrelation } = dbMod;
 
 process.on('exit', () => {

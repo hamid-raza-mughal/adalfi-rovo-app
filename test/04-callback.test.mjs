@@ -18,7 +18,7 @@ delete globalThis.__adalfiDb;
 
 // Dynamic imports after env setup.
 const { POST } = await import('../app/api/webhook/callback/route.ts');
-const dbMod = await import('../lib/db.js');
+const dbMod = await import('../lib/db.ts');
 const { default: db, createSession, addMessage, createRun, getMessage } = dbMod;
 
 process.on('exit', () => {

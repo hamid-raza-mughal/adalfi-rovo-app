@@ -28,7 +28,8 @@ const {
   completeRunByCorrelation,
   failStaleRuns,
   deleteSession,
-} = await import('../lib/db.js');
+  getRunByCorrelation,
+} = await import('../lib/db.ts');
 
 process.on('exit', () => {
   try { db.close(); } catch {}
@@ -210,4 +211,104 @@ test('listSessions returns newest-touched first (by updated_at)', () => {
   const ids = sessions.map((s) => s.id);
   // s1 was touched last so should appear first
   assert.ok(ids.indexOf(s1.id) < ids.indexOf(s2.id));
+});
+
+// --- typed persistence-boundary coverage (lib/db.ts) ---
+// These target the type distinctions introduced when this file was converted: row
+// shape vs. the narrower listSessions() projection, nullable columns, and missing-row
+// lookups across all three tables.
+
+test('session creation and retrieval: created session round-trips through getSession', () => {
+  const created = createSession('Round-trip test');
+  const fetched = getSession(created.id);
+  assert.strictEqual(fetched.id, created.id);
+  assert.strictEqual(fetched.title, 'Round-trip test');
+});
+
+test('nullable value: a freshly created session has external_ref = null', () => {
+  const session = createSession('Nullable field test');
+  assert.strictEqual(session.external_ref, null);
+});
+
+test('message insertion and retrieval: addMessage round-trips through getMessage', () => {
+  const session = createSession('Message round-trip test');
+  const inserted = addMessage({ sessionId: session.id, role: 'user', content: 'hello', status: 'completed' });
+  const fetched = getMessage(inserted.id);
+  assert.strictEqual(fetched.content, 'hello');
+  assert.strictEqual(fetched.role, 'user');
+  assert.strictEqual(fetched.status, 'completed');
+});
+
+test('nullable values: a freshly created pending run has null completed_at, error_message, response_payload', () => {
+  const session = createSession('Pending run nullables test');
+  const { runId } = makeRun(session.id);
+  const run = getRun(runId);
+  assert.strictEqual(run.completed_at, null);
+  assert.strictEqual(run.error_message, null);
+  assert.strictEqual(run.response_payload, null);
+  assert.strictEqual(typeof run.request_payload, 'string');
+});
+
+test('missing row: getSession returns undefined for a nonexistent id', () => {
+  assert.strictEqual(getSession('does-not-exist'), undefined);
+});
+
+test('missing row: getMessage returns undefined for a nonexistent id', () => {
+  assert.strictEqual(getMessage('does-not-exist'), undefined);
+});
+
+test('missing row: getRunByCorrelation returns undefined for a nonexistent correlationId', () => {
+  assert.strictEqual(getRunByCorrelation('does-not-exist'), undefined);
+});
+
+test('update operation: touchSession updates updated_at without changing title', () => {
+  const session = createSession('Touch test');
+  db.prepare("UPDATE sessions SET updated_at = datetime('now', '-10 seconds') WHERE id = ?").run(session.id);
+  const before = getSession(session.id);
+  touchSession(session.id);
+  const after = getSession(session.id);
+  assert.strictEqual(after.title, before.title);
+  assert.notStrictEqual(after.updated_at, before.updated_at);
+});
+
+test("listSessions() query result omits external_ref (narrower than the full SessionRow)", () => {
+  createSession('Projection test');
+  const [item] = listSessions();
+  assert.ok(!('external_ref' in item), 'listSessions() rows must not include external_ref');
+  assert.ok('id' in item && 'title' in item && 'created_at' in item && 'updated_at' in item);
+});
+
+test('JSON serialization: request_payload is stored and returned verbatim, never parsed', () => {
+  const session = createSession('JSON payload test');
+  const user = addMessage({ sessionId: session.id, role: 'user', content: 'q', status: 'completed' });
+  const assistant = addMessage({ sessionId: session.id, role: 'assistant', content: '', status: 'pending' });
+  const requestPayload = JSON.stringify({ sessionId: session.id, prompt: 'q', nested: { a: 1 } });
+  const runId = createRun({
+    sessionId: session.id,
+    userMessageId: user.id,
+    assistantMessageId: assistant.id,
+    correlationId: randomUUID(),
+    webhookUrl: 'https://rovo.example.com/webhook',
+    requestPayload,
+  });
+  const run = getRun(runId);
+  assert.strictEqual(run.request_payload, requestPayload); // exact string, not re-serialized
+  assert.deepStrictEqual(JSON.parse(run.request_payload), { sessionId: session.id, prompt: 'q', nested: { a: 1 } });
+});
+
+test('JSON serialization: response_payload round-trips verbatim through completeRunByCorrelation', () => {
+  const session = createSession('Response payload test');
+  const { correlationId, runId } = makeRun(session.id);
+  const responsePayload = JSON.stringify({ status: 'ok', content: 'done' });
+  completeRunByCorrelation({ correlationId, ok: true, content: 'done', rawPayload: responsePayload });
+  const run = getRun(runId);
+  assert.strictEqual(run.response_payload, responsePayload);
+});
+
+test('completeRunByCorrelation accepts rawPayload: null (nullable input, not coerced to a string)', () => {
+  const session = createSession('Null rawPayload test');
+  const { correlationId, runId } = makeRun(session.id);
+  completeRunByCorrelation({ correlationId, ok: true, content: 'ok', rawPayload: null });
+  const run = getRun(runId);
+  assert.strictEqual(run.response_payload, null);
 });

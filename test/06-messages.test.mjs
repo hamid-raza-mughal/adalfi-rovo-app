@@ -26,7 +26,7 @@ delete globalThis.__adalfiDb;
 // Dynamic imports after env setup.
 const { POST: messagesPost } = await import('../app/api/sessions/[id]/messages/route.js');
 const { GET: sessionsGet, POST: sessionsCreate } = await import('../app/api/sessions/route.js');
-const dbMod = await import('../lib/db.js');
+const dbMod = await import('../lib/db.ts');
 const { default: db, createSession, addMessage, getMessages, getMessage } = dbMod;
 
 process.on('exit', () => {
