@@ -27,17 +27,6 @@ import { parseRovoCallbackBody } from "@/lib/rovoContracts";
 
 export const runtime = "nodejs";
 
-// lib/db.js has not been converted yet (a later slice), so getRunByCorrelation's return
-// type is inferred as `any`. This narrows it to the three read-only fields this route uses
-// for logging/lookup. It is trusted internal data produced by this same app, not the
-// untrusted callback body below, so a direct assertion (rather than runtime validation) is
-// the appropriate tool here.
-interface WebhookRunLookup {
-  id: string;
-  session_id: string;
-  assistant_message_id: string;
-}
-
 export async function POST(request: Request): Promise<Response> {
   const callbackReceivedAt = Date.now();
 
@@ -71,7 +60,7 @@ export async function POST(request: Request): Promise<Response> {
   // Look up the run to surface sessionId, runId, and messageId in subsequent log entries.
   // correlationId = assistantMessage.id, so messageId is the same value — named separately
   // for log readability. The run may not exist for unknown/duplicate correlationIds.
-  const run = getRunByCorrelation(correlationId) as WebhookRunLookup | undefined;
+  const run = getRunByCorrelation(correlationId);
   const sessionId = run?.session_id;
   const runId = run?.id;
   const messageId = run?.assistant_message_id;
