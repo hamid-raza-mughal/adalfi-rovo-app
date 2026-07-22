@@ -24,6 +24,7 @@ import { completeRunByCorrelation, getRunByCorrelation } from "@/lib/db";
 import { decodeAgentText } from "@/lib/textDecode.v2";
 import { logEvent } from "@/lib/instrumentation";
 import { parseRovoCallbackBody } from "@/lib/rovoContracts";
+import { publish } from "@/lib/sessionEvents";
 
 export const runtime = "nodejs";
 
@@ -101,6 +102,17 @@ export async function POST(request: Request): Promise<Response> {
     status: 'success',
     matched,
   });
+
+  // 5) notify any open SSE connection for this session that its messages changed. Only
+  // when completeRunByCorrelation actually updated a row (matched:true) - an unknown or
+  // duplicate correlationId leaves `matched` false and must not publish. sessionId comes
+  // from the run lookup above (step where run.session_id was resolved), so this needs no
+  // new database query. Fires for both ok:true and ok:false outcomes: either way the
+  // assistant message just left "pending" for a terminal state, which is what a connected
+  // browser needs to learn about - not whether the agent's answer was itself a success.
+  if (matched && sessionId) {
+    publish(sessionId, { type: "message" });
+  }
 
   return Response.json({ ok: true, matched });
 }
